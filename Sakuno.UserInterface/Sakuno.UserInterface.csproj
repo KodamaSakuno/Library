@@ -58,8 +58,10 @@
     <Compile Include="Controls\WindowAction.cs" />
     <Compile Include="Controls\WindowCaptionButton.cs" />
     <Compile Include="DelegatedCommand.cs" />
+    <Compile Include="Dpi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DependencyObjectExtensions.cs" />
+    <Compile Include="VisualExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sakuno.Base\Sakuno.Base.csproj">
