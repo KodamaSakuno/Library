@@ -9,6 +9,10 @@ namespace Sakuno.SystemInterop
         {
             const string DllName = "user32.dll";
 
+            [return: MarshalAs(UnmanagedType.Bool)]
+            [DllImport(DllName, SetLastError = true)]
+            public static extern bool PostMessageW(IntPtr hWnd, NativeConstants.WindowMessage Msg, IntPtr wParam, IntPtr lParam);
+
             [DllImport(DllName)]
             public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
@@ -17,7 +21,7 @@ namespace Sakuno.SystemInterop
             public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, NativeEnums.SetWindowPosition uFlags);
 
             [return: MarshalAs(UnmanagedType.Bool)]
-            [DllImport("user32.dll", SetLastError = true)]
+            [DllImport(DllName, SetLastError = true)]
             public static extern bool GetWindowRect(IntPtr hWnd, out NativeStructs.RECT lpRect);
 
             #region Window Long
