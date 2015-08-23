@@ -7,17 +7,23 @@
 
     <Color x:Key="BackgroundColorKey">#FF1B1B1C</Color>
     <SolidColorBrush x:Key="BackgroundBrushKey" Color="{StaticResource BackgroundColorKey}" o:Freeze="True" />
-    <Color x:Key="ForegroundColorKey">#FFC8C8C8</Color>
-    <SolidColorBrush x:Key="ForegroundBrushKey" Color="{StaticResource ForegroundColorKey}" o:Freeze="True" />
-
     <Color x:Key="BorderColorKey">#FF3F3F46</Color>
     <SolidColorBrush x:Key="BorderBrushKey" Color="{StaticResource BorderColorKey}" o:Freeze="True" />
+    <Color x:Key="ForegroundColorKey">#FFC8C8C8</Color>
+    <SolidColorBrush x:Key="ForegroundBrushKey" Color="{StaticResource ForegroundColorKey}" o:Freeze="True" />
     
     <Color x:Key="ActiveBackgroundColorKey">#FF3F3F46</Color>
     <SolidColorBrush x:Key="ActiveBackgroundBrushKey" Color="{StaticResource ActiveBackgroundColorKey}" o:Freeze="True" />
     <Color x:Key="ActiveBorderColorKey">#FF3F3F46</Color>
     <SolidColorBrush x:Key="ActiveBorderBrushKey" Color="{StaticResource ActiveBorderColorKey}" o:Freeze="True" />
-    <Color x:Key="ActiveForegroundColorKey">White</Color>
+    <Color x:Key="ActiveForegroundColorKey">#FFF1F1F1</Color>
     <SolidColorBrush x:Key="ActiveForegroundBrushKey" Color="{StaticResource ActiveForegroundColorKey}" o:Freeze="True" />
+
+    <Color x:Key="InactiveBackgroundColorKey">#FF2D2D30</Color>
+    <SolidColorBrush x:Key="InactiveBackgroundBrushKey" Color="{StaticResource InactiveBackgroundColorKey}" o:Freeze="True" />
+    <Color x:Key="InactiveBorderColorKey">#FF3C3C41</Color>
+    <SolidColorBrush x:Key="InactiveBorderBrushKey" Color="{StaticResource InactiveBorderColorKey}" o:Freeze="True" />
+    <Color x:Key="InactiveForegroundColorKey">#FF787878</Color>
+    <SolidColorBrush x:Key="InactiveForegroundBrushKey" Color="{StaticResource InactiveForegroundColorKey}" o:Freeze="True" />
 
 </ResourceDictionary>
