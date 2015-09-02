@@ -54,12 +54,14 @@
     <Compile Include="DependencyModelBase.cs" />
     <Compile Include="DispatcherUtil.cs" />
     <Compile Include="DisposableObject.cs" />
+    <Compile Include="DoubleUtil.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="MathUtil.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="NumberComparionConverters.cs" />
     <Compile Include="OS.cs" />
     <Compile Include="RandomUtil.cs" />
+    <Compile Include="SizeUtil.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="TaskExtensions.cs" />
     <Compile Include="TypeUtil.cs" />

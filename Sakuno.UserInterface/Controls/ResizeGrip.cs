@@ -41,7 +41,7 @@ namespace Sakuno.UserInterface.Controls
         {
             if ((NativeConstants.WindowMessage)rpMessage == NativeConstants.WindowMessage.WM_NCHITTEST && r_CanResize)
             {
-                var rScreenPoint = new Point(NativeUtils.LoWord(rpLParam), NativeUtils.HiWord(rpLParam));
+                var rScreenPoint = rpLParam.ToPoint();
                 var rClientPoint = PointFromScreen(rScreenPoint);
                 var rRect = new Rect(0, 0, ActualWidth, ActualHeight);
 

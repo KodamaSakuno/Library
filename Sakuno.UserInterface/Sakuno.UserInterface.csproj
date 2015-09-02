@@ -61,6 +61,7 @@
     <Compile Include="Dpi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DependencyObjectExtensions.cs" />
+    <Compile Include="StoryboardExtensions.cs" />
     <Compile Include="VisualExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

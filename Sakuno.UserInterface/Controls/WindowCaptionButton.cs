@@ -54,8 +54,14 @@ namespace Sakuno.UserInterface.Controls
 
             base.OnClick();
         }
+        
+        void PostSystemCommand(NativeConstants.SystemCommand rpCommand)
+        {
+            if (r_OwnerHandle == IntPtr.Zero)
+                r_OwnerHandle = new WindowInteropHelper(r_Owner).Handle;
 
-        void PostSystemCommand(NativeConstants.SystemCommand rpCommand) => NativeMethods.User32.PostMessageW(r_OwnerHandle, NativeConstants.WindowMessage.WM_SYSCOMMAND, new IntPtr((int)rpCommand), IntPtr.Zero);
+            NativeMethods.User32.PostMessageW(r_OwnerHandle, NativeConstants.WindowMessage.WM_SYSCOMMAND, new IntPtr((int)rpCommand), IntPtr.Zero);
+        }
 
         void OnOwnerStateChanged()
         {

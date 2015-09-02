@@ -24,6 +24,25 @@ namespace Sakuno.SystemInterop
             [DllImport(DllName, SetLastError = true)]
             public static extern bool GetWindowRect(IntPtr hWnd, out NativeStructs.RECT lpRect);
 
+            [return: MarshalAs(UnmanagedType.Bool)]
+            [DllImport(DllName)]
+            public static extern bool GetCursorPos(out NativeStructs.POINT lpPoint);
+
+            [DllImport(DllName, SetLastError = true)]
+            public static extern IntPtr GetTopWindow(IntPtr hWnd);
+
+            [DllImport(DllName, SetLastError = true)]
+            public static extern IntPtr GetWindow(IntPtr hWnd, NativeConstants.GetWindow uCmd);
+
+            [return: MarshalAs(UnmanagedType.Bool)]
+            [DllImport(DllName)]
+            public static extern bool EnumChildWindows(IntPtr hwndParent, NativeDelegates.EnumWindowsProc lpEnumFunc, IntPtr lParam);
+
+            [DllImport(DllName, CharSet = CharSet.Unicode)]
+            public static extern int GetClassNameW(IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)] System.Text.StringBuilder lpClassName, int nMaxCount);
+            [DllImport(DllName, CharSet = CharSet.Unicode)]
+            public static extern int GetWindowTextW(IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)] System.Text.StringBuilder lpText, int nMaxCount);
+
             #region Window Long
             public static IntPtr GetWindowLongPtr(IntPtr hWnd, NativeConstants.GetWindowLong nIndex)
             {

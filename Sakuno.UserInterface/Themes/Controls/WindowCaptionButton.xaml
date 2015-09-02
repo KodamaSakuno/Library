@@ -58,12 +58,12 @@
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource ActiveBackgroundBrushKey}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource ActiveBackgroundBrushKey}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource ActiveBorderBrushKey}" />
                 <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrushKey}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background" Value="{DynamicResource AccentBrushKey}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource ActiveBackgroundBrushKey}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource ActiveBorderBrushKey}" />
                 <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrushKey}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
