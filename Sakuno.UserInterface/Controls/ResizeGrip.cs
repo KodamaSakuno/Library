@@ -8,7 +8,6 @@ namespace Sakuno.UserInterface.Controls
 {
     public class ResizeGrip : Control
     {
-        Window r_Owner;
         bool r_CanResize;
 
         static ResizeGrip()

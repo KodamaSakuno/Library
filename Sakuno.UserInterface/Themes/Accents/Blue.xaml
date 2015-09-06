@@ -4,5 +4,8 @@
 
     <Color x:Key="AccentColorKey">#FF007ACC</Color>
     <SolidColorBrush x:Key="AccentBrushKey" Color="{StaticResource AccentColorKey}" o:Freeze="True" />
-    
+
+    <Color x:Key="AccentHighlightColorKey">#FF086F9E</Color>
+    <SolidColorBrush x:Key="AccentHighlightBrushKey" Color="{StaticResource AccentHighlightColorKey}" o:Freeze="True" />
+
 </ResourceDictionary>
