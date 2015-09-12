@@ -26,4 +26,11 @@
     <Color x:Key="InactiveForegroundColorKey">#FF787878</Color>
     <SolidColorBrush x:Key="InactiveForegroundBrushKey" Color="{StaticResource InactiveForegroundColorKey}" o:Freeze="True" />
 
+    <Color x:Key="HighlightBackgroundColorKey">Gray</Color>
+    <SolidColorBrush x:Key="HighlightBackgroundBrushKey" Color="{StaticResource HighlightBackgroundColorKey}" o:Freeze="True" />
+    <Color x:Key="HighlightBorderColorKey">Gray</Color>
+    <SolidColorBrush x:Key="HighlightBorderBrushKey" Color="{StaticResource HighlightBorderColorKey}" o:Freeze="True" />
+    <Color x:Key="HighlightForegroundColorKey">White</Color>
+    <SolidColorBrush x:Key="HighlightForegroundBrushKey" Color="{StaticResource HighlightForegroundColorKey}" o:Freeze="True" />
+    
 </ResourceDictionary>
