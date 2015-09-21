@@ -47,7 +47,7 @@ namespace Sakuno.UserInterface.Controls
                 if (rRect.Contains(rClientPoint))
                 {
                     rrpHandled = true;
-                    return new IntPtr((int)NativeConstants.HitTest.HTBOTTOMRIGHT);
+                    return (IntPtr)NativeConstants.HitTest.HTBOTTOMRIGHT;
                 }
             }
 

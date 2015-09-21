@@ -60,7 +60,7 @@ namespace Sakuno.UserInterface.Controls
             if (r_OwnerHandle == IntPtr.Zero)
                 r_OwnerHandle = new WindowInteropHelper(r_Owner).Handle;
 
-            NativeMethods.User32.PostMessageW(r_OwnerHandle, NativeConstants.WindowMessage.WM_SYSCOMMAND, new IntPtr((int)rpCommand), IntPtr.Zero);
+            NativeMethods.User32.PostMessageW(r_OwnerHandle, NativeConstants.WindowMessage.WM_SYSCOMMAND, (IntPtr)rpCommand, IntPtr.Zero);
         }
 
         void OnOwnerStateChanged()

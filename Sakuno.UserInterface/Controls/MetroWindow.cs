@@ -1,11 +1,21 @@
-﻿using System;
+﻿using Sakuno.UserInterface.Behaviors;
+using System;
 using System.Windows;
+using System.Windows.Interactivity;
 using System.Windows.Shell;
 
 namespace Sakuno.UserInterface.Controls
 {
     public class MetroWindow : Window
     {
+        public static readonly DependencyProperty GlowWindowBehaviorProperty = DependencyProperty.Register(nameof(GlowWindowBehavior), typeof(GlowWindowBehavior), typeof(MetroWindow),
+            new UIPropertyMetadata(null, OnGlowWindowBehaviorChanged));
+        public GlowWindowBehavior GlowWindowBehavior
+        {
+            get { return (GlowWindowBehavior)GetValue(GlowWindowBehaviorProperty); }
+            set { SetValue(GlowWindowBehaviorProperty, value); }
+        }
+
         public static readonly DependencyProperty IsCaptionBarProperty = DependencyProperty.RegisterAttached("IsCaptionBar", typeof(bool), typeof(MetroWindow),
             new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender, OnIsCaptionBarChanged));
         public static void SetIsCaptionBar(FrameworkElement rpElement, Boolean rpValue) => rpElement.SetValue(IsCaptionBarProperty, rpValue);
@@ -19,6 +29,21 @@ namespace Sakuno.UserInterface.Controls
             UseLayoutRoundingProperty.OverrideMetadata(typeof(MetroWindow), new FrameworkPropertyMetadata(BooleanUtil.True));
         }
 
+        static void OnGlowWindowBehaviorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var rWindow = (MetroWindow)d;
+            var rOldBehavior = (GlowWindowBehavior)e.OldValue;
+            var rNewBehavior = (GlowWindowBehavior)e.NewValue;
+
+            if (rOldBehavior == rNewBehavior)
+                return;
+
+            var rBehaviors = Interaction.GetBehaviors(rWindow);
+            if (rOldBehavior != null)
+                rBehaviors.Remove(rOldBehavior);
+            if (rNewBehavior != null)
+                rBehaviors.Add(rNewBehavior);
+        }
         static void OnIsCaptionBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var rElement = d as FrameworkElement;

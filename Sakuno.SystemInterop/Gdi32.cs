@@ -9,6 +9,9 @@ namespace Sakuno.SystemInterop
         {
             const string DllName = "gdi32.dll";
 
+            [DllImport(DllName)]
+            public static extern int GetDeviceCaps(IntPtr hdc, NativeConstants.DeviceCap nIndex);
+
             [DllImport(DllName, SetLastError = true)]
             public static extern IntPtr CreateCompatibleDC(IntPtr hdc);
 
