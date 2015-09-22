@@ -24,6 +24,7 @@ namespace Sakuno.SystemInterop
             
             [DllImport(DllName, SetLastError = true)]
             public static extern bool InternetSetOption(IntPtr hInternet, int dwOption, IntPtr lpBuffer, int lpdwBufferLength);
+
         }
     }
 }

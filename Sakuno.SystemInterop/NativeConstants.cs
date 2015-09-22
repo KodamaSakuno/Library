@@ -575,5 +575,6 @@ namespace Sakuno.SystemInterop
             DESKTOPHORZRES = 118,
             BLTALIGNMENT = 119
         }
+
     }
 }

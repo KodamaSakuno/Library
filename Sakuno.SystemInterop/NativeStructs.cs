@@ -134,5 +134,6 @@ namespace Sakuno.SystemInterop
             public byte rgbReserved;
         }
         #endregion
+
     }
 }

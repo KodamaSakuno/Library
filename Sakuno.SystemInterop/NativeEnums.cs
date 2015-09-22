@@ -102,5 +102,6 @@ namespace Sakuno.SystemInterop
             COOKIE_CACHE_ENTRY = 0x100000,
             URLHISTORY_CACHE_ENTRY = 0x200000
         }
+
     }
 }

@@ -33,6 +33,7 @@ namespace Sakuno.SystemInterop
 
             [DllImport(DllName, SetLastError = true)]
             public static extern IntPtr CreateDIBSection(IntPtr hdc, ref NativeStructs.BITMAPINFO pbmi, uint iUsage, out IntPtr ppvBits, IntPtr hSection, uint dwOffset);
+
         }
     }
 }

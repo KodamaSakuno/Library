@@ -18,5 +18,6 @@ namespace Sakuno.SystemInterop
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Point ToPoint(this IntPtr rpHandle) => new Point(NativeUtils.LoWord(rpHandle), NativeUtils.HiWord(rpHandle));
+
     }
 }

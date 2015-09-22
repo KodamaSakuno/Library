@@ -31,5 +31,6 @@ namespace Sakuno.SystemInterop
             [PreserveSig]
             int QueryService(ref Guid guidService, ref Guid riid, [MarshalAs(UnmanagedType.Interface)] out object ppvObject);
         }
+
     }
 }

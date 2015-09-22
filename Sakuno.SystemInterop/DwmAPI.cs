@@ -18,6 +18,7 @@ namespace Sakuno.SystemInterop
 
             [DllImport(DllName, PreserveSig = false)]
             public static extern void DwmExtendFrameIntoClientArea(IntPtr hWnd, ref NativeStructs.MARGINS pMarInset);
+
         }
     }
 }
