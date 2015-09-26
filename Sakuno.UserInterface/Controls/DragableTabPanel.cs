@@ -97,18 +97,10 @@ namespace Sakuno.UserInterface.Controls
 
         void SetItemPosition(DragableTabItem rpItem, double rpPosition)
         {
-            var rStoryboard = new Storyboard() { FillBehavior = FillBehavior.Stop };
-            rStoryboard.WhenComplete(r =>
-            {
-                rpItem.Position = rpPosition;
-                rStoryboard.Remove(rpItem);
-            });
-            var rTimeline = new DoubleAnimationUsingKeyFrames();
-            rTimeline.SetValue(Storyboard.TargetPropertyProperty, new PropertyPath(DragableTabItem.PositionProperty));
-            rTimeline.KeyFrames.Add(new EasingDoubleKeyFrame(rpPosition, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(200.0))) { EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut } });
+            var rAnimation = new DoubleAnimation(rpPosition, new Duration(TimeSpan.FromMilliseconds(200.0)), FillBehavior.Stop) { EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut } };
+            rAnimation.WhenComplete(() => rpItem.Position = rpPosition);
 
-            rStoryboard.Children.Add(rTimeline);
-            rStoryboard.Begin(rpItem, true);
+            rpItem.BeginAnimation(DragableTabItem.PositionProperty, rAnimation);
         }
 
         struct ItemPositionInfo
