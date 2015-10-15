@@ -135,5 +135,20 @@ namespace Sakuno.SystemInterop
         }
         #endregion
 
+        #region DWM
+        [StructLayout(LayoutKind.Sequential)]
+        public struct DWM_THUMBNAIL_PROPERTIES
+        {
+            public NativeEnums.DWM_TNP dwFlags;
+            public RECT rcDestination;
+            public RECT rcSource;
+            public byte opacity;
+            [MarshalAs(UnmanagedType.Bool)]
+            public bool fVisible;
+            [MarshalAs(UnmanagedType.Bool)]
+            public bool fSourceClientAreaOnly;
+        }
+        #endregion
+
     }
 }

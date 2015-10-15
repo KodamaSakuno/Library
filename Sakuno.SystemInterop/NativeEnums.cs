@@ -103,5 +103,15 @@ namespace Sakuno.SystemInterop
             URLHISTORY_CACHE_ENTRY = 0x200000
         }
 
+        [Flags]
+        public enum DWM_TNP
+        {
+            DWM_TNP_RECTDESTINATION = 1,
+            DWM_TNP_RECTSOURCE = 2,
+            DWM_TNP_OPACITY = 4,
+            DWM_TNP_VISIBLE = 8,
+            DWM_TNP_SOURCECLIENTAREAONLY = 16,
+        }
+
     }
 }
