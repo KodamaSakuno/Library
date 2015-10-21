@@ -82,11 +82,18 @@ namespace Sakuno.SystemInterop
             [PreserveSig]
             int GetSessionEnumerator([Out] out IAudioSessionEnumerator SessionEnum);
             [PreserveSig]
-            int RegisterSessionNotification([In] IAudioSessionEnumerator IAudioSessionNotification);
+            int RegisterSessionNotification([In] IAudioSessionNotification SessionNotification);
             [PreserveSig]
-            int UnregisterSessionNotification([In] IAudioSessionEnumerator IAudioSessionNotification);
+            int UnregisterSessionNotification([In] IAudioSessionNotification SessionNotification);
 
             // Need more implement
+        }
+        [Guid("641DD20B-4D41-49CC-ABA3-174B9477BB08")]
+        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        public interface IAudioSessionNotification
+        {
+            [PreserveSig]
+            int OnSessionCreated([In] IAudioSessionControl NewSession);
         }
 
         [Guid("E2F5BB11-0570-40CA-ACDD-3AA01277DEE8")]
@@ -104,7 +111,7 @@ namespace Sakuno.SystemInterop
         public interface IAudioSessionControl
         {
             [PreserveSig]
-            int GetState([Out] out NativeConstants.AudioSessionState pRetVal);
+            int GetState([Out] out AudioSessionState pRetVal);
             [PreserveSig]
             int GetDisplayName([Out][MarshalAs(UnmanagedType.LPWStr)] out string pRetVal);
             [PreserveSig]
@@ -127,7 +134,7 @@ namespace Sakuno.SystemInterop
         public interface IAudioSessionControl2
         {
             [PreserveSig]
-            int GetState([Out] out NativeConstants.AudioSessionState pRetVal);
+            int GetState([Out] out AudioSessionState pRetVal);
             [PreserveSig]
             int GetDisplayName([Out][MarshalAs(UnmanagedType.LPWStr)] out string pRetVal);
             [PreserveSig]
@@ -170,9 +177,9 @@ namespace Sakuno.SystemInterop
             [PreserveSig]
             int OnGroupingParamChanged([In] ref Guid NewGroupingParam, [In] ref Guid EventContext);
             [PreserveSig]
-            int OnStateChanged([In] NativeConstants.AudioSessionState NewState);
+            int OnStateChanged([In] AudioSessionState NewState);
             [PreserveSig]
-            int OnSessionDisconnected([In] NativeConstants.AudioSessionDisconnectReason DisconnectReason);
+            int OnSessionDisconnected([In] AudioSessionDisconnectReason DisconnectReason);
         }
     }
 }

@@ -16,20 +16,5 @@
             Communications,
             Role_EnumCount,
         }
-        public enum AudioSessionState
-        {
-            AudioSessionStateInactive,
-            AudioSessionStateActive,
-            AudioSessionStateExpired
-        }
-        public enum AudioSessionDisconnectReason
-        {
-            DisconnectReasonDeviceRemoval,
-            DisconnectReasonServerShutdown,
-            DisconnectReasonFormatChanged,
-            DisconnectReasonSessionLogoff,
-            DisconnectReasonSessionDisconnected,
-            DisconnectReasonExclusiveModeOverride,
-        }
     }
 }

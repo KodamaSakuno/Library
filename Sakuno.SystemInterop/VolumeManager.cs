@@ -1,94 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Sakuno.SystemInterop
 {
-    public class VolumeManager : NativeInterfaces.IAudioSessionEvents
+    public class VolumeManager : NativeInterfaces.IAudioSessionNotification
     {
-        public int ProcessID { get; private set; }
+        public static VolumeManager Instance { get; } = new VolumeManager();
 
-        public int Volume
-        {
-            get
-            {
-                var rSimpleAudioVolume = GetSimpleAudioVolume();
-                if (rSimpleAudioVolume == null)
-                    return 0;
+        NativeInterfaces.IAudioSessionManager2 r_SessionManager;
 
-                float rResult;
-                Marshal.ThrowExceptionForHR(rSimpleAudioVolume.GetMasterVolume(out rResult));
-                Marshal.ReleaseComObject(rSimpleAudioVolume);
-                return (int)(rResult * 100);
-            }
-            set
-            {
-                var rSimpleAudioVolume = GetSimpleAudioVolume();
-                if (rSimpleAudioVolume == null) 
-                    return;
-
-                var rGuid = Guid.Empty;
-                Marshal.ThrowExceptionForHR(rSimpleAudioVolume.SetMasterVolume((float)(value / 100.0), ref rGuid));
-                Marshal.ReleaseComObject(rSimpleAudioVolume);
-            }
-        }
-        public bool IsMute
-        {
-            get
-            {
-                var rSimpleAudioVolume = GetSimpleAudioVolume();
-                if (rSimpleAudioVolume == null)
-                    return false;
-
-                bool rResult;
-                Marshal.ThrowExceptionForHR(rSimpleAudioVolume.GetMute(out rResult));
-                Marshal.ReleaseComObject(rSimpleAudioVolume);
-                return rResult;
-            }
-            set
-            {
-                var rSimpleAudioVolume = GetSimpleAudioVolume();
-                if (rSimpleAudioVolume == null)
-                    return;
-
-                var rGuid = Guid.Empty;
-                Marshal.ThrowExceptionForHR(rSimpleAudioVolume.SetMute(value, ref rGuid));
-                Marshal.ReleaseComObject(rSimpleAudioVolume);
-            }
-        }
-
-        public string DisplayName
-        {
-            get
-            {
-                var rSessionControl = (NativeInterfaces.IAudioSessionControl2)GetSimpleAudioVolume();
-                if (rSessionControl == null)
-                    return null;
-
-                string rResult;
-                Marshal.ThrowExceptionForHR(rSessionControl.GetDisplayName(out rResult));
-                Marshal.ReleaseComObject(rSessionControl);
-                return rResult;
-            }
-            set
-            {
-                var rSessionControl = (NativeInterfaces.IAudioSessionControl2)GetSimpleAudioVolume();
-                if (rSessionControl == null)
-                    return;
-
-                var rGuid = Guid.Empty;
-                Marshal.ThrowExceptionForHR(rSessionControl.SetDisplayName(value, ref rGuid));
-                Marshal.ReleaseComObject(rSessionControl);
-            }
-        }
-
-        public event Action<VolumeChangedEventArgs> VolumeChanged = delegate { };
-
-        public VolumeManager(int rpProcessID)
-        {
-            ProcessID = rpProcessID;
-        }
-
-        NativeInterfaces.ISimpleAudioVolume GetSimpleAudioVolume()
+        public event Action<VolumeSession> NewSession = delegate { };
+        
+        VolumeManager()
         {
             var rDeviceEnumerator = (NativeInterfaces.IMMDeviceEnumerator)new NativeInterfaces.MMDeviceEnumerator();
             NativeInterfaces.IMMDevice rDevice;
@@ -98,9 +22,17 @@ namespace Sakuno.SystemInterop
             object rObject;
             Marshal.ThrowExceptionForHR(rDevice.Activate(ref rAudioSessionManagerGuid, 0, IntPtr.Zero, out rObject));
 
-            var rSessionManager = (NativeInterfaces.IAudioSessionManager2)rObject;
+            r_SessionManager = (NativeInterfaces.IAudioSessionManager2)rObject;
+            Marshal.ThrowExceptionForHR(r_SessionManager.RegisterSessionNotification(this));
+
+            Marshal.ReleaseComObject(rDevice);
+            Marshal.ReleaseComObject(rDeviceEnumerator);
+        }
+
+        public IEnumerable<VolumeSession> EnumerateSessions()
+        {
             NativeInterfaces.IAudioSessionEnumerator rSessionEnumerator;
-            Marshal.ThrowExceptionForHR(rSessionManager.GetSessionEnumerator(out rSessionEnumerator));
+            Marshal.ThrowExceptionForHR(r_SessionManager.GetSessionEnumerator(out rSessionEnumerator));
 
             int rCount;
             Marshal.ThrowExceptionForHR(rSessionEnumerator.GetCount(out rCount));
@@ -108,64 +40,17 @@ namespace Sakuno.SystemInterop
             {
                 NativeInterfaces.IAudioSessionControl rSessionControl;
                 Marshal.ThrowExceptionForHR(rSessionEnumerator.GetSession(i, out rSessionControl));
-
-                var rSessionControl2 = (NativeInterfaces.IAudioSessionControl2)rSessionControl;
-                uint rProcessID;
-                Marshal.ThrowExceptionForHR(rSessionControl2.GetProcessId(out rProcessID));
-
-                if (rProcessID == ProcessID)
-                {
-                    Marshal.ThrowExceptionForHR(rSessionControl.RegisterAudioSessionNotification(this));
-
-                    return (NativeInterfaces.ISimpleAudioVolume)rSessionControl2;
-                }
-
-                if (rSessionControl2 != null)
-                    Marshal.ReleaseComObject(rSessionControl2);
+                
+                yield return new VolumeSession((NativeInterfaces.IAudioSessionControl2)rSessionControl);
             }
 
             Marshal.ReleaseComObject(rSessionEnumerator);
-            Marshal.ReleaseComObject(rSessionManager);
-            Marshal.ReleaseComObject(rDevice);
-            Marshal.ReleaseComObject(rDeviceEnumerator);
-
-            return null;
         }
 
-        int NativeInterfaces.IAudioSessionEvents.OnDisplayNameChanged(string NewDisplayName, ref Guid EventContext)
+        int NativeInterfaces.IAudioSessionNotification.OnSessionCreated(NativeInterfaces.IAudioSessionControl rpNewSession)
         {
-            return 0;
-        }
+            NewSession(new VolumeSession((NativeInterfaces.IAudioSessionControl2)rpNewSession));
 
-        int NativeInterfaces.IAudioSessionEvents.OnIconPathChanged(string NewIconPath, ref Guid EventContext)
-        {
-            return 0;
-        }
-
-        int NativeInterfaces.IAudioSessionEvents.OnSimpleVolumeChanged(float NewVolume, bool NewMute, ref Guid EventContext)
-        {
-            VolumeChanged(new VolumeChangedEventArgs(NewMute, (int)(100 * NewVolume)));
-
-            return 0;
-        }
-
-        int NativeInterfaces.IAudioSessionEvents.OnChannelVolumeChanged(uint ChannelCount, IntPtr NewChannelVolumeArray, uint ChangedChannel, ref Guid EventContext)
-        {
-            return 0;
-        }
-
-        int NativeInterfaces.IAudioSessionEvents.OnGroupingParamChanged(ref Guid NewGroupingParam, ref Guid EventContext)
-        {
-            return 0;
-        }
-
-        int NativeInterfaces.IAudioSessionEvents.OnStateChanged(NativeConstants.AudioSessionState NewState)
-        {
-            return 0;
-        }
-
-        int NativeInterfaces.IAudioSessionEvents.OnSessionDisconnected(NativeConstants.AudioSessionDisconnectReason DisconnectReason)
-        {
             return 0;
         }
     }
