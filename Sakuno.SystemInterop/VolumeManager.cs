@@ -16,7 +16,7 @@ namespace Sakuno.SystemInterop
         {
             var rDeviceEnumerator = (NativeInterfaces.IMMDeviceEnumerator)new NativeInterfaces.MMDeviceEnumerator();
             NativeInterfaces.IMMDevice rDevice;
-            Marshal.ThrowExceptionForHR(rDeviceEnumerator.GetDefaultAudioEndpoint(NativeConstants.DataFlow.Render, NativeConstants.Role.Multimedia, out rDevice));
+            Marshal.ThrowExceptionForHR(rDeviceEnumerator.GetDefaultAudioEndpoint(NativeConstants.DataFlow.Render, NativeConstants.Role.Console, out rDevice));
 
             var rAudioSessionManagerGuid = typeof(NativeInterfaces.IAudioSessionManager2).GUID;
             object rObject;
