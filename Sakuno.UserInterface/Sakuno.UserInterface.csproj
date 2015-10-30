@@ -65,6 +65,7 @@
     <Compile Include="Controls\WindowSystemButtons.cs" />
     <Compile Include="Controls\WindowAction.cs" />
     <Compile Include="Controls\WindowCaptionButton.cs" />
+    <Compile Include="Converters\BooleanToInvisibilityConverter.cs" />
     <Compile Include="DelegatedCommand.cs" />
     <Compile Include="DpiUtil.cs" />
     <Compile Include="Internal\CollectionTeaser.cs" />
