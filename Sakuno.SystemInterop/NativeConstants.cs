@@ -276,6 +276,18 @@ namespace Sakuno.SystemInterop
             WM_APP = 0x8000,
         }
         
+        public enum WindowMessageSizing
+        {
+            WMSZ_LEFT = 1,
+            WMSZ_RIGHT,
+            WMSZ_TOP,
+            WMSZ_TOPLEFT,
+            WMSZ_TOPRIGHT,
+            WMSZ_BOTTOM,
+            WMSZ_BOTTOMLEFT,
+            WMSZ_BOTTOMRIGHT,
+        }
+
         public enum SystemCommand
         {
             SC_SIZE = 0xF000,
