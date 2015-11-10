@@ -97,6 +97,13 @@ namespace Sakuno.SystemInterop
             public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
             #endregion
 
+            [return: MarshalAs(UnmanagedType.Bool)]
+            [DllImport(DllName)]
+            public static extern bool ClientToScreen(IntPtr hWnd, ref NativeStructs.POINT lpPoint);
+            [return: MarshalAs(UnmanagedType.Bool)]
+            [DllImport(DllName)]
+            public static extern bool ScreenToClient(IntPtr hWnd, ref NativeStructs.POINT lpPoint);
+
         }
     }
 }
