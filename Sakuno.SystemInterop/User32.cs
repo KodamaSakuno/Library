@@ -104,6 +104,9 @@ namespace Sakuno.SystemInterop
             [DllImport(DllName)]
             public static extern bool ScreenToClient(IntPtr hWnd, ref NativeStructs.POINT lpPoint);
 
+            [DllImport(DllName, SetLastError = true)]
+            public static extern IntPtr RegisterPowerSettingNotification(IntPtr hRecipient, ref Guid PowerSettingGuid, int Flags);
+
         }
     }
 }

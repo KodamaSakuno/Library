@@ -75,10 +75,13 @@
     <Compile Include="NativeConstants.cs" />
     <Compile Include="NativeDelegates.cs" />
     <Compile Include="NativeEnums.cs" />
+    <Compile Include="NativeGuids.cs" />
     <Compile Include="NativeInterfaces.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="NativeStructs.cs" />
     <Compile Include="NativeUtils.cs" />
+    <Compile Include="PowerMonitor.cs" />
+    <Compile Include="PowerSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security.cs" />
     <Compile Include="User32.cs">

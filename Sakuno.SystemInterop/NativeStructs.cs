@@ -162,5 +162,13 @@ namespace Sakuno.SystemInterop
         }
         #endregion
 
+        [StructLayout(LayoutKind.Sequential)]
+        public struct POWERBROADCAST_SETTING
+        {
+            public Guid PowerSetting;
+            public uint DataLength;
+            public int Data;
+        }
+
     }
 }
