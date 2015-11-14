@@ -68,6 +68,7 @@
     <Compile Include="Converters\BooleanToInvisibilityConverter.cs" />
     <Compile Include="DelegatedCommand.cs" />
     <Compile Include="DpiUtil.cs" />
+    <Compile Include="Effects\GrayscaleEffect.cs" />
     <Compile Include="Internal\CollectionTeaser.cs" />
     <Compile Include="Internal\GlowWindowProcessor.cs" />
     <Compile Include="Internal\GlowWindowProcessorBottom.cs" />
@@ -160,9 +161,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Effects\GrayscaleEffect.fx" />
+    <Resource Include="Effects\GrayscaleEffect.ps" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>for %25%25f in ("$(ProjectDir)Effects\*.fx") do if not exist "$(ProjectDir)Effects\%25%25~nf.ps" "$(DXSDK_DIR)Utilities\bin\x86\fxc.exe" /T ps_3_0 /E main /Fo "$(ProjectDir)Effects\%25%25~nf.ps" "%25%25f"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
