@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ruic="clr-namespace:Sakuno.UserInterface.Controls">
-    
+
     <Style TargetType="{x:Type ruic:WindowCaptionButton}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Width" Value="34" />
@@ -10,7 +10,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ruic:WindowCaptionButton}">
@@ -71,5 +71,5 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
 </ResourceDictionary>

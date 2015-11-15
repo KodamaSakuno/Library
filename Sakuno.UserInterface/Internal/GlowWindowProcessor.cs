@@ -14,10 +14,10 @@ namespace Sakuno.UserInterface.Internal
 
         public abstract VerticalAlignment VerticalAlignment { get; }
         public abstract HorizontalAlignment HorizontalAlignment { get; }
-        
+
         public abstract double GetLeft(double rpOwnerLeft, double rpOwnerWidth);
         public abstract double GetTop(double rpOwnerTop, double rpOwnerHeight);
-        
+
         public abstract double GetWidth(double rpOwnerLeft, double rpOwnerWidth);
         public abstract double GetHeight(double rpOwnerTop, double rpOwnerHeight);
 

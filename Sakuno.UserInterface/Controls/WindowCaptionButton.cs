@@ -23,7 +23,7 @@ namespace Sakuno.UserInterface.Controls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(WindowCaptionButton), new FrameworkPropertyMetadata(typeof(WindowCaptionButton)));
         }
-        
+
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
@@ -54,7 +54,7 @@ namespace Sakuno.UserInterface.Controls
 
             base.OnClick();
         }
-        
+
         void PostSystemCommand(NativeConstants.SystemCommand rpCommand)
         {
             if (r_OwnerHandle == IntPtr.Zero)

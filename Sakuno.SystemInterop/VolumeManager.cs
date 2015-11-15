@@ -11,7 +11,7 @@ namespace Sakuno.SystemInterop
         NativeInterfaces.IAudioSessionManager2 r_SessionManager;
 
         public event Action<VolumeSession> NewSession = delegate { };
-        
+
         VolumeManager()
         {
             var rDeviceEnumerator = (NativeInterfaces.IMMDeviceEnumerator)new NativeInterfaces.MMDeviceEnumerator();
@@ -40,7 +40,7 @@ namespace Sakuno.SystemInterop
             {
                 NativeInterfaces.IAudioSessionControl rSessionControl;
                 Marshal.ThrowExceptionForHR(rSessionEnumerator.GetSession(i, out rSessionControl));
-                
+
                 yield return new VolumeSession((NativeInterfaces.IAudioSessionControl2)rSessionControl);
             }
 

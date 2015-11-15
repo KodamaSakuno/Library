@@ -11,7 +11,7 @@ namespace Sakuno.UserInterface.Controls
     class DragableTabPanel : Panel
     {
         Dictionary<DragableTabItem, ItemPositionInfo> r_SiblingItemOriginalPositions;
-        
+
         public DragableTabPanel()
         {
             AddHandler(DragableTabItem.DragStartedEvent, new DragableTabDragStartedEventHandler(ItemDragStarted));

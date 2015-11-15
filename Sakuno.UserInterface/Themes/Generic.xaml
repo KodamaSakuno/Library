@@ -9,6 +9,6 @@
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/ResizeGrip.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/MetroWindow.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/GlowWindow.xaml" />
-        
+
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

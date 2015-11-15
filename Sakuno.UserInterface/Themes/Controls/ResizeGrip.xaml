@@ -10,7 +10,7 @@
         <Setter Property="HorizontalAlignment" Value="Right" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
     </Style>
-    
+
     <Style TargetType="{x:Type ruic:ResizeGrip}">
         <Setter Property="Background" Value="{DynamicResource BackgroundBrushKey}" />
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrushKey}" />
@@ -32,5 +32,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
 </ResourceDictionary>

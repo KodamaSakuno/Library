@@ -114,7 +114,7 @@ namespace Sakuno.UserInterface.Controls
                 rExtentedWindowStyle ^= NativeEnums.ExtendedWindowStyle.WS_EX_APPWINDOW;
                 rExtentedWindowStyle |= NativeEnums.ExtendedWindowStyle.WS_EX_NOACTIVATE;
                 NativeMethods.User32.SetWindowLongPtr(r_Handle, NativeConstants.GetWindowLong.GWL_EXSTYLE, (IntPtr)rExtentedWindowStyle);
-                
+
                 r_HwndSource.AddHook(WndProc);
             }
 

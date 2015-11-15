@@ -4,7 +4,7 @@
                     xmlns:ruic="clr-namespace:Sakuno.UserInterface.Controls">
 
     <WindowChrome x:Key="DefaultWindowChrome" ResizeBorderThickness="0" GlassFrameThickness="0" CornerRadius="0" />
-    
+
     <Style TargetType="{x:Type ruic:MetroWindow}">
         <Setter Property="Background" Value="{DynamicResource ThemeBrushKey}"/>
         <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrushKey}" />
@@ -34,5 +34,5 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
 </ResourceDictionary>

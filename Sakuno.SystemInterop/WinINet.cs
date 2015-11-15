@@ -21,7 +21,7 @@ namespace Sakuno.SystemInterop
 
             [DllImport(DllName, CharSet = CharSet.Unicode, SetLastError = true)]
             public static extern bool DeleteUrlCacheEntryW([MarshalAs(UnmanagedType.LPWStr)] string lpszUrlName);
-            
+
             [DllImport(DllName, SetLastError = true)]
             public static extern bool InternetSetOption(IntPtr hInternet, int dwOption, IntPtr lpBuffer, int lpdwBufferLength);
 

@@ -16,7 +16,7 @@ namespace Sakuno.UserInterface.Controls
             get { return (double)GetValue(PositionProperty); }
             set { SetValue(PositionProperty, value); }
         }
-        
+
         internal static readonly RoutedEvent DragStartedEvent = EventManager.RegisterRoutedEvent(nameof(DragStarted), RoutingStrategy.Bubble, typeof(DragableTabDragStartedEventHandler), typeof(DragableTabItem));
         internal event DragableTabDragStartedEventHandler DragStarted
         {

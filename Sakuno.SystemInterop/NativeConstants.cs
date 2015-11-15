@@ -275,7 +275,7 @@ namespace Sakuno.SystemInterop
             WM_REFLECT = 0x2000,
             WM_APP = 0x8000,
         }
-        
+
         public enum WindowMessageSizing
         {
             WMSZ_LEFT = 1,
@@ -345,7 +345,7 @@ namespace Sakuno.SystemInterop
             HTCLOSE = 20,
             HTHELP = 21,
         }
-        
+
         public enum MouseActivate
         {
             MA_ACTIVATE = 1,

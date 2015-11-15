@@ -12,7 +12,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ruic:DragableTabControl}">
                     <Border Background="Transparent">
-                        <Grid>  
+                        <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition />
@@ -30,5 +30,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
 </ResourceDictionary>
