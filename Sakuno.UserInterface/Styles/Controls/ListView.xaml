@@ -14,7 +14,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListView}">
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
-                        <ScrollViewer Style="{StaticResource {x:Static GridView.GridViewScrollViewerStyleKey}}" VerticalScrollBarVisibility="Auto">
+                        <ScrollViewer Style="{StaticResource {x:Static GridView.GridViewScrollViewerStyleKey}}" CanContentScroll="True" VerticalScrollBarVisibility="Auto" ScrollViewer.PanningMode="Both">
                             <ItemsPresenter />
                         </ScrollViewer>
                     </Border>
@@ -79,6 +79,7 @@
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="MinHeight" Value="23" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
 
         <Setter Property="Template">
             <Setter.Value>
