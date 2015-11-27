@@ -1,7 +1,10 @@
-﻿using Sakuno.UserInterface.Behaviors;
+﻿using Sakuno.SystemInterop;
+using Sakuno.UserInterface.Behaviors;
 using System;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interactivity;
+using System.Windows.Interop;
 using System.Windows.Shell;
 
 namespace Sakuno.UserInterface.Controls
@@ -20,6 +23,17 @@ namespace Sakuno.UserInterface.Controls
             new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender, OnIsCaptionBarChanged));
         public static void SetIsCaptionBar(FrameworkElement rpElement, Boolean rpValue) => rpElement.SetValue(IsCaptionBarProperty, rpValue);
         public static bool GetIsCaptionBar(FrameworkElement rpElement) => (bool)rpElement.GetValue(IsCaptionBarProperty);
+
+        static readonly DependencyPropertyKey ScreenOrientationPropertyKey = DependencyProperty.RegisterReadOnly(nameof(ScreenOrientation), typeof(ScreenOrientation), typeof(MetroWindow),
+            new UIPropertyMetadata(ScreenOrientation.Landscape));
+        public static readonly DependencyProperty ScreenOrientationProperty = ScreenOrientationPropertyKey.DependencyProperty;
+        public ScreenOrientation ScreenOrientation
+        {
+            get { return (ScreenOrientation)GetValue(ScreenOrientationProperty); }
+            private set { SetValue(ScreenOrientationPropertyKey, value); }
+        }
+
+        HwndSource r_HwndSource;
 
         FrameworkElement r_CaptionBar;
 
@@ -62,5 +76,45 @@ namespace Sakuno.UserInterface.Controls
                     rChrome.CaptionHeight = rElement.ActualHeight;
             };
         }
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            r_HwndSource = HwndSource.FromVisual(this) as HwndSource;
+            if (r_HwndSource != null)
+            {
+                r_HwndSource.AddHook(WndProc);
+
+                InitializeScreenOrientation();
+            }
+        }
+        void InitializeScreenOrientation()
+        {
+            var rMonitor = NativeMethods.User32.MonitorFromWindow(r_HwndSource.Handle, NativeConstants.MFW.MONITOR_DEFAULTTONEAREST);
+            var rInfo = new NativeStructs.MONITORINFO() { cbSize = Marshal.SizeOf(typeof(NativeStructs.MONITORINFO)) };
+            NativeMethods.User32.GetMonitorInfo(rMonitor, ref rInfo);
+
+            var rWidth = rInfo.rcMonitor.Width;
+            var rHeight = rInfo.rcMonitor.Height;
+
+            ScreenOrientation = rWidth > rHeight ? ScreenOrientation.Landscape : ScreenOrientation.Portrait;
+        }
+        IntPtr WndProc(IntPtr rpHandle, int rpMessage, IntPtr rpWParam, IntPtr rpLParam, ref bool rrpHandled)
+        {
+            var rMessage = (NativeConstants.WindowMessage)rpMessage;
+            switch (rMessage)
+            {
+                case NativeConstants.WindowMessage.WM_DISPLAYCHANGE:
+                    var rWidth = NativeUtils.LoWord(rpLParam);
+                    var rHeight = NativeUtils.HiWord(rpLParam);
+
+                    ScreenOrientation = rWidth > rHeight ? ScreenOrientation.Landscape : ScreenOrientation.Portrait;
+                    break;
+            }
+
+            return IntPtr.Zero;
+        }
+
     }
 }

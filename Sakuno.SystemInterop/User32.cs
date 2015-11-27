@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Sakuno.SystemInterop
 {
@@ -39,9 +40,9 @@ namespace Sakuno.SystemInterop
             public static extern bool EnumChildWindows(IntPtr hwndParent, NativeDelegates.EnumWindowsProc lpEnumFunc, IntPtr lParam);
 
             [DllImport(DllName, CharSet = CharSet.Unicode)]
-            public static extern int GetClassNameW(IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)] System.Text.StringBuilder lpClassName, int nMaxCount);
+            public static extern int GetClassNameW(IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder lpClassName, int nMaxCount);
             [DllImport(DllName, CharSet = CharSet.Unicode)]
-            public static extern int GetWindowTextW(IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)] System.Text.StringBuilder lpText, int nMaxCount);
+            public static extern int GetWindowTextW(IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder lpText, int nMaxCount);
 
             #region Window Long
             public static IntPtr GetWindowLongPtr(IntPtr hWnd, NativeConstants.GetWindowLong nIndex)
@@ -106,6 +107,11 @@ namespace Sakuno.SystemInterop
 
             [DllImport(DllName, SetLastError = true)]
             public static extern IntPtr RegisterPowerSettingNotification(IntPtr hRecipient, ref Guid PowerSettingGuid, int Flags);
+
+            [DllImport(DllName)]
+            public static extern IntPtr MonitorFromWindow(IntPtr hwnd, NativeConstants.MFW dwFlags);
+            [DllImport(DllName)]
+            public static extern bool GetMonitorInfo(IntPtr hMonitor, ref NativeStructs.MONITORINFO lpmi);
 
         }
     }

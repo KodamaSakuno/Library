@@ -62,6 +62,7 @@
     <Compile Include="Controls\MetroWindow.cs" />
     <Compile Include="Controls\ResizeGrip.cs" />
     <Compile Include="Controls\DragableTabPanel.cs" />
+    <Compile Include="ScreenOrientation.cs" />
     <Compile Include="Controls\WindowSystemButtons.cs" />
     <Compile Include="Controls\WindowAction.cs" />
     <Compile Include="Controls\WindowCaptionButton.cs" />

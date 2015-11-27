@@ -606,5 +606,12 @@ namespace Sakuno.SystemInterop
             PBT_POWERSETTINGCHANGE = 0x8013,
         }
 
+        public enum MFW
+        {
+            MONITOR_DEFAULTTONULL,
+            MONITOR_DEFAULTTOPRIMARY,
+            MONITOR_DEFAULTTONEAREST,
+        }
+
     }
 }
