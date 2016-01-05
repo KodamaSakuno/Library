@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using FILETIME = System.Runtime.InteropServices.ComTypes.FILETIME;
 
@@ -177,6 +178,76 @@ namespace Sakuno.SystemInterop
             public RECT rcMonitor;
             public RECT rcWork;
             public uint dwFlags;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct WIN32_FIND_DATAW
+        {
+            public FileAttributes dwFileAttributes;
+            public FILETIME ftCreationTime;
+            public FILETIME ftLastAccessTime;
+            public FILETIME ftLastWriteTime;
+            public uint nFileSizeHigh;
+            public uint nFileSizeLow;
+            uint dwReserved0;
+            uint dwReserved1;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+            public string cFileName;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 14)]
+            public string cAlternateFileName;
+        }
+
+        [StructLayout(LayoutKind.Sequential, Pack = 4)]
+        public struct PROPERTYKEY
+        {
+            public Guid FormatID { get; }
+            public int PropertyID { get; }
+
+            public PROPERTYKEY(Guid rpFormatID, int rpPropertyID)
+            {
+                FormatID = rpFormatID;
+                PropertyID = rpPropertyID;
+            }
+        }
+
+        [StructLayout(LayoutKind.Explicit)]
+        public sealed class PROPVARIANT : IDisposable
+        {
+            [FieldOffset(0)]
+            ushort r_ValueType;
+            public VarEnum VarType
+            {
+                get { return (VarEnum)r_ValueType; }
+                set { r_ValueType = (ushort)value; }
+            }
+
+            public bool IsNullOrEmpty => r_ValueType == (ushort)VarEnum.VT_EMPTY || r_ValueType == (ushort)VarEnum.VT_NULL;
+
+            [FieldOffset(8)]
+            IntPtr r_Pointer;
+
+            public string StringValue => Marshal.PtrToStringUni(r_Pointer);
+
+            public PROPVARIANT() { }
+            public PROPVARIANT(string rpValue)
+            {
+                if (rpValue == null)
+                    throw new ArgumentNullException(nameof(rpValue));
+
+                VarType = VarEnum.VT_LPWSTR;
+                r_Pointer = Marshal.StringToCoTaskMemUni(rpValue);
+            }
+
+            ~PROPVARIANT()
+            {
+                Dispose();
+            }
+
+            public void Dispose()
+            {
+                NativeMethods.Ole32.PropVariantClear(this);
+                GC.SuppressFinalize(this);
+            }
         }
 
     }

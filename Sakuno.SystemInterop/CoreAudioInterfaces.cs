@@ -5,6 +5,7 @@ namespace Sakuno.SystemInterop
 {
     partial class NativeInterfaces
     {
+        [ComImport]
         [Guid("D666063F-1587-4E43-81F1-B948E807363F")]
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IMMDevice
@@ -19,6 +20,7 @@ namespace Sakuno.SystemInterop
             // Need more implement
         }
 
+        [ComImport]
         [Guid("0BD7A1BE-7A1A-44DB-8397-CC5392387B5E")]
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IMMDeviceCollection
@@ -29,6 +31,7 @@ namespace Sakuno.SystemInterop
             int Item([In] uint nDevice, [Out] out IMMDevice Device);
         }
 
+        [ComImport]
         [Guid("A95664D2-9614-4F35-A746-DE8DB63617E6")]
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IMMDeviceEnumerator
@@ -46,8 +49,10 @@ namespace Sakuno.SystemInterop
         }
         [ComImport]
         [Guid("BCDE0395-E52F-467C-8E3D-C4579291692E")]
+        [ClassInterface(ClassInterfaceType.None)]
         public class MMDeviceEnumerator { }
 
+        [ComImport]
         [Guid("87CE5498-68D6-44E5-9215-6DA47EF883D8")]
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface ISimpleAudioVolume
@@ -62,6 +67,7 @@ namespace Sakuno.SystemInterop
             int GetMute([Out] out bool pbMute);
         }
 
+        [ComImport]
         [Guid("BFA971F1-4D5E-40BB-935E-967039BFBEE4")]
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IAudioSessionManager
@@ -71,6 +77,7 @@ namespace Sakuno.SystemInterop
             [PreserveSig]
             int GetSimpleAudioVolume([In] ref Guid AudioSessionGuid, [In] uint StreamFlags, [Out] out ISimpleAudioVolume SimpleAudioVolume);
         }
+        [ComImport]
         [Guid("77AA99A0-1BD6-484F-8BC7-2C654C9A9B6F")]
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IAudioSessionManager2
@@ -88,6 +95,7 @@ namespace Sakuno.SystemInterop
 
             // Need more implement
         }
+        [ComImport]
         [Guid("641DD20B-4D41-49CC-ABA3-174B9477BB08")]
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IAudioSessionNotification
@@ -96,6 +104,7 @@ namespace Sakuno.SystemInterop
             int OnSessionCreated([In] IAudioSessionControl NewSession);
         }
 
+        [ComImport]
         [Guid("E2F5BB11-0570-40CA-ACDD-3AA01277DEE8")]
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IAudioSessionEnumerator
@@ -106,6 +115,7 @@ namespace Sakuno.SystemInterop
             int GetSession([In] int SessionCount, [Out] out IAudioSessionControl Session);
         }
 
+        [ComImport]
         [Guid("F4B1A599-7266-4319-A8CA-E70ACB11E8CD")]
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IAudioSessionControl
@@ -129,6 +139,7 @@ namespace Sakuno.SystemInterop
             [PreserveSig]
             int UnregisterAudioSessionNotification([In] IAudioSessionEvents NewNotifications);
         }
+        [ComImport]
         [Guid("BFB7FF88-7239-4FC9-8FA2-07C950BE9C6D")]
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IAudioSessionControl2
@@ -162,6 +173,7 @@ namespace Sakuno.SystemInterop
             [PreserveSig]
             int SetDuckingPreference([In] bool optOut);
         }
+        [ComImport]
         [Guid("24918ACC-64B3-37C1-8CA9-74A66E9957A8")]
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IAudioSessionEvents

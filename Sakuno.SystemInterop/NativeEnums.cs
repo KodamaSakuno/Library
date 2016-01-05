@@ -113,5 +113,14 @@ namespace Sakuno.SystemInterop
             DWM_TNP_SOURCECLIENTAREAONLY = 16,
         }
 
+        [Flags]
+        public enum SLGP
+        {
+            SLGP_SHORTPATH = 1,
+            SLGP_UNCPRIORITY = 2,
+            SLGP_RAWPATH = 4,
+            SLGP_RELATIVEPRIORITY = 8,
+        }
+
     }
 }
