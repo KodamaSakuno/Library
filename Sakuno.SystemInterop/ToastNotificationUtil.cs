@@ -26,12 +26,12 @@ namespace Sakuno.SystemInterop
             var rDocument = FillDocument(rpContent);
 
             var rResult = await ShowCore(rDocument);
-            if (rResult)
+            if (rResult.GetValueOrDefault())
                 rpContent.InvokeActivated();
         }
-        static async Task<bool> ShowCore(XmlDocument rpDocument)
+        static async Task<bool?> ShowCore(XmlDocument rpDocument)
         {
-            var rCompletionSource = new TaskCompletionSource<bool>();
+            var rCompletionSource = new TaskCompletionSource<bool?>();
 
             var rNotification = new ToastNotification(rpDocument);
 
@@ -41,7 +41,7 @@ namespace Sakuno.SystemInterop
             TypedEventHandler<ToastNotification, ToastDismissedEventArgs> rDismissed = (s, e) => rCompletionSource.SetResult(false);
             rNotification.Dismissed += rDismissed;
 
-            TypedEventHandler<ToastNotification, ToastFailedEventArgs> rFailed = (s, e) => rCompletionSource.SetException(e.ErrorCode);
+            TypedEventHandler<ToastNotification, ToastFailedEventArgs> rFailed = (s, e) => rCompletionSource.SetResult(null);
             rNotification.Failed += rFailed;
 
             r_Notifier.Show(rNotification);
