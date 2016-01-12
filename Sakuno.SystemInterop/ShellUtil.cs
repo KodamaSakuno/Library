@@ -45,15 +45,13 @@ namespace Sakuno.SystemInterop
                     rAppModelID = rPropertyVariant.StringValue;
                 }
 
+                Marshal.FinalReleaseComObject(rShellLink);
+
                 if (rTargetPath.OICEquals(rpShortcutTargetPath) && rAppModelID.OICEquals(rpAppUserModelID))
-                {
-                    Marshal.ReleaseComObject(rShellLink);
                     return;
-                }
             }
 
-            if (rShellLink == null)
-                rShellLink = (NativeInterfaces.IShellLinkW)new NativeInterfaces.CShellLink();
+            rShellLink = (NativeInterfaces.IShellLinkW)new NativeInterfaces.CShellLink();
 
             Marshal.ThrowExceptionForHR(rShellLink.SetPath(rpShortcutTargetPath));
 
@@ -65,11 +63,10 @@ namespace Sakuno.SystemInterop
                 Marshal.ThrowExceptionForHR(rPropertyStore.Commit());
             }
 
-            if (rPersistFile == null)
-                rPersistFile = (IPersistFile)rShellLink;
+            rPersistFile = (IPersistFile)rShellLink;
             rPersistFile.Save(rShortcutPath, true);
 
-            Marshal.ReleaseComObject(rShellLink);
+            Marshal.FinalReleaseComObject(rShellLink);
         }
     }
 }
