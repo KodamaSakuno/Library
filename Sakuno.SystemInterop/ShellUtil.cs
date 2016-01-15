@@ -23,7 +23,7 @@ namespace Sakuno.SystemInterop
             NativeInterfaces.IShellLinkW rShellLink = null;
             IPersistFile rPersistFile = null;
 
-            var rShortcutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "Programs", rpShortcutFilename);
+            var rShortcutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Programs), rpShortcutFilename);
             if (File.Exists(rShortcutPath))
             {
                 rShellLink = (NativeInterfaces.IShellLinkW)new NativeInterfaces.CShellLink();
