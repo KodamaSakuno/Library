@@ -4,9 +4,11 @@
 
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/DragableTabControl.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/DragableTabItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/DropDownButton.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/WindowCaptionButton.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/WindowSystemButtons.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/ResizeGrip.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/SplitButton.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/MetroWindow.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/GlowWindow.xaml" />
 

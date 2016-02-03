@@ -3,13 +3,18 @@
                     xmlns:local="clr-namespace:Sakuno.UserInterface.Styles.Controls">
 
     <Style TargetType="{x:Type ToolTip}">
+        <Setter Property="Background" Value="{DynamicResource BackgroundBrushKey}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushKey}" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrushKey}" />
+        <Setter Property="Padding" Value="8, 4" />
         <Setter Property="HasDropShadow" Value="True" />
         <Setter Property="Placement" Value="Bottom" />
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToolTip}">
-                    <Border Background="{DynamicResource BackgroundBrushKey}" BorderBrush="{DynamicResource BorderBrushKey}" BorderThickness="1" Padding="6, 4" SnapsToDevicePixels="True">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
                         <ContentPresenter />
                     </Border>
                 </ControlTemplate>
