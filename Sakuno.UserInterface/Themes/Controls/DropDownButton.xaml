@@ -37,7 +37,9 @@
                         </Border>
 
                         <Popup IsOpen="{Binding IsChecked, ElementName=ToggleButton}" StaysOpen="False" Placement="Bottom" PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
-                            <ContentPresenter />
+                            <Border Background="{DynamicResource ThemeBrushKey}" BorderBrush="{DynamicResource BorderBrushKey}" BorderThickness="1">
+                                <ContentPresenter />
+                            </Border>
                         </Popup>
                     </Grid>
                 </ControlTemplate>
