@@ -30,6 +30,11 @@
                 <Setter Property="BorderBrush" Value="{DynamicResource ActiveBorderBrushKey}" />
                 <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrushKey}" />
             </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="{DynamicResource AccentBrushKey}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource ActiveBorderBrushKey}" />
+                <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrushKey}" />
+            </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Background" Value="{DynamicResource InactiveBackgroundBrushKey}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource InactiveBorderBrushKey}" />
@@ -37,5 +42,5 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
 </ResourceDictionary>

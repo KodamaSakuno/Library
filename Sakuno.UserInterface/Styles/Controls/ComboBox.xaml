@@ -61,7 +61,7 @@
 
                         <Trigger SourceName="PART_Popup" Property="IsOpen" Value="True">
                             <Setter TargetName="ToggleButton" Property="Background" Value="{DynamicResource AccentBrushKey}" />
-                            <Setter TargetName="ToggleButton" Property="Foreground" Value="{DynamicResource AccentForegroundBrushKey}" />
+                            <Setter TargetName="ToggleButton" Property="Foreground" Value="{DynamicResource AccentBrushKey}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

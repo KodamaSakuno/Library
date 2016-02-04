@@ -20,14 +20,12 @@
                                     <ColumnDefinition Width="Auto" MinWidth="10" />
                                 </Grid.ColumnDefinitions>
 
-                                <Button Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" CommandTarget="{TemplateBinding CommandTarget}" Padding="{TemplateBinding Padding}" Margin="0, 0, -1, 0">
+                                <Button Name="Button"  Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" CommandTarget="{TemplateBinding CommandTarget}" Padding="{TemplateBinding Padding}" Margin="0, 0, -1, 0">
                                     <ContentPresenter ContentSource="Header" IsHitTestVisible="False" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                 </Button>
 
-                                <ToggleButton Name="ToggleButton" Padding="4, 0" Grid.Column="1">
-                                    <Border>
-                                        <Path Fill="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" Data="M0,0 L3.5,4 7,0 z" />
-                                    </Border>
+                                <ToggleButton Name="ToggleButton" IsEnabled="{Binding IsEnabled, ElementName=Button}" Padding="4, 0" Grid.Column="1">
+                                    <Path Fill="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" Data="M0,0 L3.5,4 7,0 z" />
                                 </ToggleButton>
                             </Grid>
                         </Border>
@@ -42,5 +40,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
 </ResourceDictionary>
