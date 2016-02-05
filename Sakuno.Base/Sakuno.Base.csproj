@@ -46,6 +46,10 @@
     <Compile Include="BooleanUtil.cs" />
     <Compile Include="Collections\ObservableRangeCollection.cs" />
     <Compile Include="ComparableExtensions.cs" />
+    <Compile Include="Converters\EqualityToBooleanConverter.cs" />
+    <Compile Include="Converters\InvertBooleanConverter.cs" />
+    <Compile Include="Converters\NumberComparionConverters.cs" />
+    <Compile Include="Converters\OppositeNumberConverter.cs" />
     <Compile Include="DateTimeUtil.cs" />
     <Compile Include="DelegatedComparer`T.cs" />
     <Compile Include="DelegatedConverter.cs" />
@@ -56,10 +60,8 @@
     <Compile Include="DisposableObject.cs" />
     <Compile Include="DoubleUtil.cs" />
     <Compile Include="EnumerableExtensions.cs" />
-    <Compile Include="EqualityToBooleanConverter.cs" />
     <Compile Include="MathUtil.cs" />
     <Compile Include="ModelBase.cs" />
-    <Compile Include="NumberComparionConverters.cs" />
     <Compile Include="OS.cs" />
     <Compile Include="RandomUtil.cs" />
     <Compile Include="SizeUtil.cs" />

@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using ConvertType = System.Convert;
 
-namespace Sakuno
+namespace Sakuno.Converters
 {
     public abstract class NumberComparionConverter : IValueConverter
     {
