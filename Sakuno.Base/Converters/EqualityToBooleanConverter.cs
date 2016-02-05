@@ -8,9 +8,6 @@ namespace Sakuno.Converters
     {
         public object Convert(object rpValue, Type rpTargetType, object rpParameter, CultureInfo rpCulture) => rpValue.Equals(rpParameter);
 
-        public object ConvertBack(object rpValue, Type rpTargetType, object rpParameter, CultureInfo rpCulture)
-        {
-            throw new NotSupportedException();
-        }
+        public object ConvertBack(object rpValue, Type rpTargetType, object rpParameter, CultureInfo rpCulture) => rpValue.Equals(BooleanUtil.True) ? rpParameter : Binding.DoNothing;
     }
 }
