@@ -20,7 +20,7 @@
                                     <ColumnDefinition Width="Auto" MinWidth="10" />
                                 </Grid.ColumnDefinitions>
 
-                                <Button Name="Button"  Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" CommandTarget="{TemplateBinding CommandTarget}" Padding="{TemplateBinding Padding}" Margin="0, 0, -1, 0">
+                                <Button Name="Button" Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" CommandTarget="{TemplateBinding CommandTarget}" Padding="{TemplateBinding Padding}" Margin="0, 0, -1, 0">
                                     <ContentPresenter ContentSource="Header" IsHitTestVisible="False" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                 </Button>
 
@@ -30,7 +30,7 @@
                             </Grid>
                         </Border>
 
-                        <Popup IsOpen="{Binding IsChecked, ElementName=ToggleButton}" StaysOpen="False" Placement="Bottom" PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+                        <Popup Name="PART_Popup" IsOpen="{Binding IsChecked, ElementName=ToggleButton}" AllowsTransparency="True" StaysOpen="False" Placement="Relative">
                             <Border Background="{DynamicResource ThemeBrushKey}" BorderBrush="{DynamicResource BorderBrushKey}" BorderThickness="1">
                                 <ContentPresenter />
                             </Border>

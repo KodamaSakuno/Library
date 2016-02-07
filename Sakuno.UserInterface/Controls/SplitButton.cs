@@ -1,9 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace Sakuno.UserInterface.Controls
 {
+    [TemplatePart(Name = "PART_Popup", Type = typeof(Popup))]
     public class SplitButton : HeaderedContentControl
     {
         public static readonly DependencyProperty CommandProperty;
@@ -27,6 +29,8 @@ namespace Sakuno.UserInterface.Controls
             set { SetValue(CommandTargetProperty, value); }
         }
 
+        Popup r_Popup;
+
         static SplitButton()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SplitButton), new FrameworkPropertyMetadata(typeof(SplitButton)));
@@ -34,6 +38,20 @@ namespace Sakuno.UserInterface.Controls
             CommandProperty = Button.CommandProperty.AddOwner(typeof(SplitButton));
             CommandParameterProperty = Button.CommandParameterProperty.AddOwner(typeof(SplitButton));
             CommandTargetProperty = Button.CommandTargetProperty.AddOwner(typeof(SplitButton));
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            r_Popup = Template.FindName("PART_Popup", this) as Popup;
+            if (r_Popup != null)
+                r_Popup.CustomPopupPlacementCallback = PopupPlacementCallback;
+        }
+
+        CustomPopupPlacement[] PopupPlacementCallback(Size rpPopupSize, Size rpTargetSize, Point rpOffset)
+        {
+            return new[] { new CustomPopupPlacement(new Point(rpOffset.X * DpiUtil.ScaleX, (rpTargetSize.Height + rpOffset.Y) * DpiUtil.ScaleY), PopupPrimaryAxis.Horizontal) };
         }
     }
 }
