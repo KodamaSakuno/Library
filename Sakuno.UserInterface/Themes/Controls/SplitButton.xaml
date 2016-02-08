@@ -24,13 +24,13 @@
                                     <ContentPresenter ContentSource="Header" IsHitTestVisible="False" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                 </Button>
 
-                                <ToggleButton Name="ToggleButton" IsEnabled="{Binding IsEnabled, ElementName=Button}" Padding="4, 0" Grid.Column="1">
+                                <ToggleButton Name="PART_ToggleButton" IsEnabled="{Binding IsEnabled, ElementName=Button}" Padding="4, 0" Grid.Column="1">
                                     <Path Fill="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" Data="M0,0 L3.5,4 7,0 z" />
                                 </ToggleButton>
                             </Grid>
                         </Border>
 
-                        <Popup Name="PART_Popup" IsOpen="{Binding IsChecked, ElementName=ToggleButton}" AllowsTransparency="True" StaysOpen="False" Placement="Relative">
+                        <Popup Name="PART_Popup" IsOpen="{Binding IsChecked, ElementName=PART_ToggleButton}" AllowsTransparency="True" StaysOpen="False" Placement="Custom" PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
                             <Border Background="{DynamicResource ThemeBrushKey}" BorderBrush="{DynamicResource BorderBrushKey}" BorderThickness="1">
                                 <ContentPresenter />
                             </Border>

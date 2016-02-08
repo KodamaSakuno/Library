@@ -5,9 +5,18 @@ using System.Windows.Input;
 
 namespace Sakuno.UserInterface.Controls
 {
+    [TemplatePart(Name = "PART_ToggleButton", Type = typeof(ToggleButton))]
     [TemplatePart(Name = "PART_Popup", Type = typeof(Popup))]
     public class SplitButton : HeaderedContentControl
     {
+        public static readonly DependencyProperty PopupAutoCloseProperty = DependencyProperty.Register(nameof(PopupAutoClose), typeof(bool), typeof(SplitButton),
+            new FrameworkPropertyMetadata(BooleanUtil.True));
+        public bool PopupAutoClose
+        {
+            get { return (bool)GetValue(PopupAutoCloseProperty); }
+            set { SetValue(PopupAutoCloseProperty, value); }
+        }
+
         public static readonly DependencyProperty CommandProperty;
         public ICommand Command
         {
@@ -29,6 +38,7 @@ namespace Sakuno.UserInterface.Controls
             set { SetValue(CommandTargetProperty, value); }
         }
 
+        ToggleButton r_ToggleButton;
         Popup r_Popup;
 
         static SplitButton()
@@ -44,9 +54,24 @@ namespace Sakuno.UserInterface.Controls
         {
             base.OnApplyTemplate();
 
+            r_ToggleButton = Template.FindName("PART_ToggleButton", this) as ToggleButton;
+
             r_Popup = Template.FindName("PART_Popup", this) as Popup;
             if (r_Popup != null)
+            {
                 r_Popup.CustomPopupPlacementCallback = PopupPlacementCallback;
+
+                r_Popup.PreviewMouseUp += Popup_PreviewMouseUp;
+            }
+        }
+
+        void Popup_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (PopupAutoClose)
+            {
+                if (r_ToggleButton != null)
+                    r_ToggleButton.IsChecked = false;
+            }
         }
 
         CustomPopupPlacement[] PopupPlacementCallback(Size rpPopupSize, Size rpTargetSize, Point rpOffset)

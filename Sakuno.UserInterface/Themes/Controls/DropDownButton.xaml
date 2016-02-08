@@ -22,7 +22,7 @@
 
                                 <ContentPresenter Name="Header" ContentSource="Header" IsHitTestVisible="False" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 
-                                <ToggleButton Name="ToggleButton" OverridesDefaultStyle="True" Foreground="{DynamicResource InactiveForegroundBrushKey}" Grid.ColumnSpan="2">
+                                <ToggleButton Name="PART_ToggleButton" OverridesDefaultStyle="True" Foreground="{DynamicResource InactiveForegroundBrushKey}" Grid.ColumnSpan="2">
                                     <ToggleButton.Template>
                                         <ControlTemplate TargetType="{x:Type ToggleButton}">
                                             <Border Background="Transparent">
@@ -36,7 +36,7 @@
                             </Grid>
                         </Border>
 
-                        <Popup Name="PART_Popup" IsOpen="{Binding IsChecked, ElementName=ToggleButton}" AllowsTransparency="True" StaysOpen="False" Placement="Custom" PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+                        <Popup Name="PART_Popup" IsOpen="{Binding IsChecked, ElementName=PART_ToggleButton}" AllowsTransparency="True" StaysOpen="False" Placement="Custom" PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
                             <Border Background="{DynamicResource ThemeBrushKey}" BorderBrush="{DynamicResource BorderBrushKey}" BorderThickness="1">
                                 <ContentPresenter />
                             </Border>
@@ -46,7 +46,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="ShowDropDownMarker" Value="False">
                             <Setter TargetName="Header" Property="Grid.ColumnSpan" Value="2" />
-                            <Setter TargetName="ToggleButton" Property="Opacity" Value="0" />
+                            <Setter TargetName="PART_ToggleButton" Property="Foreground" Value="Transparent" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
