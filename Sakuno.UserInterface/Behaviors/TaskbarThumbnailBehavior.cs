@@ -40,6 +40,9 @@ namespace Sakuno.UserInterface.Behaviors
         void UodateThumbnail()
         {
             var rElement = AssociatedObject;
+            if (PresentationSource.FromVisual(rElement) == null)
+                return;
+
             var rWindow = Window.GetWindow(rElement);
             if (rWindow == null)
                 return;
