@@ -32,5 +32,8 @@
     <SolidColorBrush x:Key="HighlightBorderBrushKey" Color="{StaticResource HighlightBorderColorKey}" o:Freeze="True" />
     <Color x:Key="HighlightForegroundColorKey">White</Color>
     <SolidColorBrush x:Key="HighlightForegroundBrushKey" Color="{StaticResource HighlightForegroundColorKey}" o:Freeze="True" />
+    
+    <Color x:Key="ScrollBarThumbMouseOverColorKey">#FF9E9E9E</Color>
+    <SolidColorBrush x:Key="ScrollBarThumbMouseOverBrushKey" Color="{StaticResource ScrollBarThumbMouseOverColorKey}" o:Freeze="True" />
 
 </ResourceDictionary>
