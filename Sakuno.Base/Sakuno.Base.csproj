@@ -57,12 +57,16 @@
     <Compile Include="DelegatedMultiConverter.cs" />
     <Compile Include="DependencyModelBase.cs" />
     <Compile Include="DispatcherUtil.cs" />
+    <Compile Include="Disposable.cs" />
     <Compile Include="DisposableObject.cs" />
     <Compile Include="DoubleUtil.cs" />
     <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="EventListener`T.cs" />
     <Compile Include="MathUtil.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="OS.cs" />
+    <Compile Include="PropertyChangedEventListener.cs" />
+    <Compile Include="PropertyChangedExtensions.cs" />
     <Compile Include="RandomUtil.cs" />
     <Compile Include="SizeUtil.cs" />
     <Compile Include="StringExtensions.cs" />

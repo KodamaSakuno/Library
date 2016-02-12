@@ -4,21 +4,6 @@ namespace Sakuno
 {
     public class DisposableObject : IDisposable
     {
-        EventHandler r_Disposing;
-        public event EventHandler Disposing
-        {
-            add
-            {
-                ThrowIfDisposed();
-                r_Disposing = (EventHandler)Delegate.Combine(r_Disposing, value);
-            }
-            remove
-            {
-                ThrowIfDisposed();
-                r_Disposing = (EventHandler)Delegate.Remove(r_Disposing, value);
-            }
-        }
-
         public bool IsDisposed { get; private set; }
 
         protected void ThrowIfDisposed()
@@ -38,18 +23,34 @@ namespace Sakuno
         }
         public void Dispose(bool rpDisposing)
         {
-            if (!IsDisposed)
-            {
+            if (IsDisposed)
+                return;
 
-                if (rpDisposing)
-                    DisposeManagedResources();
-                DisposeNativeResources();
+            if (rpDisposing)
+                DisposeManagedResources();
+            DisposeNativeResources();
 
-                IsDisposed = true;
-            }
+            IsDisposed = true;
         }
 
         protected virtual void DisposeManagedResources() { }
         protected virtual void DisposeNativeResources() { }
+    }
+    public class DisposableObjectWithEvent : DisposableObject
+    {
+        Action r_Disposing;
+        public event Action Disposing
+        {
+            add
+            {
+                ThrowIfDisposed();
+                r_Disposing = (Action)Delegate.Combine(r_Disposing, value);
+            }
+            remove
+            {
+                ThrowIfDisposed();
+                r_Disposing = (Action)Delegate.Remove(r_Disposing, value);
+            }
+        }
     }
 }
