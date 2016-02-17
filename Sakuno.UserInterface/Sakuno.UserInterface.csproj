@@ -55,9 +55,11 @@
     <Compile Include="Controls\AdvancedTabThumbDragEvents.cs" />
     <Compile Include="Controls\DropDownButton.cs" />
     <Compile Include="Controls\GlowWindow.cs" />
+    <Compile Include="Controls\ITabTearOffController.cs" />
     <Compile Include="Controls\MetroWindow.cs" />
     <Compile Include="Controls\ResizeGrip.cs" />
     <Compile Include="Controls\SplitButton.cs" />
+    <Compile Include="Controls\TabController.cs" />
     <Compile Include="ScreenOrientation.cs" />
     <Compile Include="Controls\WindowSystemButtons.cs" />
     <Compile Include="Controls\WindowAction.cs" />

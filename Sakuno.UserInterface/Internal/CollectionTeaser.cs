@@ -20,12 +20,16 @@ namespace Sakuno.UserInterface.Internal
         {
             ropCollectionTeaser = null;
 
+            if (rpCollection == null)
+                return false;
+
             var rList = rpCollection as IList;
             if (rList != null)
-                ropCollectionTeaser = new CollectionTeaser(r => rList.Add(r), rList.Remove);
-            else
             {
+                if (rList.IsReadOnly)
+                    return false;
 
+                ropCollectionTeaser = new CollectionTeaser(r => rList.Add(r), rList.Remove);
             }
 
             return ropCollectionTeaser != null;

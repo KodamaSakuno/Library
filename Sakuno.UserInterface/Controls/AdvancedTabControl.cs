@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Sakuno.SystemInterop;
+using Sakuno.UserInterface.Internal;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -7,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace Sakuno.UserInterface.Controls
 {
@@ -19,6 +22,13 @@ namespace Sakuno.UserInterface.Controls
             set { SetValue(DisableTabReorderProperty, value); }
         }
 
+        public static readonly DependencyProperty TabControllerProperty = DependencyProperty.Register(nameof(TabController), typeof(TabController), typeof(AdvancedTabControl), new UIPropertyMetadata(null));
+        public TabController TabController
+        {
+            get { return (TabController)GetValue(TabControllerProperty); }
+            set { SetValue(TabControllerProperty, value); }
+        }
+
         static readonly DependencyPropertyKey IsTabItemPropertyKey = DependencyProperty.RegisterAttachedReadOnly("IsTabItem", typeof(bool), typeof(AdvancedTabControl), new PropertyMetadata(BooleanUtil.False));
         public static readonly DependencyProperty IsTabItemProperty = IsTabItemPropertyKey.DependencyProperty;
         internal static void SetIsTabItem(DependencyObject rpElement, bool rpValue) => rpElement.SetValue(IsTabItemPropertyKey, BooleanUtil.GetBoxed(rpValue));
@@ -29,11 +39,16 @@ namespace Sakuno.UserInterface.Controls
         AdvancedTabHeaderItemsControl r_HeaderItemsControl;
         Panel r_ItemsHolder;
 
+        WeakReference<object> r_PreviousSelection;
+
         static AdvancedTabControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(AdvancedTabControl), new FrameworkPropertyMetadata(typeof(AdvancedTabControl)));
 
             EventManager.RegisterClassHandler(typeof(AdvancedTabControl), AdvancedTabItem.DragStartedEvent, new AdvancedTabDragStartedEventHandler((s, e) => ((AdvancedTabControl)s).OnItemDragStarted(e)), true);
+            EventManager.RegisterClassHandler(typeof(AdvancedTabControl), AdvancedTabItem.PreviewDragDeltaEvent, new AdvancedTabDragDeltaEventHandler((s, e) => ((AdvancedTabControl)s).OnItemPreviewDragDelta(e)), true);
+            EventManager.RegisterClassHandler(typeof(AdvancedTabControl), AdvancedTabItem.DragDeltaEvent, new AdvancedTabDragDeltaEventHandler((s, e) => ((AdvancedTabControl)s).OnItemDragDelta(e)), true);
+            EventManager.RegisterClassHandler(typeof(AdvancedTabControl), AdvancedTabItem.DragCompletedEvent, new AdvancedTabDragCompletedEventHandler((s, e) => ((AdvancedTabControl)s).OnItemDragCompleted(e)), true);
         }
 
         public override void OnApplyTemplate()
@@ -107,6 +122,9 @@ namespace Sakuno.UserInterface.Controls
 
         protected override void OnSelectionChanged(SelectionChangedEventArgs e)
         {
+            if (e.RemovedItems.Count > 0 && e.AddedItems.Count > 0)
+                r_PreviousSelection = new WeakReference<object>(e.RemovedItems[0]);
+
             base.OnSelectionChanged(e);
 
             UpdateSelectedItem();
@@ -139,6 +157,15 @@ namespace Sakuno.UserInterface.Controls
                         var rContentPresenter = GetItemContentPresenter(rRemovedItem);
                         if (rContentPresenter != null)
                             r_ItemsHolder.Children.Remove(rContentPresenter);
+                    }
+
+                    if (SelectedItem == null)
+                    {
+                        object rPreviousSelection;
+                        if (r_PreviousSelection != null && r_PreviousSelection.TryGetTarget(out rPreviousSelection))
+                            SelectedItem = rPreviousSelection;
+                        else
+                            SelectedItem = Items.OfType<object>().FirstOrDefault();
                     }
 
                     UpdateSelectedItem();
@@ -202,6 +229,31 @@ namespace Sakuno.UserInterface.Controls
             return r_ItemsHolder.Children.OfType<ContentPresenter>().FirstOrDefault(r => r.Content == rpItem);
         }
 
+        void AddItem(object rpItem)
+        {
+            CollectionTeaser rCollectionTeaser;
+            if (CollectionTeaser.TryCreate(ItemsSource, out rCollectionTeaser))
+            {
+                rCollectionTeaser.Add(rpItem);
+                return;
+            }
+
+            if (ItemsSource == null)
+                Items.Add(rpItem);
+        }
+        void RemoveItem(object rpItem)
+        {
+            CollectionTeaser rCollectionTeaser;
+            if (CollectionTeaser.TryCreate(ItemsSource, out rCollectionTeaser))
+            {
+                rCollectionTeaser.Remove(rpItem);
+                return;
+            }
+
+            if (ItemsSource == null)
+                Items.Remove(rpItem);
+        }
+
         void OnItemDragStarted(AdvancedTabDragStartedEventArgs e)
         {
             if (r_HeaderItemsControl == null)
@@ -220,6 +272,83 @@ namespace Sakuno.UserInterface.Controls
             if (rTabItem != null)
                 rTabItem.IsSelected = true;
             SelectedItem = rItem;
+        }
+
+        void OnItemPreviewDragDelta(AdvancedTabDragDeltaEventArgs e)
+        {
+            if (r_HeaderItemsControl.Items.Count > 1)
+                return;
+
+            var rWindow = Window.GetWindow(this);
+            if (rWindow == null)
+                return;
+
+            NativeStructs.POINT rMousePosition;
+            NativeMethods.User32.GetCursorPos(out rMousePosition);
+
+            rWindow.Left += e.DragEventArgs.HorizontalChange;
+            rWindow.Top += e.DragEventArgs.VerticalChange;
+
+            e.Handled = true;
+        }
+        void OnItemDragDelta(AdvancedTabDragDeltaEventArgs e)
+        {
+            if (TabController == null)
+                return;
+
+            if (TabController.TearOffController == null)
+                throw new InvalidOperationException("A TearOffController must be provided.");
+
+            var rOwnerWindow = Window.GetWindow(this);
+            if (rOwnerWindow == null)
+                throw new InvalidOperationException();
+
+            var rPoint = Mouse.GetPosition(this);
+
+            if (rPoint.X < -8 || rPoint.X > r_HeaderItemsControl.ActualWidth + 8 || rPoint.Y < -8 || rPoint.Y > r_HeaderItemsControl.ActualHeight + 8)
+            {
+                var rHost = TabController.TearOffController.CreateHost(this, TabController.Partition);
+                if (rHost != null)
+                {
+                    var rTabControl = rHost.Item1;
+                    var rWindow = rHost.Item2;
+
+                    rPoint = PointToScreen(Mouse.GetPosition(rOwnerWindow));
+                    rWindow.Left = rPoint.X;
+                    rWindow.Top = rPoint.Y;
+
+                    rWindow.Show();
+
+                    var rItem = r_HeaderItemsControl.ItemContainerGenerator.ItemFromContainer(e.Item);
+                    RemoveItem(rItem);
+
+                    var rContentPresenter = GetItemContentPresenter(rItem);
+                    r_ItemsHolder.Children.Remove(rContentPresenter);
+
+                    rTabControl.ReceiveDrag(rItem);
+
+                    e.Cancel = true;
+                }
+            }
+
+            e.Handled = true;
+        }
+        void ReceiveDrag(object rpItem)
+        {
+            var rWindow = Window.GetWindow(this);
+            if (rWindow == null)
+                throw new InvalidOperationException();
+
+            rWindow.Activate();
+
+            AddItem(rpItem);
+            SelectedItem = rpItem;
+
+            ((AdvancedTabItem)r_HeaderItemsControl.ItemContainerGenerator.ContainerFromItem(rpItem)).ReceiveDrag();
+        }
+
+        void OnItemDragCompleted(AdvancedTabDragCompletedEventArgs e)
+        {
         }
     }
 }
