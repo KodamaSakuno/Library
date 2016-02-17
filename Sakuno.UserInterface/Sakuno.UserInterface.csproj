@@ -50,16 +50,13 @@
   <ItemGroup>
     <Compile Include="Behaviors\GlowWindowBehavior.cs" />
     <Compile Include="Behaviors\TaskbarThumbnailBehavior.cs" />
-    <Compile Include="Controls\DragableTabControl.cs" />
-    <Compile Include="Controls\DragableTabNewHost.cs" />
-    <Compile Include="Controls\DragableTabThumbDragEventArgs.cs" />
-    <Compile Include="Controls\DragableTabItem.cs" />
+    <Compile Include="Controls\AdvancedTabControl.cs" />
+    <Compile Include="Controls\AdvancedTabHeaderItemsControl.cs" />
+    <Compile Include="Controls\AdvancedTabThumbDragEvents.cs" />
     <Compile Include="Controls\DropDownButton.cs" />
     <Compile Include="Controls\GlowWindow.cs" />
-    <Compile Include="Controls\IDragableTabNewHostProvider.cs" />
     <Compile Include="Controls\MetroWindow.cs" />
     <Compile Include="Controls\ResizeGrip.cs" />
-    <Compile Include="Controls\DragableTabPanel.cs" />
     <Compile Include="Controls\SplitButton.cs" />
     <Compile Include="ScreenOrientation.cs" />
     <Compile Include="Controls\WindowSystemButtons.cs" />
@@ -77,6 +74,7 @@
     <Compile Include="Internal\GlowWindowProcessorLeft.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DependencyObjectExtensions.cs" />
+    <Compile Include="Controls\AdvancedTabItem.cs" />
     <Compile Include="TimelineExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -143,11 +141,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Controls\DragableTabControl.xaml">
+    <Page Include="Themes\Controls\AdvancedTabControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Controls\DragableTabItem.xaml">
+    <Page Include="Themes\Controls\AdvancedTabHeaderItemsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\AdvancedTabItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
