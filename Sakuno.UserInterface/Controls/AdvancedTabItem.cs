@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace Sakuno.UserInterface.Controls
 {
@@ -69,6 +71,8 @@ namespace Sakuno.UserInterface.Controls
 
         Thumb r_Thumb;
 
+        bool r_ReceiveDragOnApplyTemplate;
+
         static AdvancedTabItem()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(AdvancedTabItem), new FrameworkPropertyMetadata(typeof(AdvancedTabItem)));
@@ -84,7 +88,12 @@ namespace Sakuno.UserInterface.Controls
                 r_Thumb.DragStarted += Thumb_DragStarted;
                 r_Thumb.DragDelta += Thumb_DragDelta;
                 r_Thumb.DragCompleted += Thumb_DragCompleted;
+
+                if (r_ReceiveDragOnApplyTemplate)
+                    Dispatcher.BeginInvoke(new Action(() => r_Thumb.RaiseEvent(new MouseButtonEventArgs(InputManager.Current.PrimaryMouseDevice, 0, MouseButton.Left) { RoutedEvent = MouseLeftButtonDownEvent })));
             }
+
+            r_ReceiveDragOnApplyTemplate = false;
         }
 
         void Thumb_DragStarted(object sender, DragStartedEventArgs e)
@@ -110,6 +119,18 @@ namespace Sakuno.UserInterface.Controls
         void Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
             RaiseEvent(new AdvancedTabDragCompletedEventArgs(DragCompletedEvent, this, e));
+        }
+
+        internal void ReceiveDrag()
+        {
+            var rThumb = Template.FindName("PART_Thumb", this) as Thumb;
+            if (rThumb != null)
+            {
+                rThumb.CaptureMouse();
+                return;
+            }
+
+            r_ReceiveDragOnApplyTemplate = true;
         }
     }
 }

@@ -12,6 +12,13 @@ namespace Sakuno.UserInterface.Controls
 {
     public class AdvancedTabControl : TabControl
     {
+        public static readonly DependencyProperty DisableTabReorderProperty = DependencyProperty.Register(nameof(DisableTabReorder), typeof(bool), typeof(AdvancedTabControl), new UIPropertyMetadata(BooleanUtil.False));
+        public bool DisableTabReorder
+        {
+            get { return (bool)GetValue(DisableTabReorderProperty); }
+            set { SetValue(DisableTabReorderProperty, value); }
+        }
+
         static readonly DependencyPropertyKey IsTabItemPropertyKey = DependencyProperty.RegisterAttachedReadOnly("IsTabItem", typeof(bool), typeof(AdvancedTabControl), new PropertyMetadata(BooleanUtil.False));
         public static readonly DependencyProperty IsTabItemProperty = IsTabItemPropertyKey.DependencyProperty;
         internal static void SetIsTabItem(DependencyObject rpElement, bool rpValue) => rpElement.SetValue(IsTabItemPropertyKey, BooleanUtil.GetBoxed(rpValue));
