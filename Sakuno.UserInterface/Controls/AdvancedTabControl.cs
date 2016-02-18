@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Interop;
 
 namespace Sakuno.UserInterface.Controls
 {
@@ -34,6 +35,8 @@ namespace Sakuno.UserInterface.Controls
         internal static void SetIsTabItem(DependencyObject rpElement, bool rpValue) => rpElement.SetValue(IsTabItemPropertyKey, BooleanUtil.GetBoxed(rpValue));
         public static bool GetIsTabItem(DependencyObject rpElement) => (bool)rpElement.GetValue(IsTabItemProperty);
 
+        static HashSet<AdvancedTabControl> r_Instances = new HashSet<AdvancedTabControl>();
+
         List<object> r_ItemsPendingToAdd;
 
         AdvancedTabHeaderItemsControl r_HeaderItemsControl;
@@ -49,6 +52,11 @@ namespace Sakuno.UserInterface.Controls
             EventManager.RegisterClassHandler(typeof(AdvancedTabControl), AdvancedTabItem.PreviewDragDeltaEvent, new AdvancedTabDragDeltaEventHandler((s, e) => ((AdvancedTabControl)s).OnItemPreviewDragDelta(e)), true);
             EventManager.RegisterClassHandler(typeof(AdvancedTabControl), AdvancedTabItem.DragDeltaEvent, new AdvancedTabDragDeltaEventHandler((s, e) => ((AdvancedTabControl)s).OnItemDragDelta(e)), true);
             EventManager.RegisterClassHandler(typeof(AdvancedTabControl), AdvancedTabItem.DragCompletedEvent, new AdvancedTabDragCompletedEventHandler((s, e) => ((AdvancedTabControl)s).OnItemDragCompleted(e)), true);
+        }
+        public AdvancedTabControl()
+        {
+            Loaded += (s, e) => r_Instances.Add(this);
+            Unloaded += (s, e) => r_Instances.Remove(this);
         }
 
         public override void OnApplyTemplate()
@@ -279,6 +287,9 @@ namespace Sakuno.UserInterface.Controls
             if (r_HeaderItemsControl.Items.Count > 1)
                 return;
 
+            if (TryMerge(e))
+                return;
+
             var rWindow = Window.GetWindow(this);
             if (rWindow == null)
                 return;
@@ -349,6 +360,64 @@ namespace Sakuno.UserInterface.Controls
 
         void OnItemDragCompleted(AdvancedTabDragCompletedEventArgs e)
         {
+        }
+
+        bool TryMerge(AdvancedTabDragDeltaEventArgs e)
+        {
+            var rInfos = r_Instances.Where(r => r != this).Select(r =>
+            {
+                var rHeaderItemsControl = r.r_HeaderItemsControl;
+                var rPointTopLeft = rHeaderItemsControl.PointToScreen(default(Point));
+                var rPointBottomRight = rHeaderItemsControl.PointToScreen(new Point(rHeaderItemsControl.ActualWidth, rHeaderItemsControl.ActualHeight));
+
+                return new { TabControl = r, Rect = new Rect(rPointTopLeft, rPointBottomRight) };
+            });
+
+            NativeStructs.POINT rMousePosition;
+            NativeMethods.User32.GetCursorPos(out rMousePosition);
+
+            rInfos = from rWindow in GetWindowsOrderedByZOrder(Application.Current.Windows.OfType<Window>())
+                     join rInfo in rInfos on rWindow equals Window.GetWindow(rInfo.TabControl)
+                     select rInfo;
+
+            var rTarget = rInfos.FirstOrDefault(r => r.Rect.Contains(new Point(rMousePosition.X, rMousePosition.Y)));
+            if (rTarget != null)
+            {
+                var rWindow = Window.GetWindow(this);
+
+                var rItem = r_HeaderItemsControl.ItemContainerGenerator.ItemFromContainer(e.Item);
+                RemoveItem(rItem);
+
+                var rContentPresenter = GetItemContentPresenter(rItem);
+                r_ItemsHolder.Children.Remove(rContentPresenter);
+
+                if (Items.Count == 0 && TabController?.TearOffController.OnTabEmptied(this, rWindow) == TabEmptiedAction.CloseWindow)
+                    rWindow.Close();
+
+                rTarget.TabControl.ReceiveDrag(rItem);
+
+                e.Cancel = true;
+                return true;
+            }
+
+            return false;
+        }
+        IEnumerable<Window> GetWindowsOrderedByZOrder(IEnumerable<Window> rpWindows)
+        {
+            var rWindows = rpWindows.Select(r => new { Window = r, Handle = new WindowInteropHelper(r).Handle }).ToDictionary(r => r.Handle, r => r.Window);
+
+            var rResult = new List<Window>();
+
+            var rHandle = NativeMethods.User32.GetTopWindow(IntPtr.Zero);
+            while (rHandle != IntPtr.Zero)
+            {
+                Window rWindow;
+                if (rWindows.TryGetValue(rHandle, out rWindow))
+                    rResult.Add(rWindow);
+                rHandle = NativeMethods.User32.GetWindow(rHandle, NativeConstants.GetWindow.GW_HWNDNEXT);
+            }
+
+            return rResult;
         }
     }
 }
