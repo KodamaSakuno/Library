@@ -53,6 +53,9 @@
     <Compile Include="Controls\AdvancedTabControl.cs" />
     <Compile Include="Controls\AdvancedTabHeaderItemsControl.cs" />
     <Compile Include="Controls\AdvancedTabThumbDragEvents.cs" />
+    <Compile Include="Controls\DockableZone.cs" />
+    <Compile Include="Controls\DockAdorner.cs" />
+    <Compile Include="Controls\DockDirection.cs" />
     <Compile Include="Controls\DropDownButton.cs" />
     <Compile Include="Controls\GlowWindow.cs" />
     <Compile Include="Controls\ITabTearOffController.cs" />
@@ -79,6 +82,7 @@
     <Compile Include="DependencyObjectExtensions.cs" />
     <Compile Include="Controls\AdvancedTabItem.cs" />
     <Compile Include="TimelineExtensions.cs" />
+    <Compile Include="WindowUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sakuno.Base\Sakuno.Base.csproj">
@@ -153,6 +157,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Controls\AdvancedTabItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\DockableZone.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\DockAdorner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

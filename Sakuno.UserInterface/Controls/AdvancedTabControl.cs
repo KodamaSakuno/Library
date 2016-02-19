@@ -373,12 +373,12 @@ namespace Sakuno.UserInterface.Controls
                 return new { TabControl = r, Rect = new Rect(rPointTopLeft, rPointBottomRight) };
             });
 
-            NativeStructs.POINT rMousePosition;
-            NativeMethods.User32.GetCursorPos(out rMousePosition);
-
-            rInfos = from rWindow in GetWindowsOrderedByZOrder(Application.Current.Windows.OfType<Window>())
+            rInfos = from rWindow in WindowUtil.GetWindowsOrderedByZOrder(Application.Current.Windows.OfType<Window>())
                      join rInfo in rInfos on rWindow equals Window.GetWindow(rInfo.TabControl)
                      select rInfo;
+
+            NativeStructs.POINT rMousePosition;
+            NativeMethods.User32.GetCursorPos(out rMousePosition);
 
             var rTarget = rInfos.FirstOrDefault(r => r.Rect.Contains(new Point(rMousePosition.X, rMousePosition.Y)));
             if (rTarget != null)
@@ -401,23 +401,6 @@ namespace Sakuno.UserInterface.Controls
             }
 
             return false;
-        }
-        IEnumerable<Window> GetWindowsOrderedByZOrder(IEnumerable<Window> rpWindows)
-        {
-            var rWindows = rpWindows.Select(r => new { Window = r, Handle = new WindowInteropHelper(r).Handle }).ToDictionary(r => r.Handle, r => r.Window);
-
-            var rResult = new List<Window>();
-
-            var rHandle = NativeMethods.User32.GetTopWindow(IntPtr.Zero);
-            while (rHandle != IntPtr.Zero)
-            {
-                Window rWindow;
-                if (rWindows.TryGetValue(rHandle, out rWindow))
-                    rResult.Add(rWindow);
-                rHandle = NativeMethods.User32.GetWindow(rHandle, NativeConstants.GetWindow.GW_HWNDNEXT);
-            }
-
-            return rResult;
         }
     }
 }
