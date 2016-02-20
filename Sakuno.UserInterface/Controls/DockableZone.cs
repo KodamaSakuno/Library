@@ -1,4 +1,5 @@
 ﻿using Sakuno.SystemInterop;
+using Sakuno.UserInterface.Controls.Docking;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -18,6 +19,10 @@ namespace Sakuno.UserInterface.Controls
 
         static HashSet<DockableZone> r_Instances = new HashSet<DockableZone>();
         static Dictionary<Window, List<DockableZone>> r_InstancesGroupByWindow = new Dictionary<Window, List<DockableZone>>();
+
+        Dictionary<DockDirection, DockAdorner> r_DockAdorners = new Dictionary<DockDirection, DockAdorner>();
+
+        DockOperationInfo r_OperationCompletionInfo;
 
         static DockableZone()
         {
@@ -61,6 +66,16 @@ namespace Sakuno.UserInterface.Controls
             };
         }
 
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            r_DockAdorners[DockDirection.Left] = Template.FindName("PART_LeftDockAdorner", this) as DockAdorner;
+            r_DockAdorners[DockDirection.Top] = Template.FindName("PART_TopDockAdorner", this) as DockAdorner;
+            r_DockAdorners[DockDirection.Right] = Template.FindName("PART_RightDockAdorner", this) as DockAdorner;
+            r_DockAdorners[DockDirection.Bottom] = Template.FindName("PART_BottomDockAdorner", this) as DockAdorner;
+        }
+
         void OnItemPreviewDragDelta(AdvancedTabDragDeltaEventArgs e)
         {
             if (e.Cancel)
@@ -93,13 +108,67 @@ namespace Sakuno.UserInterface.Controls
                 foreach (var rTarget in rInfos)
                 {
                     rTarget.DockableZone.IsParticipatingInDocking = rTarget.Rect.Contains(rMousePosition);
+                    if (rTarget.DockableZone.IsParticipatingInDocking)
+                        rParticipatingDockableZone = rTarget.DockableZone;
                 }
             }
+
+            if (rParticipatingDockableZone != null)
+                r_OperationCompletionInfo = rParticipatingDockableZone.MonitorDockAdorners(rMousePosition);
         }
+        DockOperationInfo MonitorDockAdorners(Point rpMousePosition)
+        {
+            var rWindow = Window.GetWindow(this);
+            if (rWindow == null)
+                return null;
+
+            var rHitAdorner = r_DockAdorners.Values.Where(r => r != null).Select(r =>
+            {
+                var rPoint = rWindow.PointFromScreen(rpMousePosition);
+                rPoint = rWindow.TranslatePoint(rPoint, r);
+
+                return new { DockAdorner = r, Result = r.InputHitTest(rPoint) != null };
+            }).FirstOrDefault(r => r.Result);
+
+            foreach (var rDockAdorner in r_DockAdorners.Values.Where(r => r != null))
+                if (rHitAdorner?.DockAdorner == rDockAdorner)
+                    rDockAdorner.IsHighlighted = true;
+                else
+                    rDockAdorner.IsHighlighted = false;
+
+            if (rHitAdorner == null)
+                return null;
+
+            return new DockOperationInfo(this, rHitAdorner.DockAdorner);
+        }
+
         void OnItemDragCompleted(AdvancedTabDragCompletedEventArgs e)
         {
             foreach (var rInstance in r_Instances)
                 rInstance.IsParticipatingInDocking = false;
+
+            if (r_OperationCompletionInfo == null)
+                return;
+
+            r_OperationCompletionInfo.DockableZone.Dock(e.Item, r_OperationCompletionInfo.DockAdorner.Direction);
+
+            r_OperationCompletionInfo = null;
+        }
+        void Dock(AdvancedTabItem rpItem, DockDirection rpDirection)
+        {
+
+        }
+
+        public class DockOperationInfo
+        {
+            public DockableZone DockableZone { get; }
+            public DockAdorner DockAdorner { get; }
+
+            public DockOperationInfo(DockableZone rpDockableZone, DockAdorner rpDockAdorner)
+            {
+                DockableZone = rpDockableZone;
+                DockAdorner = rpDockAdorner;
+            }
         }
     }
 }

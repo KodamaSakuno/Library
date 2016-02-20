@@ -54,8 +54,9 @@
     <Compile Include="Controls\AdvancedTabHeaderItemsControl.cs" />
     <Compile Include="Controls\AdvancedTabThumbDragEvents.cs" />
     <Compile Include="Controls\DockableZone.cs" />
-    <Compile Include="Controls\DockAdorner.cs" />
-    <Compile Include="Controls\DockDirection.cs" />
+    <Compile Include="Controls\Docking\DockAdorner.cs" />
+    <Compile Include="Controls\Docking\DockDirection.cs" />
+    <Compile Include="Controls\Docking\DockGroup.cs" />
     <Compile Include="Controls\DropDownButton.cs" />
     <Compile Include="Controls\GlowWindow.cs" />
     <Compile Include="Controls\ITabTearOffController.cs" />
@@ -164,7 +165,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Controls\DockAdorner.xaml">
+    <Page Include="Themes\Controls\Docking\DockAdorner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\Docking\DockGroup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

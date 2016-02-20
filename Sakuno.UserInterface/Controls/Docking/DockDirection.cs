@@ -1,4 +1,4 @@
-﻿namespace Sakuno.UserInterface.Controls
+﻿namespace Sakuno.UserInterface.Controls.Docking
 {
     public enum DockDirection
     {

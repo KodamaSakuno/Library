@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ruic="clr-namespace:Sakuno.UserInterface.Controls">
+                    xmlns:ruic="clr-namespace:Sakuno.UserInterface.Controls"
+                    xmlns:ruicd="clr-namespace:Sakuno.UserInterface.Controls.Docking">
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
@@ -13,10 +14,10 @@
                             <ContentPresenter />
 
                             <Grid Margin="4" Visibility="{TemplateBinding IsParticipatingInDocking, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <ruic:DockAdorner Direction="Left" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                <ruic:DockAdorner Direction="Top" VerticalAlignment="Top" HorizontalAlignment="Center" />
-                                <ruic:DockAdorner Direction="Right" VerticalAlignment="Center" HorizontalAlignment="Right" />
-                                <ruic:DockAdorner Direction="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Center" />
+                                <ruicd:DockAdorner Name="PART_LeftDockAdorner" Direction="Left" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <ruicd:DockAdorner Name="PART_TopDockAdorner" Direction="Top" VerticalAlignment="Top" HorizontalAlignment="Center" />
+                                <ruicd:DockAdorner Name="PART_RightDockAdorner" Direction="Right" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                <ruicd:DockAdorner Name="PART_BottomDockAdorner" Direction="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Center" />
                             </Grid>
                         </Grid>
                     </Border>
