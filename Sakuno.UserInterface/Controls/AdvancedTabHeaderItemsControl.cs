@@ -17,6 +17,8 @@ namespace Sakuno.UserInterface.Controls
             set { SetValue(DisableTabReorderProperty, value); }
         }
 
+        internal AdvancedTabControl Owner { get; set; }
+
         Dictionary<AdvancedTabItem, ItemPositionInfo> r_OriginalPositionInfoOfSiblingItems;
 
         static AdvancedTabHeaderItemsControl()

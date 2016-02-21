@@ -8,9 +8,9 @@
                 <ControlTemplate TargetType="{x:Type ruicd:DockGroup}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="{TemplateBinding FirstItemLength}" />
+                            <ColumnDefinition Width="{TemplateBinding FirstItemLength}" MinWidth="10" />
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="{TemplateBinding SecondItemLength}" />
+                            <ColumnDefinition Width="{TemplateBinding SecondItemLength}" MinWidth="10" />
                         </Grid.ColumnDefinitions>
 
                         <ContentPresenter Name="PART_FirstItemContentPresenter" Content="{TemplateBinding FirstItem}" />
@@ -28,13 +28,13 @@
                         <ControlTemplate TargetType="{x:Type ruicd:DockGroup}">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="{TemplateBinding FirstItemLength}" />
+                                    <RowDefinition Height="{TemplateBinding FirstItemLength}" MinHeight="10" />
                                     <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="{TemplateBinding SecondItemLength}" />
+                                    <RowDefinition Height="{TemplateBinding SecondItemLength}" MinHeight="10" />
                                 </Grid.RowDefinitions>
 
                                 <ContentPresenter Name="PART_FirstItemContentPresenter" Content="{TemplateBinding FirstItem}" />
-                                <GridSplitter ResizeBehavior="PreviousAndNext" ResizeDirection="Rows" Height="4" Grid.Row="1" />
+                                <GridSplitter ResizeBehavior="PreviousAndNext" ResizeDirection="Rows" Height="4" HorizontalAlignment="Stretch" Grid.Row="1" />
                                 <ContentPresenter Name="PART_SecondItemContentPresenter" Content="{TemplateBinding SecondItem}" Grid.Row="2" />
                             </Grid>
                         </ControlTemplate>

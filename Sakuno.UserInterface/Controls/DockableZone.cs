@@ -1,14 +1,23 @@
 ﻿using Sakuno.SystemInterop;
 using Sakuno.UserInterface.Controls.Docking;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Sakuno.UserInterface.Controls
 {
     public class DockableZone : ContentControl
     {
+        public static readonly DependencyProperty DockingControllerProperty = DependencyProperty.Register(nameof(DockingController), typeof(ITabDockingController), typeof(DockableZone), new UIPropertyMetadata(null));
+        public ITabDockingController DockingController
+        {
+            get { return (ITabDockingController)GetValue(DockingControllerProperty); }
+            set { SetValue(DockingControllerProperty, value); }
+        }
+
         static readonly DependencyPropertyKey IsParticipatingInDockingPropertyKey = DependencyProperty.RegisterReadOnly(nameof(IsParticipatingInDocking), typeof(bool), typeof(DockableZone), new UIPropertyMetadata(BooleanUtil.False));
         public static readonly DependencyProperty IsParticipatingInDockingProperty = IsParticipatingInDockingPropertyKey.DependencyProperty;
         public bool IsParticipatingInDocking
@@ -35,7 +44,8 @@ namespace Sakuno.UserInterface.Controls
         {
             Loaded += (s, e) =>
             {
-                r_Instances.Add(this);
+                if (!r_Instances.Add(this))
+                    return;
 
                 var rWindow = Window.GetWindow(this);
                 if (rWindow == null)
@@ -156,7 +166,94 @@ namespace Sakuno.UserInterface.Controls
         }
         void Dock(AdvancedTabItem rpItem, DockDirection rpDirection)
         {
+            var rHeaderItemsControl = ItemsControl.ItemsControlFromItemContainer(rpItem) as AdvancedTabHeaderItemsControl;
+            if (rHeaderItemsControl == null)
+                throw new InvalidOperationException();
 
+            var rTabControl = rHeaderItemsControl.Owner;
+            if (rTabControl == null)
+                throw new InvalidOperationException();
+
+            var rItem = rHeaderItemsControl.ItemContainerGenerator.ItemFromContainer(rpItem);
+            rTabControl.RemoveItem(rpItem);
+
+            var rDockGroup = new DockGroup() { Orientation = rpDirection == DockDirection.Left || rpDirection == DockDirection.Right ? Orientation.Horizontal : Orientation.Vertical };
+
+            var rHost = DockingController.CreateHost(rTabControl, null);
+            if (rHost == null)
+                throw new InvalidOperationException();
+
+            rHost.AddItem(rItem);
+            rHost.SelectedItem = rItem;
+
+            var rContent = rHost;
+
+            if (rpDirection == DockDirection.Right || rpDirection == DockDirection.Bottom)
+            {
+                rDockGroup.FirstItem = Content;
+                rDockGroup.SecondItem = rContent;
+            }
+            else
+            {
+                rDockGroup.FirstItem = rContent;
+                rDockGroup.SecondItem = Content;
+            }
+
+            SetCurrentValue(ContentProperty, rDockGroup);
+        }
+
+        internal static bool MergeDockGroup(DependencyObject rpObject)
+        {
+            bool rIsSecondItemContentPresenter;
+            var rDockGroup = FindAncestor(rpObject, out rIsSecondItemContentPresenter) as DockGroup;
+            if (rDockGroup == null)
+                return false;
+
+            var rItem = !rIsSecondItemContentPresenter ? rDockGroup.FirstItem : rDockGroup.SecondItem;
+
+            var rAncestor = FindAncestor(rDockGroup, out rIsSecondItemContentPresenter);
+
+            var rDockableZone = rAncestor as DockableZone;
+            if (rDockableZone != null)
+            {
+                rDockableZone.SetCurrentValue(ContentProperty, rItem);
+                return true;
+            }
+
+            rDockGroup = rAncestor as DockGroup;
+            if (rDockGroup != null)
+            {
+                rDockGroup.SetCurrentValue(rIsSecondItemContentPresenter ? DockGroup.FirstItemProperty : DockGroup.SecondItemProperty, rItem);
+                return true;
+            }
+
+            throw new InvalidOperationException();
+        }
+        static object FindAncestor(DependencyObject rpObject, out bool ropIsSecondItemContentPresenter)
+        {
+            ropIsSecondItemContentPresenter = false;
+
+            var rElements = new List<DependencyObject>();
+            do
+            {
+                rElements.Add(rpObject);
+
+                rpObject = VisualTreeHelper.GetParent(rpObject);
+
+                if (rpObject is DockableZone)
+                    return rpObject;
+
+                var rDockGroup = rpObject as DockGroup;
+                if (rDockGroup == null)
+                    continue;
+
+                ropIsSecondItemContentPresenter = rElements.Contains(rDockGroup.FirstItemContentPresenter);
+
+                return rDockGroup;
+
+            } while (rpObject != null);
+
+            return null;
         }
 
         public class DockOperationInfo

@@ -57,14 +57,15 @@
     <Compile Include="Controls\Docking\DockAdorner.cs" />
     <Compile Include="Controls\Docking\DockDirection.cs" />
     <Compile Include="Controls\Docking\DockGroup.cs" />
+    <Compile Include="Controls\Docking\ITabDockingController.cs" />
+    <Compile Include="Controls\Docking\ITabTearOffController.cs" />
+    <Compile Include="Controls\Docking\TabEmptiedAction.cs" />
     <Compile Include="Controls\DropDownButton.cs" />
     <Compile Include="Controls\GlowWindow.cs" />
-    <Compile Include="Controls\ITabTearOffController.cs" />
     <Compile Include="Controls\MetroWindow.cs" />
     <Compile Include="Controls\ResizeGrip.cs" />
     <Compile Include="Controls\SplitButton.cs" />
     <Compile Include="Controls\TabController.cs" />
-    <Compile Include="Controls\TabEmptiedAction.cs" />
     <Compile Include="ScreenOrientation.cs" />
     <Compile Include="Controls\WindowSystemButtons.cs" />
     <Compile Include="Controls\WindowAction.cs" />
@@ -114,6 +115,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\Controls\FocusVisualStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Controls\GridSplitter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

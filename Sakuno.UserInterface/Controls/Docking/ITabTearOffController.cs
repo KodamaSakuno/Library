@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace Sakuno.UserInterface.Controls
+namespace Sakuno.UserInterface.Controls.Docking
 {
     public interface ITabTearOffController
     {

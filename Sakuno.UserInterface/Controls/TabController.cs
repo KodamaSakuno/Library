@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Sakuno.UserInterface.Controls.Docking;
+using System.Windows;
 
 namespace Sakuno.UserInterface.Controls
 {

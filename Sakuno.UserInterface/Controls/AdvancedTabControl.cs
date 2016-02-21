@@ -1,4 +1,5 @@
 ﻿using Sakuno.SystemInterop;
+using Sakuno.UserInterface.Controls.Docking;
 using Sakuno.UserInterface.Internal;
 using System;
 using System.Collections;
@@ -10,7 +11,6 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Interop;
 
 namespace Sakuno.UserInterface.Controls
 {
@@ -62,13 +62,19 @@ namespace Sakuno.UserInterface.Controls
         public override void OnApplyTemplate()
         {
             if (r_HeaderItemsControl != null)
+            {
+                r_HeaderItemsControl.Owner = null;
                 r_HeaderItemsControl.ItemContainerGenerator.StatusChanged -= ItemContainerGenerator_StatusChanged;
+            }
 
             base.OnApplyTemplate();
 
             r_HeaderItemsControl = Template.FindName("PART_HeaderItemsControl", this) as AdvancedTabHeaderItemsControl;
             if (r_HeaderItemsControl != null)
+            {
+                r_HeaderItemsControl.Owner = this;
                 r_HeaderItemsControl.ItemContainerGenerator.StatusChanged += ItemContainerGenerator_StatusChanged;
+            }
 
             r_ItemsHolder = Template.FindName("PART_ItemsHolder", this) as Panel;
             if (r_ItemsHolder != null && r_ItemsPendingToAdd!=null)
@@ -237,7 +243,7 @@ namespace Sakuno.UserInterface.Controls
             return r_ItemsHolder.Children.OfType<ContentPresenter>().FirstOrDefault(r => r.Content == rpItem);
         }
 
-        void AddItem(object rpItem)
+        internal void AddItem(object rpItem)
         {
             CollectionTeaser rCollectionTeaser;
             if (CollectionTeaser.TryCreate(ItemsSource, out rCollectionTeaser))
@@ -262,6 +268,29 @@ namespace Sakuno.UserInterface.Controls
                 Items.Remove(rpItem);
         }
 
+        internal object RemoveItem(AdvancedTabItem rpTabItem)
+        {
+            var rItem = r_HeaderItemsControl.ItemContainerGenerator.ItemFromContainer(rpTabItem);
+            RemoveItem(rItem);
+
+            var rContentPresenter = GetItemContentPresenter(rItem);
+            r_ItemsHolder.Children.Remove(rContentPresenter);
+
+            if (Items.Count > 0)
+                return rItem;
+
+            var rWindow = Window.GetWindow(this);
+            if (Items.Count == 0 && TabController?.TearOffController.OnTabEmptied(this, rWindow) == TabEmptiedAction.CloseWindow)
+            {
+                if (DockableZone.MergeDockGroup(this))
+                    return rItem;
+
+                rWindow.Close();
+            }
+
+            return rItem;
+        }
+
         void OnItemDragStarted(AdvancedTabDragStartedEventArgs e)
         {
             if (r_HeaderItemsControl == null)
@@ -284,7 +313,7 @@ namespace Sakuno.UserInterface.Controls
 
         void OnItemPreviewDragDelta(AdvancedTabDragDeltaEventArgs e)
         {
-            if (r_HeaderItemsControl.Items.Count > 1)
+            if (r_HeaderItemsControl.Items.Count > 1 || r_HeaderItemsControl.IsAncestorContained<DockGroup>())
                 return;
 
             if (TryMerge(e))
@@ -336,6 +365,9 @@ namespace Sakuno.UserInterface.Controls
                     var rContentPresenter = GetItemContentPresenter(rItem);
                     r_ItemsHolder.Children.Remove(rContentPresenter);
 
+                    if (Items.Count == 0)
+                        DockableZone.MergeDockGroup(this);
+
                     rTabControl.ReceiveDrag(rItem);
 
                     e.Cancel = true;
@@ -383,16 +415,7 @@ namespace Sakuno.UserInterface.Controls
             var rTarget = rInfos.FirstOrDefault(r => r.Rect.Contains(new Point(rMousePosition.X, rMousePosition.Y)));
             if (rTarget != null)
             {
-                var rWindow = Window.GetWindow(this);
-
-                var rItem = r_HeaderItemsControl.ItemContainerGenerator.ItemFromContainer(e.Item);
-                RemoveItem(rItem);
-
-                var rContentPresenter = GetItemContentPresenter(rItem);
-                r_ItemsHolder.Children.Remove(rContentPresenter);
-
-                if (Items.Count == 0 && TabController?.TearOffController.OnTabEmptied(this, rWindow) == TabEmptiedAction.CloseWindow)
-                    rWindow.Close();
+                var rItem = RemoveItem(e.Item);
 
                 rTarget.TabControl.ReceiveDrag(rItem);
 
