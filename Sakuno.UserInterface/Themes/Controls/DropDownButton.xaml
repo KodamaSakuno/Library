@@ -5,6 +5,7 @@
     <Style TargetType="{x:Type ruic:DropDownButton}">
         <Setter Property="Background" Value="{DynamicResource BackgroundBrushKey}" />
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushKey}" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrushKey}" />
         <Setter Property="Padding" Value="8, 4" />
 
