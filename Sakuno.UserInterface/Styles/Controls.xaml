@@ -11,6 +11,7 @@
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Styles/Controls/RadioButton.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Styles/Controls/ScrollBar.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Styles/Controls/ScrollViewer.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Styles/Controls/TabControl.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Styles/Controls/TextBox.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Styles/Controls/ToggleButton.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Styles/Controls/ToolTip.xaml" />
