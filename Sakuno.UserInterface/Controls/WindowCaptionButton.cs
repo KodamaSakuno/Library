@@ -1,4 +1,5 @@
-﻿using Sakuno.SystemInterop;
+﻿using Microsoft.Windows.Shell;
+using Sakuno.SystemInterop;
 using System;
 using System.Windows;
 using System.Windows.Controls;

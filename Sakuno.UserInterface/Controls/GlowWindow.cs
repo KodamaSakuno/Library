@@ -139,7 +139,7 @@ namespace Sakuno.UserInterface.Controls
             else
             {
                 if (SystemParameters.MinimizeAnimation && r_OwnerOldState == WindowState.Minimized)
-                    await Task.Delay(250);
+                    await TaskEx.Delay(250);
 
                 Visibility = Visibility.Visible;
                 UpdateCore();

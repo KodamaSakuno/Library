@@ -7,7 +7,6 @@ namespace Sakuno
         public static readonly object True = true;
         public static readonly object False = false;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static object GetBoxed(bool rpBool) => rpBool ? True : False;
     }
 }

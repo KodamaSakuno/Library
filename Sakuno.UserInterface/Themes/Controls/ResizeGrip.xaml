@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation/shell"
                     xmlns:ruic="clr-namespace:Sakuno.UserInterface.Controls">
 
     <Style x:Key="ResizeGripPathStyle" TargetType="{x:Type Path}">
@@ -20,7 +21,7 @@
         <Setter Property="Focusable" Value="False" />
         <Setter Property="VerticalAlignment" Value="Bottom" />
         <Setter Property="HorizontalAlignment" Value="Right" />
-        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+        <Setter Property="s:WindowChrome.IsHitTestVisibleInChrome" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ruic:ResizeGrip}">

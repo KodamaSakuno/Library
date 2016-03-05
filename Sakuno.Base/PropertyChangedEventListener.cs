@@ -8,7 +8,7 @@ namespace Sakuno
     {
         static ConcurrentDictionary<INotifyPropertyChanged, PropertyChangedEventListener> r_Listeners = new ConcurrentDictionary<INotifyPropertyChanged, PropertyChangedEventListener>();
 
-        WeakReference<INotifyPropertyChanged> r_Source;
+        WeakReference r_Source;
         ConcurrentDictionary<string, ConcurrentBag<PropertyChangedEventHandler>> r_HandlerDictionary = new ConcurrentDictionary<string, ConcurrentBag<PropertyChangedEventHandler>>();
 
         public PropertyChangedEventListener(INotifyPropertyChanged rpSource)
@@ -16,9 +16,9 @@ namespace Sakuno
             if (rpSource == null)
                 throw new ArgumentNullException(nameof(rpSource));
 
-            r_Source = new WeakReference<INotifyPropertyChanged>(rpSource);
+            r_Source = new WeakReference(rpSource);
 
-            Initialize(r => rpSource.PropertyChanged += r, r => rpSource.PropertyChanged -= r, (_, e) => { RaiseHandler(e); });
+            Initialize(r => rpSource.PropertyChanged += r, r => rpSource.PropertyChanged -= r, (_, e) => RaiseHandler(e));
         }
 
         public static PropertyChangedEventListener FromSource(INotifyPropertyChanged rpSource) => r_Listeners.GetOrAdd(rpSource, r => new PropertyChangedEventListener(r));
@@ -31,8 +31,8 @@ namespace Sakuno
 
         void RaiseHandler(PropertyChangedEventArgs e)
         {
-            INotifyPropertyChanged rSource;
-            if (!r_Source.TryGetTarget(out rSource))
+            var rSource = r_Source.Target as INotifyPropertyChanged;
+            if (rSource == null)
                 return;
 
             ConcurrentBag<PropertyChangedEventHandler> rHandlerList;
@@ -45,8 +45,8 @@ namespace Sakuno
 
         protected override void DisposeManagedResources()
         {
-            INotifyPropertyChanged rSource;
-            if (r_Source.TryGetTarget(out rSource))
+            var rSource = r_Source.Target as INotifyPropertyChanged;
+            if (rSource != null)
             {
                 PropertyChangedEventListener rListener;
                 r_Listeners.TryRemove(rSource, out rListener);
