@@ -10,16 +10,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ruic:DockableZone}">
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid>
-                            <ContentPresenter />
-
-                            <Grid Margin="4" Visibility="{TemplateBinding IsParticipatingInDocking, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <ruicd:DockAdorner Name="PART_LeftDockAdorner" Direction="Left" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                <ruicd:DockAdorner Name="PART_TopDockAdorner" Direction="Top" VerticalAlignment="Top" HorizontalAlignment="Center" />
-                                <ruicd:DockAdorner Name="PART_RightDockAdorner" Direction="Right" VerticalAlignment="Center" HorizontalAlignment="Right" />
-                                <ruicd:DockAdorner Name="PART_BottomDockAdorner" Direction="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Center" />
-                            </Grid>
-                        </Grid>
+                        <ContentPresenter />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

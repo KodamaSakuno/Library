@@ -29,7 +29,7 @@ namespace Sakuno.UserInterface.Controls
         static HashSet<DockableZone> r_Instances = new HashSet<DockableZone>();
         static Dictionary<Window, List<DockableZone>> r_InstancesGroupByWindow = new Dictionary<Window, List<DockableZone>>();
 
-        Dictionary<DockDirection, DockAdorner> r_DockAdorners = new Dictionary<DockDirection, DockAdorner>();
+        static DockAdornerWindow r_DockAdornerWindow;
 
         DockOperationInfo r_OperationCompletionInfo;
 
@@ -76,23 +76,13 @@ namespace Sakuno.UserInterface.Controls
             };
         }
 
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            r_DockAdorners[DockDirection.Left] = Template.FindName("PART_LeftDockAdorner", this) as DockAdorner;
-            r_DockAdorners[DockDirection.Top] = Template.FindName("PART_TopDockAdorner", this) as DockAdorner;
-            r_DockAdorners[DockDirection.Right] = Template.FindName("PART_RightDockAdorner", this) as DockAdorner;
-            r_DockAdorners[DockDirection.Bottom] = Template.FindName("PART_BottomDockAdorner", this) as DockAdorner;
-        }
-
         void OnItemPreviewDragDelta(AdvancedTabDragDeltaEventArgs e)
         {
-            if (e.Cancel)
+            if (DockingController == null || e.Cancel)
                 return;
 
             DockableZone rParticipatingDockableZone = null;
-            Point rMousePosition = default(Point);
+            var rMousePosition = default(Point);
 
             var rHeaderItemsControl = ItemsControl.ItemsControlFromItemContainer(e.Item) as AdvancedTabHeaderItemsControl;
             if (rHeaderItemsControl?.Items.Count == 1)
@@ -111,6 +101,9 @@ namespace Sakuno.UserInterface.Controls
                          join rInfo in rInfos on rWindow equals Window.GetWindow(rInfo.DockableZone)
                          select rInfo;
 
+                if (r_DockAdornerWindow == null)
+                    r_DockAdornerWindow = new DockAdornerWindow();
+
                 NativeStructs.POINT rCursorPosition;
                 NativeMethods.User32.GetCursorPos(out rCursorPosition);
                 rMousePosition = new Point(rCursorPosition.X, rCursorPosition.Y);
@@ -119,7 +112,10 @@ namespace Sakuno.UserInterface.Controls
                 {
                     rTarget.DockableZone.IsParticipatingInDocking = rTarget.Rect.Contains(rMousePosition);
                     if (rTarget.DockableZone.IsParticipatingInDocking)
+                    {
                         rParticipatingDockableZone = rTarget.DockableZone;
+                        r_DockAdornerWindow.Show(rParticipatingDockableZone);
+                    }
                 }
             }
 
@@ -132,7 +128,7 @@ namespace Sakuno.UserInterface.Controls
             if (rWindow == null)
                 return null;
 
-            var rHitAdorner = r_DockAdorners.Values.Where(r => r != null).Select(r =>
+            var rHitAdorner = r_DockAdornerWindow.DockAdorners.Where(r => r != null).Select(r =>
             {
                 var rPoint = rWindow.PointFromScreen(rpMousePosition);
                 rPoint = rWindow.TranslatePoint(rPoint, r);
@@ -140,7 +136,7 @@ namespace Sakuno.UserInterface.Controls
                 return new { DockAdorner = r, Result = r.InputHitTest(rPoint) != null };
             }).FirstOrDefault(r => r.Result);
 
-            foreach (var rDockAdorner in r_DockAdorners.Values.Where(r => r != null))
+            foreach (var rDockAdorner in r_DockAdornerWindow.DockAdorners.Where(r => r != null))
                 if (rHitAdorner?.DockAdorner == rDockAdorner)
                     rDockAdorner.IsHighlighted = true;
                 else
@@ -156,6 +152,12 @@ namespace Sakuno.UserInterface.Controls
         {
             foreach (var rInstance in r_Instances)
                 rInstance.IsParticipatingInDocking = false;
+
+            if (r_DockAdornerWindow != null)
+            {
+                r_DockAdornerWindow.Hide();
+                r_DockAdornerWindow = null;
+            }
 
             if (r_OperationCompletionInfo == null)
                 return;

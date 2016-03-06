@@ -7,6 +7,7 @@
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/AdvancedTabItem.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/DockableZone.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/Docking/DockAdorner.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/Docking/DockAdornerWindow.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/Docking/DockGroup.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/DropDownButton.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/WindowCaptionButton.xaml" />
