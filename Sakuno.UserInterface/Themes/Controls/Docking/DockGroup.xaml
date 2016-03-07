@@ -8,15 +8,50 @@
                 <ControlTemplate TargetType="{x:Type ruicd:DockGroup}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="{TemplateBinding FirstItemLength}" MinWidth="10" />
+                            <ColumnDefinition Name="FirstColumn" Width="{TemplateBinding FirstItemLength}" MinWidth="10" />
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="{TemplateBinding SecondItemLength}" MinWidth="10" />
+                            <ColumnDefinition Name="SecondColumn" Width="{TemplateBinding SecondItemLength}" MinWidth="10" />
                         </Grid.ColumnDefinitions>
 
                         <ContentPresenter Name="PART_FirstItemContentPresenter" Content="{TemplateBinding FirstItem}" />
-                        <GridSplitter ResizeBehavior="PreviousAndNext" ResizeDirection="Columns" Width="4"  Grid.Column="1" />
+                        <GridSplitter Name="Splitter" ResizeBehavior="PreviousAndNext" ResizeDirection="Columns" Width="4" Grid.Column="1" />
                         <ContentPresenter Name="PART_SecondItemContentPresenter" Content="{TemplateBinding SecondItem}" Grid.Column="2" />
                     </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsFirstItemGeneralElement" Value="True" />
+                                <Condition Property="IsSecondItemGeneralElement" Value="False" />
+                            </MultiTrigger.Conditions>
+
+                            <Setter TargetName="Splitter" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="FirstColumn" Property="Width" Value="Auto" />
+                            <Setter TargetName="FirstColumn" Property="MinWidth" Value="{Binding FirstItem.MinWidth, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=0}" />
+                            <Setter TargetName="FirstColumn" Property="MaxWidth" Value="{Binding FirstItem.MaxWidth, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=0}" />
+                            <Setter TargetName="SecondColumn" Property="Width" Value="*" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsFirstItemGeneralElement" Value="False" />
+                                <Condition Property="IsSecondItemGeneralElement" Value="True" />
+                            </MultiTrigger.Conditions>
+
+                            <Setter TargetName="Splitter" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="FirstColumn" Property="Width" Value="*" />
+                            <Setter TargetName="SecondColumn" Property="Width" Value="Auto" />
+                            <Setter TargetName="SecondColumn" Property="MinWidth" Value="{Binding SecondItem.MinWidth, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=0}" />
+                            <Setter TargetName="SecondColumn" Property="MaxWidth" Value="{Binding SecondItem.MaxWidth, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=0}" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsFirstItemGeneralElement" Value="True" />
+                                <Condition Property="IsSecondItemGeneralElement" Value="True" />
+                            </MultiTrigger.Conditions>
+
+                            <Setter TargetName="Splitter" Property="Visibility" Value="Collapsed" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -28,15 +63,50 @@
                         <ControlTemplate TargetType="{x:Type ruicd:DockGroup}">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="{TemplateBinding FirstItemLength}" MinHeight="10" />
+                                    <RowDefinition Name="FirstRow" Height="{TemplateBinding FirstItemLength}" MinHeight="10" />
                                     <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="{TemplateBinding SecondItemLength}" MinHeight="10" />
+                                    <RowDefinition Name="SecondRow" Height="{TemplateBinding SecondItemLength}" MinHeight="10" />
                                 </Grid.RowDefinitions>
 
                                 <ContentPresenter Name="PART_FirstItemContentPresenter" Content="{TemplateBinding FirstItem}" />
-                                <GridSplitter ResizeBehavior="PreviousAndNext" ResizeDirection="Rows" Height="4" HorizontalAlignment="Stretch" Grid.Row="1" />
+                                <GridSplitter Name="Splitter" ResizeBehavior="PreviousAndNext" ResizeDirection="Rows" Height="4" HorizontalAlignment="Stretch" Grid.Row="1" />
                                 <ContentPresenter Name="PART_SecondItemContentPresenter" Content="{TemplateBinding SecondItem}" Grid.Row="2" />
                             </Grid>
+
+                            <ControlTemplate.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsFirstItemGeneralElement" Value="True" />
+                                        <Condition Property="IsSecondItemGeneralElement" Value="False" />
+                                    </MultiTrigger.Conditions>
+
+                                    <Setter TargetName="Splitter" Property="Visibility" Value="Collapsed" />
+                                    <Setter TargetName="FirstRow" Property="Height" Value="Auto" />
+                                    <Setter TargetName="FirstRow" Property="MinHeight" Value="{Binding FirstItem.MinHeight, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=0}" />
+                                    <Setter TargetName="FirstRow" Property="MaxHeight" Value="{Binding FirstItem.MaxHeight, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=0}" />
+                                    <Setter TargetName="SecondRow" Property="Height" Value="*" />
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsFirstItemGeneralElement" Value="False" />
+                                        <Condition Property="IsSecondItemGeneralElement" Value="True" />
+                                    </MultiTrigger.Conditions>
+
+                                    <Setter TargetName="Splitter" Property="Visibility" Value="Collapsed" />
+                                    <Setter TargetName="FirstRow" Property="Height" Value="*" />
+                                    <Setter TargetName="SecondRow" Property="Height" Value="Auto" />
+                                    <Setter TargetName="SecondRow" Property="MinHeight" Value="{Binding SecondItem.MinHeight, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=0}" />
+                                    <Setter TargetName="SecondRow" Property="MaxHeight" Value="{Binding SecondItem.MaxHeight, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=0}" />
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsFirstItemGeneralElement" Value="True" />
+                                        <Condition Property="IsSecondItemGeneralElement" Value="True" />
+                                    </MultiTrigger.Conditions>
+
+                                    <Setter TargetName="Splitter" Property="Visibility" Value="Collapsed" />
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>

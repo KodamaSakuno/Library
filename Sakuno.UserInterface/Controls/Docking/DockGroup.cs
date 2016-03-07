@@ -14,7 +14,8 @@ namespace Sakuno.UserInterface.Controls.Docking
             set { SetValue(OrientationProperty, value); }
         }
 
-        public static readonly DependencyProperty FirstItemProperty = DependencyProperty.Register(nameof(FirstItem), typeof(object), typeof(DockGroup), new PropertyMetadata(null));
+        public static readonly DependencyProperty FirstItemProperty = DependencyProperty.Register(nameof(FirstItem), typeof(object), typeof(DockGroup),
+            new UIPropertyMetadata(null, (s, e) => ((DockGroup)s).IsFirstItemGeneralElement = !(e.NewValue is DockGroup || e.NewValue is AdvancedTabControl)));
         public object FirstItem
         {
             get { return GetValue(FirstItemProperty); }
@@ -28,7 +29,8 @@ namespace Sakuno.UserInterface.Controls.Docking
             set { SetValue(FirstItemLengthProperty, value); }
         }
 
-        public static readonly DependencyProperty SecondItemProperty = DependencyProperty.Register(nameof(SecondItem), typeof(object), typeof(DockGroup), new PropertyMetadata(null));
+        public static readonly DependencyProperty SecondItemProperty = DependencyProperty.Register(nameof(SecondItem), typeof(object), typeof(DockGroup),
+            new UIPropertyMetadata(null, (s, e) => ((DockGroup)s).IsSecondItemGeneralElement = !(e.NewValue is DockGroup || e.NewValue is AdvancedTabControl)));
         public object SecondItem
         {
             get { return GetValue(SecondItemProperty); }
@@ -40,6 +42,21 @@ namespace Sakuno.UserInterface.Controls.Docking
         {
             get { return (GridLength)GetValue(SecondItemLengthProperty); }
             set { SetValue(SecondItemLengthProperty, value); }
+        }
+
+        static readonly DependencyPropertyKey IsFirstItemGeneralElementPropertyKey = DependencyProperty.RegisterReadOnly(nameof(IsFirstItemGeneralElement), typeof(bool), typeof(DockGroup), new UIPropertyMetadata(BooleanUtil.False));
+        public static DependencyProperty IsFirstItemGeneralElementProperty = IsFirstItemGeneralElementPropertyKey.DependencyProperty;
+        public bool IsFirstItemGeneralElement
+        {
+            get { return (bool)GetValue(IsFirstItemGeneralElementProperty); }
+            private set { SetValue(IsFirstItemGeneralElementPropertyKey, BooleanUtil.GetBoxed(value)); }
+        }
+        static readonly DependencyPropertyKey IsSecondItemGeneralElementPropertyKey = DependencyProperty.RegisterReadOnly(nameof(IsSecondItemGeneralElement), typeof(bool), typeof(DockGroup), new UIPropertyMetadata(BooleanUtil.False));
+        public static DependencyProperty IsSecondItemGeneralElementProperty = IsSecondItemGeneralElementPropertyKey.DependencyProperty;
+        public bool IsSecondItemGeneralElement
+        {
+            get { return (bool)GetValue(IsSecondItemGeneralElementProperty); }
+            private set { SetValue(IsSecondItemGeneralElementPropertyKey, BooleanUtil.GetBoxed(value)); }
         }
 
         internal ContentPresenter FirstItemContentPresenter { get; private set; }
