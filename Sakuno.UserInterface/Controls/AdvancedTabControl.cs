@@ -204,7 +204,7 @@ namespace Sakuno.UserInterface.Controls
         }
         void CreateItemContentPresenter(object rpItem)
         {
-            if (rpItem == null)
+            if (rpItem == null || r_ItemsHolder == null)
                 return;
 
             var rContentPresenter = GetItemContentPresenter(rpItem);
@@ -274,7 +274,8 @@ namespace Sakuno.UserInterface.Controls
             RemoveItem(rItem);
 
             var rContentPresenter = GetItemContentPresenter(rItem);
-            r_ItemsHolder.Children.Remove(rContentPresenter);
+            if (rContentPresenter != null)
+                r_ItemsHolder.Children.Remove(rContentPresenter);
 
             if (Items.Count > 0)
                 return rItem;
@@ -363,7 +364,8 @@ namespace Sakuno.UserInterface.Controls
                     RemoveItem(rItem);
 
                     var rContentPresenter = GetItemContentPresenter(rItem);
-                    r_ItemsHolder.Children.Remove(rContentPresenter);
+                    if (rContentPresenter != null)
+                        r_ItemsHolder.Children.Remove(rContentPresenter);
 
                     if (Items.Count == 0)
                         DockableZone.MergeDockGroup(this);
