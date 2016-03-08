@@ -211,12 +211,8 @@ namespace Sakuno.UserInterface.Controls
             if (rContentPresenter != null)
                 return;
 
-            object rContent;
             var rTabItem = rpItem as TabItem;
-            if (rTabItem != null)
-                rContent = rTabItem.Content;
-            else
-                rContent = rpItem;
+            var rContent = rTabItem?.Content ?? rpItem;
 
             rContentPresenter = new ContentPresenter
             {
@@ -232,10 +228,7 @@ namespace Sakuno.UserInterface.Controls
         ContentPresenter GetItemContentPresenter(object rpItem)
         {
             var rTabItem = rpItem as TabItem;
-            if (rTabItem == null)
-                return null;
-
-            rpItem = rTabItem.Content;
+            rpItem = rTabItem?.Content ?? rpItem;
 
             if (rpItem == null || r_ItemsHolder == null)
                 return null;
