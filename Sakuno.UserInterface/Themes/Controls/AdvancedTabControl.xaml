@@ -45,7 +45,13 @@
                             <Rectangle Fill="{DynamicResource ActiveBackgroundBrushKey}" Grid.Row="1" />
 
                             <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" Grid.Row="2">
-                                <Grid Name="PART_ItemsHolder" />
+                                <ruic:AdvancedTabContentItemsControl x:Name="PART_ContentItemsControl" ItemsSource="{Binding Contents, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <ruic:AdvancedTabContentItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <ruic:AdvancedTabContentPanel />
+                                        </ItemsPanelTemplate>
+                                    </ruic:AdvancedTabContentItemsControl.ItemsPanel>
+                                </ruic:AdvancedTabContentItemsControl>
                             </Border>
                         </Grid>
                     </Border>

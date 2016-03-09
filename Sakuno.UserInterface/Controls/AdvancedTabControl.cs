@@ -4,6 +4,7 @@ using Sakuno.UserInterface.Internal;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
@@ -14,6 +15,8 @@ using System.Windows.Input;
 
 namespace Sakuno.UserInterface.Controls
 {
+    [TemplatePart(Name = "PART_HeaderItemsControl", Type = typeof(AdvancedTabHeaderItemsControl))]
+    [TemplatePart(Name = "PART_ContentItemsControl", Type = typeof(AdvancedTabContentItemsControl))]
     public class AdvancedTabControl : TabControl
     {
         public static readonly DependencyProperty DisableTabReorderProperty = DependencyProperty.Register(nameof(DisableTabReorder), typeof(bool), typeof(AdvancedTabControl), new UIPropertyMetadata(BooleanUtil.False));
@@ -37,10 +40,11 @@ namespace Sakuno.UserInterface.Controls
 
         static HashSet<AdvancedTabControl> r_Instances = new HashSet<AdvancedTabControl>();
 
-        List<object> r_ItemsPendingToAdd;
-
         AdvancedTabHeaderItemsControl r_HeaderItemsControl;
-        Panel r_ItemsHolder;
+
+        AdvancedTabContentItemsControl r_ContentItemsControl;
+        ObservableCollection<ContentPresenter> r_Contents;
+        public ReadOnlyObservableCollection<ContentPresenter> Contents { get; }
 
         WeakReference<object> r_PreviousSelection;
 
@@ -55,6 +59,9 @@ namespace Sakuno.UserInterface.Controls
         }
         public AdvancedTabControl()
         {
+            r_Contents = new ObservableCollection<ContentPresenter>();
+            Contents = new ReadOnlyObservableCollection<ContentPresenter>(r_Contents);
+
             Loaded += (s, e) => r_Instances.Add(this);
             Unloaded += (s, e) => r_Instances.Remove(this);
         }
@@ -76,14 +83,7 @@ namespace Sakuno.UserInterface.Controls
                 r_HeaderItemsControl.ItemContainerGenerator.StatusChanged += ItemContainerGenerator_StatusChanged;
             }
 
-            r_ItemsHolder = Template.FindName("PART_ItemsHolder", this) as Panel;
-            if (r_ItemsHolder != null && r_ItemsPendingToAdd!=null)
-            {
-                foreach (var rItem in r_ItemsPendingToAdd)
-                    CreateItemContentPresenter(rItem);
-
-                r_ItemsPendingToAdd = null;
-            }
+            r_ContentItemsControl = Template.FindName("PART_ContentItemsControl", this) as AdvancedTabContentItemsControl;
 
             if (SelectedItem == null)
                 SetCurrentValue(SelectedItemProperty, Items.OfType<object>().FirstOrDefault());
@@ -127,11 +127,11 @@ namespace Sakuno.UserInterface.Controls
         {
             base.OnItemsSourceChanged(rpOldValue, rpNewValue);
 
-            if (r_ItemsHolder == null)
-                r_ItemsPendingToAdd = rpNewValue.OfType<object>().ToList();
-            else
-                foreach (var rItem in rpNewValue)
-                    CreateItemContentPresenter(rItem);
+            if (rpNewValue == null)
+                return;
+
+            foreach (var rItem in rpNewValue)
+                CreateItemContentPresenter(rItem);
         }
 
         protected override void OnSelectionChanged(SelectionChangedEventArgs e)
@@ -156,9 +156,6 @@ namespace Sakuno.UserInterface.Controls
         {
             base.OnItemsChanged(e);
 
-            if (r_ItemsHolder == null)
-                return;
-
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
@@ -170,7 +167,7 @@ namespace Sakuno.UserInterface.Controls
                     {
                         var rContentPresenter = GetItemContentPresenter(rRemovedItem);
                         if (rContentPresenter != null)
-                            r_ItemsHolder.Children.Remove(rContentPresenter);
+                            r_Contents.Remove(rContentPresenter);
                     }
 
                     if (SelectedItem == null)
@@ -186,7 +183,7 @@ namespace Sakuno.UserInterface.Controls
                     break;
 
                 case NotifyCollectionChangedAction.Reset:
-                    r_ItemsHolder.Children.Clear();
+                    r_Contents.Clear();
 
                     if (Items.Count > 0)
                     {
@@ -199,12 +196,14 @@ namespace Sakuno.UserInterface.Controls
 
         void UpdateSelectedItem()
         {
-            if (r_ItemsHolder != null)
-                CreateItemContentPresenter(SelectedItem);
+            CreateItemContentPresenter(SelectedItem);
+
+            if (r_ContentItemsControl != null)
+                r_ContentItemsControl.SelectedIndex = SelectedIndex;
         }
         void CreateItemContentPresenter(object rpItem)
         {
-            if (rpItem == null || r_ItemsHolder == null)
+            if (rpItem == null)
                 return;
 
             var rContentPresenter = GetItemContentPresenter(rpItem);
@@ -223,17 +222,17 @@ namespace Sakuno.UserInterface.Controls
             };
             rContentPresenter.SetBinding(MarginProperty, new Binding() { Path = new PropertyPath(PaddingProperty), Source = this });
 
-            r_ItemsHolder.Children.Add(rContentPresenter);
+            r_Contents.Add(rContentPresenter);
         }
         ContentPresenter GetItemContentPresenter(object rpItem)
         {
             var rTabItem = rpItem as TabItem;
             rpItem = rTabItem?.Content ?? rpItem;
 
-            if (rpItem == null || r_ItemsHolder == null)
+            if (rpItem == null)
                 return null;
 
-            return r_ItemsHolder.Children.OfType<ContentPresenter>().FirstOrDefault(r => r.Content == rpItem);
+            return r_Contents.FirstOrDefault(r => r.Content == rpItem);
         }
 
         internal void AddItem(object rpItem)
@@ -268,7 +267,7 @@ namespace Sakuno.UserInterface.Controls
 
             var rContentPresenter = GetItemContentPresenter(rItem);
             if (rContentPresenter != null)
-                r_ItemsHolder.Children.Remove(rContentPresenter);
+                r_Contents.Remove(rContentPresenter);
 
             if (Items.Count > 0)
                 return rItem;
@@ -358,7 +357,7 @@ namespace Sakuno.UserInterface.Controls
 
                     var rContentPresenter = GetItemContentPresenter(rItem);
                     if (rContentPresenter != null)
-                        r_ItemsHolder.Children.Remove(rContentPresenter);
+                        r_Contents.Remove(rContentPresenter);
 
                     if (Items.Count == 0)
                         DockableZone.MergeDockGroup(this);

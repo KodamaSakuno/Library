@@ -50,8 +50,10 @@
   <ItemGroup>
     <Compile Include="Behaviors\GlowWindowBehavior.cs" />
     <Compile Include="Behaviors\TaskbarThumbnailBehavior.cs" />
+    <Compile Include="Controls\AdvancedTabContentItemsControl.cs" />
     <Compile Include="Controls\AdvancedTabControl.cs" />
     <Compile Include="Controls\AdvancedTabHeaderItemsControl.cs" />
+    <Compile Include="Controls\AdvancedTabContentPanel.cs" />
     <Compile Include="Controls\AdvancedTabThumbDragEvents.cs" />
     <Compile Include="Controls\DockableZone.cs" />
     <Compile Include="Controls\Docking\DockAdorner.cs" />
