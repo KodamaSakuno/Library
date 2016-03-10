@@ -240,7 +240,7 @@ namespace Sakuno.UserInterface.Controls
         internal void AddItem(object rpItem)
         {
             CollectionTeaser rCollectionTeaser;
-            if (CollectionTeaser.TryCreate(ItemsSource, out rCollectionTeaser))
+            if (CollectionTeaser.TryCreate(ItemsSource, rpItem.GetType(), out rCollectionTeaser))
             {
                 rCollectionTeaser.Add(rpItem);
                 return;
@@ -252,7 +252,7 @@ namespace Sakuno.UserInterface.Controls
         void RemoveItem(object rpItem)
         {
             CollectionTeaser rCollectionTeaser;
-            if (CollectionTeaser.TryCreate(ItemsSource, out rCollectionTeaser))
+            if (CollectionTeaser.TryCreate(ItemsSource, rpItem.GetType(), out rCollectionTeaser))
             {
                 rCollectionTeaser.Remove(rpItem);
                 return;
@@ -411,7 +411,19 @@ namespace Sakuno.UserInterface.Controls
             var rTarget = rInfos.FirstOrDefault(r => r.Rect.Contains(new Point(rMousePosition.X, rMousePosition.Y)));
             if (rTarget != null)
             {
-                var rItem = RemoveItem(e.Item);
+                var rItem = r_HeaderItemsControl.ItemContainerGenerator.ItemFromContainer(e.Item);
+                if (rTarget.TabControl.ItemsSource != null)
+                {
+                    var rList = rTarget.TabControl.ItemsSource as IList;
+                    if (rList != null)
+                    {
+                        var rElementType = rList.GetType().GetGenericArguments()?[0];
+                        if (rElementType == null || !rItem.GetType().IsSubclassOf(rElementType))
+                            return false;
+                    }
+                }
+
+                RemoveItem(e.Item);
 
                 rTarget.TabControl.ReceiveDrag(rItem);
 
