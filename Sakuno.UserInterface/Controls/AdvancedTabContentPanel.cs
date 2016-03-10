@@ -50,8 +50,8 @@ namespace Sakuno.UserInterface.Controls
             {
                 var rPosition = new GeneratorPosition(i, 0);
                 var rItemIndex = rpGenerator.IndexFromGeneratorPosition(rPosition);
-
-                rpGenerator.Remove(rPosition, 1);
+                if (rItemIndex != -1)
+                    rpGenerator.Remove(rPosition, 1);
                 RemoveInternalChildRange(i, 1);
             }
         }
