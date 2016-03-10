@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media.Animation;
 
 namespace Sakuno.UserInterface.Controls
 {
@@ -24,7 +25,7 @@ namespace Sakuno.UserInterface.Controls
 
             var rOwner = ItemsControl.GetItemsOwner(this) as AdvancedTabContentItemsControl;
             if (rOwner == null)
-                return base.MeasureOverride(rpAvailableSize);
+                return rpAvailableSize;
 
             if (rOwner.Panel == null || rOwner.Panel != this)
                 rOwner.Panel = this;
@@ -34,8 +35,11 @@ namespace Sakuno.UserInterface.Controls
             var rChildren = InternalChildren;
             var rGenerator = ItemContainerGenerator;
 
-            Cleanup(rChildren, rGenerator);
-            Generate(rpAvailableSize, rGenerator);
+            if (rChildren.Count < 2 || ViewportOffset == .0)
+            {
+                Cleanup(rChildren, rGenerator);
+                Generate(rpAvailableSize, rGenerator);
+            }
 
             return rpAvailableSize;
         }
@@ -54,19 +58,27 @@ namespace Sakuno.UserInterface.Controls
         void Generate(Size rpAvailableSize, IItemContainerGenerator rpGenerator)
         {
             var rPosition = rpGenerator.GeneratorPositionFromIndex(r_SelectedItemIndex);
-            using (rpGenerator.StartAt(rPosition, GeneratorDirection.Forward, true))
+            var rDirection = ViewportOffset < .0 ? GeneratorDirection.Forward : GeneratorDirection.Backward;
+            using (rpGenerator.StartAt(rPosition, rDirection, true))
             {
-                bool rIsNewlyRealized;
-                var rChild = (UIElement)rpGenerator.GenerateNext(out rIsNewlyRealized);
+                GenerateNextElement(rpAvailableSize, rpGenerator);
 
-                if (rIsNewlyRealized)
-                {
-                    AddInternalChild(rChild);
-                    rpGenerator.PrepareItemContainer(rChild);
-                }
-
-                rChild.Measure(rpAvailableSize);
+                if (Math.Abs(ViewportOffset) > .0)
+                    GenerateNextElement(rpAvailableSize, rpGenerator);
             }
+        }
+        void GenerateNextElement(Size rpAvailableSize, IItemContainerGenerator rpGenerator)
+        {
+            bool rIsNewlyRealized;
+            var rChild = (UIElement)rpGenerator.GenerateNext(out rIsNewlyRealized);
+
+            if (rIsNewlyRealized)
+            {
+                AddInternalChild(rChild);
+                rpGenerator.PrepareItemContainer(rChild);
+            }
+
+            rChild?.Measure(rpAvailableSize);
         }
 
         protected override Size ArrangeOverride(Size rpFinalSize)
@@ -74,10 +86,32 @@ namespace Sakuno.UserInterface.Controls
             if (InternalChildren.Count == 0 || r_SelectedItemIndex < 0)
                 return rpFinalSize;
 
-            var rRect = new Rect(.0, .0, rpFinalSize.Width, rpFinalSize.Height);
+            var rRect = new Rect(ViewportOffset, .0, rpFinalSize.Width, rpFinalSize.Height);
             InternalChildren[0].Arrange(rRect);
 
+            if (InternalChildren.Count > 1)
+            {
+                if (ViewportOffset < .0)
+                    rRect.X = rpFinalSize.Width + ViewportOffset;
+                else
+                    rRect.X = -rpFinalSize.Width + ViewportOffset;
+
+                InternalChildren[1].Arrange(rRect);
+            }
+
             return rpFinalSize;
+        }
+
+        internal void SetViewportOffset(double rpOffset, Action rpContinuationAction = null)
+        {
+            var rAnimation = new DoubleAnimation(rpOffset, new Duration(TimeSpan.FromMilliseconds(200.0)), FillBehavior.Stop) { EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut } };
+            rAnimation.WhenComplete(() =>
+            {
+                ViewportOffset = .0;
+                rpContinuationAction?.Invoke();
+            });
+
+            BeginAnimation(ViewportOffsetProperty, rAnimation);
         }
     }
 }

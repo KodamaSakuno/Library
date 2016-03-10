@@ -14,6 +14,7 @@ namespace Sakuno.UserInterface.Controls
             internal set { SetValue(SelectedIndexPropertyKey, value); }
         }
 
+        internal AdvancedTabControl Owner { get; set; }
         internal AdvancedTabContentPanel Panel { get; set; }
     }
 }

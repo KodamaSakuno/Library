@@ -84,6 +84,8 @@ namespace Sakuno.UserInterface.Controls
             }
 
             r_ContentItemsControl = Template.FindName("PART_ContentItemsControl", this) as AdvancedTabContentItemsControl;
+            if (r_ContentItemsControl != null)
+                r_ContentItemsControl.Owner = this;
 
             if (SelectedItem == null)
                 SetCurrentValue(SelectedItemProperty, Items.OfType<object>().FirstOrDefault());
