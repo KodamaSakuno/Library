@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="ArrayExtensions.cs" />
     <Compile Include="BooleanUtil.cs" />
+    <Compile Include="Collections\HybridDictionary`TKey`TValue.cs" />
+    <Compile Include="Collections\ListDictionary`TKey`TValue.cs" />
     <Compile Include="Collections\ObservableRangeCollection.cs" />
     <Compile Include="ComparableExtensions.cs" />
     <Compile Include="Converters\EqualityToBooleanConverter.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="DoubleUtil.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="EventListener`T.cs" />
+    <Compile Include="IdentityFunction`T.cs" />
     <Compile Include="MathUtil.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="OS.cs" />
