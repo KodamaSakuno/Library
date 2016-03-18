@@ -69,6 +69,7 @@
     <Compile Include="Controls\ResizeGrip.cs" />
     <Compile Include="Controls\SplitButton.cs" />
     <Compile Include="Controls\TabController.cs" />
+    <Compile Include="Internal\SwipeDirection.cs" />
     <Compile Include="ScreenOrientation.cs" />
     <Compile Include="Controls\WindowSystemButtons.cs" />
     <Compile Include="Controls\WindowAction.cs" />
