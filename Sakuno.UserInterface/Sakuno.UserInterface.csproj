@@ -61,6 +61,7 @@
     <Compile Include="Controls\DropDownButton.cs" />
     <Compile Include="Controls\GlowWindow.cs" />
     <Compile Include="Controls\IDragableTabNewHostProvider.cs" />
+    <Compile Include="Controls\IWindowPlacementPreference.cs" />
     <Compile Include="Controls\MetroWindow.cs" />
     <Compile Include="Controls\ResizeGrip.cs" />
     <Compile Include="Controls\DragableTabPanel.cs" />

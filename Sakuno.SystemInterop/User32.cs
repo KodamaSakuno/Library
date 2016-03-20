@@ -26,6 +26,13 @@ namespace Sakuno.SystemInterop
             public static extern bool GetWindowRect(IntPtr hWnd, out NativeStructs.RECT lpRect);
 
             [return: MarshalAs(UnmanagedType.Bool)]
+            [DllImport(DllName, SetLastError = true)]
+            public static extern bool GetWindowPlacement(IntPtr hWnd, out NativeStructs.WINDOWPLACEMENT lpwndpl);
+            [return: MarshalAs(UnmanagedType.Bool)]
+            [DllImport(DllName, SetLastError = true)]
+            public static extern bool SetWindowPlacement(IntPtr hWnd, ref NativeStructs.WINDOWPLACEMENT lpwndpl);
+
+            [return: MarshalAs(UnmanagedType.Bool)]
             [DllImport(DllName)]
             public static extern bool GetCursorPos(out NativeStructs.POINT lpPoint);
 

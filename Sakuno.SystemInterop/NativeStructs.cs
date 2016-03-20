@@ -72,6 +72,17 @@ namespace Sakuno.SystemInterop
         }
 
         [StructLayout(LayoutKind.Sequential)]
+        public struct WINDOWPLACEMENT
+        {
+            public int length;
+            public int flags;
+            public NativeConstants.ShowCommands showCmd;
+            public POINT rpMinPosition;
+            public POINT rpMaxPosition;
+            public RECT rcNormalPosition;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
         public struct INTERNET_CACHE_ENTRY_INFO
         {
             public uint dwStructSize;
