@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
 namespace Sakuno.Collections
@@ -200,21 +199,33 @@ namespace Sakuno.Collections
         }
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        void ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> rpItem)
+        void ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> rpItem) => Add(rpItem.Key, rpItem.Value);
+        bool ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> rpItem)
         {
-            throw new NotImplementedException();
+            TValue rValue;
+            if (TryGetValue(rpItem.Key, out rValue) && EqualityComparer<TValue>.Default.Equals(rValue, rpItem.Value))
+            {
+                Remove(rpItem.Key);
+                return true;
+            }
+
+            return false;
         }
         bool ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> rpItem)
         {
-            throw new NotImplementedException();
+            TValue rValue;
+            if (TryGetValue(rpItem.Key, out rValue))
+                return EqualityComparer<TValue>.Default.Equals(rValue, rpItem.Value);
+
+            return false;
         }
-        void ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] roArray, int rpArrayIndex)
+        void ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] rpArray, int rpIndex)
         {
-            throw new NotImplementedException();
-        }
-        bool ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> rpItem)
-        {
-            throw new NotImplementedException();
+            if (r_Dictionary != null)
+                ((ICollection<KeyValuePair<TKey, TValue>>)r_Dictionary).CopyTo(rpArray, rpIndex);
+
+            if (r_ListDictionary != null)
+                ((ICollection<KeyValuePair<TKey, TValue>>)r_ListDictionary).CopyTo(rpArray, rpIndex);
         }
     }
 }

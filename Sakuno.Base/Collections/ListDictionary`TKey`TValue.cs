@@ -197,21 +197,35 @@ namespace Sakuno.Collections
         }
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        void ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> rpItem)
+        void ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> rpItem) => Add(rpItem.Key, rpItem.Value);
+        bool ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> rpItem)
         {
-            throw new NotImplementedException();
+            TValue rValue;
+            if (TryGetValue(rpItem.Key, out rValue) && EqualityComparer<TValue>.Default.Equals(rValue, rpItem.Value))
+            {
+                Remove(rpItem.Key);
+                return true;
+            }
+
+            return false;
         }
         bool ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> rpItem)
         {
-            throw new NotImplementedException();
+            TValue rValue;
+            if (TryGetValue(rpItem.Key, out rValue))
+                return EqualityComparer<TValue>.Default.Equals(rValue, rpItem.Value);
+
+            return false;
         }
-        void ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] roArray, int rpArrayIndex)
+        void ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] rpArray, int rpIndex)
         {
-            throw new NotImplementedException();
-        }
-        bool ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> rpItem)
-        {
-            throw new NotImplementedException();
+            if (rpArray == null)
+                throw new ArgumentNullException(nameof(rpArray));
+            if (rpIndex < 0 || rpArray.Length - rpIndex < r_Count)
+                throw new ArgumentOutOfRangeException(nameof(rpIndex));
+
+            for (var rCurrent = r_Head; rCurrent != null; rCurrent = rCurrent.Next)
+                rpArray[rpIndex++] = new KeyValuePair<TKey, TValue>(rCurrent.Key, rCurrent.Value);
         }
 
         class Node
