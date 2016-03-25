@@ -1,4 +1,5 @@
-﻿using Sakuno.SystemInterop;
+﻿using Sakuno.Collections;
+using Sakuno.SystemInterop;
 using Sakuno.UserInterface.Controls.Docking;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace Sakuno.UserInterface.Controls
         }
 
         static HashSet<DockableZone> r_Instances = new HashSet<DockableZone>();
-        static Dictionary<Window, List<DockableZone>> r_InstancesGroupByWindow = new Dictionary<Window, List<DockableZone>>();
+        static HybridDictionary<Window, List<DockableZone>> r_InstancesGroupByWindow = new HybridDictionary<Window, List<DockableZone>>();
 
         static DockAdornerWindow r_DockAdornerWindow;
 

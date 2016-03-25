@@ -1,4 +1,5 @@
-﻿using Sakuno.SystemInterop;
+﻿using Sakuno.Collections;
+using Sakuno.SystemInterop;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -13,7 +14,7 @@ namespace Sakuno.UserInterface.Controls.Docking
     [TemplatePart(Name = "PART_BottomDockAdorner", Type = typeof(DockAdorner))]
     public class DockAdornerWindow : Control
     {
-        Dictionary<DockDirection, DockAdorner> r_DockAdorners = new Dictionary<DockDirection, DockAdorner>();
+        ListDictionary<DockDirection, DockAdorner> r_DockAdorners = new ListDictionary<DockDirection, DockAdorner>();
         internal IEnumerable<DockAdorner> DockAdorners => r_DockAdorners.Values;
 
         HwndSource r_HwndSource;
