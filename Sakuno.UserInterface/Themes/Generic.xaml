@@ -2,8 +2,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
 
-        <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/DragableTabControl.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/DragableTabItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/AdvancedTabControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/AdvancedTabHeaderItemsControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/AdvancedTabItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/DockableZone.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/Docking/DockAdorner.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/Docking/DockAdornerWindow.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/Docking/DockGroup.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/DropDownButton.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/WindowCaptionButton.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Themes/Controls/WindowSystemButtons.xaml" />
