@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Sakuno.UserInterface.Controls.Docking
 {
@@ -15,7 +17,7 @@ namespace Sakuno.UserInterface.Controls.Docking
         }
 
         public static readonly DependencyProperty FirstItemProperty = DependencyProperty.Register(nameof(FirstItem), typeof(object), typeof(DockGroup),
-            new UIPropertyMetadata(null, (s, e) => ((DockGroup)s).IsFirstItemGeneralElement = !(e.NewValue is DockGroup || e.NewValue is AdvancedTabControl)));
+            new UIPropertyMetadata(null, (s, e) => ((DockGroup)s).IsFirstItemGeneralElement = CheckIsGeneralElement(e.NewValue)));
         public object FirstItem
         {
             get { return GetValue(FirstItemProperty); }
@@ -30,7 +32,7 @@ namespace Sakuno.UserInterface.Controls.Docking
         }
 
         public static readonly DependencyProperty SecondItemProperty = DependencyProperty.Register(nameof(SecondItem), typeof(object), typeof(DockGroup),
-            new UIPropertyMetadata(null, (s, e) => ((DockGroup)s).IsSecondItemGeneralElement = !(e.NewValue is DockGroup || e.NewValue is AdvancedTabControl)));
+            new UIPropertyMetadata(null, (s, e) => ((DockGroup)s).IsSecondItemGeneralElement = CheckIsGeneralElement(e.NewValue)));
         public object SecondItem
         {
             get { return GetValue(SecondItemProperty); }
@@ -73,6 +75,26 @@ namespace Sakuno.UserInterface.Controls.Docking
 
             FirstItemContentPresenter = Template.FindName("PART_FirstItemContentPresenter", this) as ContentPresenter;
             SecondItemContentPresenter = Template.FindName("PART_SecondItemContentPresenter", this) as ContentPresenter;
+        }
+
+        static bool CheckIsGeneralElement(object rpObject)
+        {
+            var rCurrent = rpObject as DependencyObject;
+            if (rCurrent == null)
+                return true;
+
+            do
+            {
+                if (rCurrent is DockGroup || rCurrent is AdvancedTabControl)
+                    return false;
+
+                var rCount = VisualTreeHelper.GetChildrenCount(rCurrent);
+                if (rCount == 0)
+                    return true;
+
+                rCurrent = VisualTreeHelper.GetChild(rCurrent, 0);
+
+            } while (true);
         }
     }
 }
