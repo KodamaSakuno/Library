@@ -53,9 +53,9 @@ namespace Sakuno.UserInterface.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(AdvancedTabControl), new FrameworkPropertyMetadata(typeof(AdvancedTabControl)));
 
             EventManager.RegisterClassHandler(typeof(AdvancedTabControl), AdvancedTabItem.DragStartedEvent, new AdvancedTabDragStartedEventHandler((s, e) => ((AdvancedTabControl)s).OnItemDragStarted(e)), true);
-            EventManager.RegisterClassHandler(typeof(AdvancedTabControl), AdvancedTabItem.PreviewDragDeltaEvent, new AdvancedTabDragDeltaEventHandler((s, e) => ((AdvancedTabControl)s).OnItemPreviewDragDelta(e)), true);
-            EventManager.RegisterClassHandler(typeof(AdvancedTabControl), AdvancedTabItem.DragDeltaEvent, new AdvancedTabDragDeltaEventHandler((s, e) => ((AdvancedTabControl)s).OnItemDragDelta(e)), true);
-            EventManager.RegisterClassHandler(typeof(AdvancedTabControl), AdvancedTabItem.DragCompletedEvent, new AdvancedTabDragCompletedEventHandler((s, e) => ((AdvancedTabControl)s).OnItemDragCompleted(e)), true);
+            EventManager.RegisterClassHandler(typeof(AdvancedTabControl), AdvancedTabItem.PreviewDragDeltaEvent, new AdvancedTabDragDeltaEventHandler((s, e) => ((AdvancedTabControl)s).OnItemPreviewDragDelta(e)));
+            EventManager.RegisterClassHandler(typeof(AdvancedTabControl), AdvancedTabItem.DragDeltaEvent, new AdvancedTabDragDeltaEventHandler((s, e) => ((AdvancedTabControl)s).OnItemDragDelta(e)));
+            EventManager.RegisterClassHandler(typeof(AdvancedTabControl), AdvancedTabItem.DragCompletedEvent, new AdvancedTabDragCompletedEventHandler((s, e) => ((AdvancedTabControl)s).OnItemDragCompleted(e)));
         }
         public AdvancedTabControl()
         {
@@ -329,7 +329,10 @@ namespace Sakuno.UserInterface.Controls
         void OnItemDragDelta(AdvancedTabDragDeltaEventArgs e)
         {
             if (TabController == null)
+            {
+                e.Handled = true;
                 return;
+            }
 
             if (TabController.TearOffController == null)
                 throw new InvalidOperationException("A TearOffController must be provided.");
@@ -412,15 +415,13 @@ namespace Sakuno.UserInterface.Controls
             if (rTarget != null)
             {
                 var rItem = r_HeaderItemsControl.ItemContainerGenerator.ItemFromContainer(e.Item);
-                if (rTarget.TabControl.ItemsSource != null)
+
+                var rList = rTarget.TabControl.ItemsSource as IList;
+                if (rList != null)
                 {
-                    var rList = rTarget.TabControl.ItemsSource as IList;
-                    if (rList != null)
-                    {
-                        var rElementType = rList.GetType().GetGenericArguments()?[0];
-                        if (rElementType == null || !rItem.GetType().IsSubclassOf(rElementType))
-                            return false;
-                    }
+                    var rElementType = rList.GetType().GetGenericArguments()?[0];
+                    if (rElementType == null || !rItem.GetType().IsSubclassOf(rElementType))
+                        return false;
                 }
 
                 RemoveItem(e.Item);
