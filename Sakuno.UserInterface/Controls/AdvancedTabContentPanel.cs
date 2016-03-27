@@ -17,20 +17,25 @@ namespace Sakuno.UserInterface.Controls
             set { SetValue(ViewportOffsetProperty, value); }
         }
 
-        internal static readonly DependencyProperty DirectionProperty = DependencyProperty.Register(nameof(SwipeDirection), typeof(SwipeDirection), typeof(AdvancedTabContentPanel),
+        internal static readonly DependencyProperty SwipeDirectionProperty = DependencyProperty.Register(nameof(SwipeDirection), typeof(SwipeDirection), typeof(AdvancedTabContentPanel),
             new FrameworkPropertyMetadata(SwipeDirection.None, FrameworkPropertyMetadataOptions.AffectsMeasure, (s, e) => ((AdvancedTabContentPanel)s).OnDirectionChanged((SwipeDirection)e.OldValue, (SwipeDirection)e.NewValue)));
         internal SwipeDirection SwipeDirection
         {
-            get { return (SwipeDirection)GetValue(DirectionProperty); }
-            set { SetValue(DirectionProperty, value); }
+            get { return (SwipeDirection)GetValue(SwipeDirectionProperty); }
+            set { SetValue(SwipeDirectionProperty, value); }
         }
 
         internal int SelectedItemIndex { get; set; }
 
+        internal bool IsSwitchingContent { get; set; }
+
         void OnDirectionChanged(SwipeDirection rpOldValue, SwipeDirection rpNewValue)
         {
-            if (InternalChildren.Count == 2 && (rpNewValue == SwipeDirection.None || (rpOldValue == SwipeDirection.Forward && rpNewValue == SwipeDirection.Backward) || (rpOldValue == SwipeDirection.Backward && rpNewValue == SwipeDirection.Forward)))
-                Cleanup(1);
+            if (InternalChildren.Count == 2)
+                if (rpNewValue == SwipeDirection.None)
+                    Cleanup(IsSwitchingContent ? 0 : 1);
+                else if ((rpOldValue == SwipeDirection.Forward && rpNewValue == SwipeDirection.Backward) || (rpOldValue == SwipeDirection.Backward && rpNewValue == SwipeDirection.Forward))
+                    Cleanup(1);
 
             switch (rpNewValue)
             {
