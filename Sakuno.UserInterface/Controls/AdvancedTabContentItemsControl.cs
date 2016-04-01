@@ -40,33 +40,40 @@ namespace Sakuno.UserInterface.Controls
         {
             e.ManipulationContainer = this;
             e.Mode = ManipulationModes.TranslateX;
+
+            e.Handled = true;
         }
         protected override void OnManipulationDelta(ManipulationDeltaEventArgs e)
         {
-            var rDelta = e.DeltaManipulation.Translation.X;
-            if (rDelta == .0)
-                return;
+            var rTranslation = e.CumulativeManipulation.Translation.X;
 
-            if ((rDelta > .0 && Owner.SelectedIndex == 0) || (rDelta < .0 && Owner.SelectedIndex == Owner.Items.Count - 1))
+            if ((rTranslation > .0 && Owner.SelectedIndex == 0) || (rTranslation < .0 && Owner.SelectedIndex == Owner.Items.Count - 1))
             {
-                var rOffset = Math.Sqrt(Math.Abs(rDelta));
-                if (rDelta < .0)
-                    rOffset *= -1.0;
+                var rSquareRootOfTranslation = Math.Sqrt(Math.Abs(rTranslation));
+                if (rTranslation < .0)
+                    rSquareRootOfTranslation *= -1.0;
 
-                Panel.ViewportOffset = rOffset;
+                Panel.ViewportOffset = rSquareRootOfTranslation;
             }
             else
             {
-                Panel.SwipeDirection = rDelta > .0 ? SwipeDirection.Backward : SwipeDirection.Forward;
-                Panel.ViewportOffset = rDelta;
+                Panel.SwipeDirection = rTranslation > .0 ? SwipeDirection.Backward : SwipeDirection.Forward;
+                Panel.ViewportOffset = rTranslation;
             }
+
+            e.Handled = true;
         }
         protected override void OnManipulationCompleted(ManipulationCompletedEventArgs e)
         {
-            Complete(e.TotalManipulation.Translation.X);
+            if (e.TotalManipulation.Translation == default(Vector) && e.FinalVelocities.LinearVelocity == default(Vector))
+                e.Cancel();
+            else
+                Complete(e.TotalManipulation.Translation.X, e.FinalVelocities.LinearVelocity);
+
+            e.Handled = true;
         }
 
-        void Complete(double rpOffset)
+        void Complete(double rpOffset, Vector rpVelocity)
         {
             if (Panel == null)
                 return;
@@ -74,21 +81,35 @@ namespace Sakuno.UserInterface.Controls
             var rIndex = SelectedIndex;
 
             var rRatio = Math.Abs(rpOffset) / Panel.ActualWidth;
-            if (rRatio < .5)
-                Panel?.SetViewportOffset(.0);
+            if (rRatio < .5 && Math.Abs(rpVelocity.X) < 1.0)
+                Panel.SetViewportOffset(.0);
             else if (rpOffset > .0)
             {
-                if (rIndex > 0)
-                    Panel.SetViewportOffset(Panel.ActualWidth, () => Owner.SelectedIndex--);
+                if (rIndex == 0)
+                    Panel.SetViewportOffset(.0);
                 else
-                    Panel?.SetViewportOffset(.0);
+                {
+                    Panel.IsSwitchingContent = true;
+                    Panel.SetViewportOffset(Panel.ActualWidth, () =>
+                    {
+                        Owner.SelectedIndex--;
+                        Panel.IsSwitchingContent = false;
+                    });
+                }
             }
             else
             {
-                if (rIndex < Owner.Items.Count - 1)
-                    Panel.SetViewportOffset(-Panel.ActualWidth, () => Owner.SelectedIndex++);
-                else
+                if (rIndex == Owner.Items.Count - 1)
                     Panel?.SetViewportOffset(.0);
+                else
+                {
+                    Panel.IsSwitchingContent = true;
+                    Panel.SetViewportOffset(-Panel.ActualWidth, () =>
+                    {
+                        Owner.SelectedIndex++;
+                        Panel.IsSwitchingContent = false;
+                    });
+                }
             }
         }
     }
