@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Interactivity;
 using System.Windows.Interop;
 using System.Windows.Shell;
+using System.ComponentModel;
 
 namespace Sakuno.UserInterface.Controls
 {
@@ -18,6 +19,14 @@ namespace Sakuno.UserInterface.Controls
         {
             get { return (GlowWindowBehavior)GetValue(GlowWindowBehaviorProperty); }
             set { SetValue(GlowWindowBehaviorProperty, value); }
+        }
+
+        public static readonly DependencyProperty WindowPlacementPreferenceProperty = DependencyProperty.Register(nameof(WindowPlacementPreference), typeof(IWindowPlacementPreference), typeof(MetroWindow),
+            new UIPropertyMetadata(null));
+        public IWindowPlacementPreference WindowPlacementPreference
+        {
+            get { return (IWindowPlacementPreference)GetValue(WindowPlacementPreferenceProperty); }
+            set { SetValue(WindowPlacementPreferenceProperty, value); }
         }
 
         public static readonly DependencyProperty IsCaptionBarProperty = DependencyProperty.RegisterAttached("IsCaptionBar", typeof(bool), typeof(MetroWindow),
@@ -88,6 +97,23 @@ namespace Sakuno.UserInterface.Controls
                 r_HwndSource.AddHook(WndProc);
 
                 InitializeScreenOrientation();
+
+                if (WindowPlacementPreference != null)
+                {
+                    var rPlacementData = WindowPlacementPreference.Load(this);
+                    if (rPlacementData.HasValue)
+                    {
+                        var rPlacement = rPlacementData.Value;
+
+                        rPlacement.length = Marshal.SizeOf(typeof(NativeStructs.WINDOWPLACEMENT));
+                        rPlacement.flags = 0;
+
+                        if (rPlacement.showCmd == NativeConstants.ShowCommands.SW_SHOWMINIMIZED)
+                            rPlacement.showCmd = NativeConstants.ShowCommands.SW_SHOWNORMAL;
+
+                        NativeMethods.User32.SetWindowPlacement(r_HwndSource.Handle, ref rPlacement);
+                    }
+                }
             }
         }
         void InitializeScreenOrientation()
@@ -127,5 +153,17 @@ namespace Sakuno.UserInterface.Controls
             return IntPtr.Zero;
         }
 
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+
+            if (!e.Cancel && WindowPlacementPreference != null)
+            {
+                NativeStructs.WINDOWPLACEMENT rPlacement;
+                NativeMethods.User32.GetWindowPlacement(r_HwndSource.Handle, out rPlacement);
+
+                WindowPlacementPreference.Save(this, rPlacement);
+            }
+        }
     }
 }

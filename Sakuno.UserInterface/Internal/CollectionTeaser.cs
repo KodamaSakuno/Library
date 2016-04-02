@@ -16,16 +16,24 @@ namespace Sakuno.UserInterface.Internal
         public void Add(object rpItem) => r_Add(rpItem);
         public void Remove(object rpItem) => r_Remove(rpItem);
 
-        public static bool TryCreate(object rpCollection, out CollectionTeaser ropCollectionTeaser)
+        public static bool TryCreate(object rpCollection, Type rpItemType, out CollectionTeaser ropCollectionTeaser)
         {
             ropCollectionTeaser = null;
 
+            if (rpCollection == null)
+                return false;
+
             var rList = rpCollection as IList;
             if (rList != null)
-                ropCollectionTeaser = new CollectionTeaser(r => rList.Add(r), rList.Remove);
-            else
             {
+                var rElementType = rList.GetType().GetGenericArguments()?[0];
+                if (rElementType == null || !rpItemType.IsSubclassOf(rElementType))
+                    return false;
 
+                if (rList.IsReadOnly)
+                    return false;
+
+                ropCollectionTeaser = new CollectionTeaser(r => rList.Add(r), rList.Remove);
             }
 
             return ropCollectionTeaser != null;

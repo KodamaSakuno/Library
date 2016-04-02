@@ -79,17 +79,27 @@
   <ItemGroup>
     <Compile Include="Behaviors\GlowWindowBehavior.cs" />
     <Compile Include="Behaviors\TaskbarThumbnailBehavior.cs" />
-    <Compile Include="Controls\DragableTabControl.cs" />
-    <Compile Include="Controls\DragableTabNewHost.cs" />
-    <Compile Include="Controls\DragableTabThumbDragEventArgs.cs" />
-    <Compile Include="Controls\DragableTabItem.cs" />
+    <Compile Include="Controls\AdvancedTabContentItemsControl.cs" />
+    <Compile Include="Controls\AdvancedTabControl.cs" />
+    <Compile Include="Controls\AdvancedTabHeaderItemsControl.cs" />
+    <Compile Include="Controls\AdvancedTabContentPanel.cs" />
+    <Compile Include="Controls\AdvancedTabThumbDragEvents.cs" />
+    <Compile Include="Controls\DockableZone.cs" />
+    <Compile Include="Controls\Docking\DockAdorner.cs" />
+    <Compile Include="Controls\Docking\DockAdornerWindow.cs" />
+    <Compile Include="Controls\Docking\DockDirection.cs" />
+    <Compile Include="Controls\Docking\DockGroup.cs" />
+    <Compile Include="Controls\Docking\ITabDockingController.cs" />
+    <Compile Include="Controls\Docking\ITabTearOffController.cs" />
+    <Compile Include="Controls\Docking\TabEmptiedAction.cs" />
     <Compile Include="Controls\DropDownButton.cs" />
     <Compile Include="Controls\GlowWindow.cs" />
-    <Compile Include="Controls\IDragableTabNewHostProvider.cs" />
+    <Compile Include="Controls\IWindowPlacementPreference.cs" />
     <Compile Include="Controls\MetroWindow.cs" />
     <Compile Include="Controls\ResizeGrip.cs" />
-    <Compile Include="Controls\DragableTabPanel.cs" />
     <Compile Include="Controls\SplitButton.cs" />
+    <Compile Include="Controls\TabController.cs" />
+    <Compile Include="Internal\SwipeDirection.cs" />
     <Compile Include="ScreenOrientation.cs" />
     <Compile Include="Controls\WindowSystemButtons.cs" />
     <Compile Include="Controls\WindowAction.cs" />
@@ -106,7 +116,9 @@
     <Compile Include="Internal\GlowWindowProcessorLeft.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DependencyObjectExtensions.cs" />
+    <Compile Include="Controls\AdvancedTabItem.cs" />
     <Compile Include="TimelineExtensions.cs" />
+    <Compile Include="WindowUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sakuno.Base\Sakuno.Base.csproj">
@@ -118,7 +130,9 @@
       <Name>Sakuno.SystemInterop</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="Styles\Controls.xaml">
       <SubType>Designer</SubType>
@@ -141,6 +155,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Controls\FocusVisualStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Controls\GridSplitter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -180,11 +198,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Controls\DragableTabControl.xaml">
+    <Page Include="Themes\Controls\AdvancedTabControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Controls\DragableTabItem.xaml">
+    <Page Include="Themes\Controls\AdvancedTabHeaderItemsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\AdvancedTabItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\DockableZone.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\Docking\DockAdorner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\Docking\DockAdornerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\Docking\DockGroup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -229,7 +267,6 @@
     <Content Include="Effects\GrayscaleEffect.fx" />
     <Resource Include="Effects\GrayscaleEffect.ps" />
     <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -242,7 +279,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
   </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
