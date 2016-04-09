@@ -1,12 +1,12 @@
 ﻿using Sakuno.SystemInterop;
 using Sakuno.UserInterface.Behaviors;
 using System;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interactivity;
 using System.Windows.Interop;
 using System.Windows.Shell;
-using System.ComponentModel;
 
 namespace Sakuno.UserInterface.Controls
 {
@@ -30,7 +30,7 @@ namespace Sakuno.UserInterface.Controls
 
         public static readonly DependencyProperty IsCaptionBarProperty = DependencyProperty.RegisterAttached("IsCaptionBar", typeof(bool), typeof(MetroWindow),
             new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender, OnIsCaptionBarChanged));
-        public static void SetIsCaptionBar(FrameworkElement rpElement, Boolean rpValue) => rpElement.SetValue(IsCaptionBarProperty, rpValue);
+        public static void SetIsCaptionBar(FrameworkElement rpElement, bool rpValue) => rpElement.SetValue(IsCaptionBarProperty, rpValue);
         public static bool GetIsCaptionBar(FrameworkElement rpElement) => (bool)rpElement.GetValue(IsCaptionBarProperty);
 
         static readonly DependencyPropertyKey ScreenOrientationPropertyKey = DependencyProperty.RegisterReadOnly(nameof(ScreenOrientation), typeof(ScreenOrientation), typeof(MetroWindow),
