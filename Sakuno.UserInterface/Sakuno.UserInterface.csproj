@@ -93,6 +93,7 @@
     <Compile Include="DependencyObjectExtensions.cs" />
     <Compile Include="Controls\AdvancedTabItem.cs" />
     <Compile Include="TimelineExtensions.cs" />
+    <Compile Include="WindowExtensions.cs" />
     <Compile Include="WindowUtil.cs" />
   </ItemGroup>
   <ItemGroup>

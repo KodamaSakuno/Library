@@ -36,6 +36,8 @@ namespace Sakuno.SystemInterop
             [DllImport(DllName)]
             public static extern bool GetCursorPos(out NativeStructs.POINT lpPoint);
 
+            [DllImport(DllName)]
+            public static extern IntPtr GetForegroundWindow();
             [DllImport(DllName, SetLastError = true)]
             public static extern IntPtr GetTopWindow(IntPtr hWnd);
 

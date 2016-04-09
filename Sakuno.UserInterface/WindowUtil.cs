@@ -9,6 +9,21 @@ namespace Sakuno.UserInterface
 {
     public static class WindowUtil
     {
+        public static bool? ShowDialog(Window rpDialog)
+        {
+            rpDialog.Owner = GetTopWindow();
+            rpDialog.ShowInTaskbar = false;
+            return rpDialog.ShowDialog();
+        }
+        static Window GetTopWindow()
+        {
+            var rHandle = NativeMethods.User32.GetForegroundWindow();
+            if (rHandle == IntPtr.Zero)
+                return null;
+
+            return HwndSource.FromHwnd(rHandle).RootVisual as Window;
+        }
+
         public static IEnumerable<Window> GetWindowsOrderedByZOrder(IEnumerable<Window> rpWindows)
         {
             var rWindows = rpWindows.Select(r => new { Window = r, Handle = new WindowInteropHelper(r).Handle }).ToDictionary(r => r.Handle, r => r.Window);
