@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -10,30 +11,30 @@ namespace Sakuno.SystemInterop
         {
             const string DllName = "user32.dll";
 
-            [return: MarshalAs(UnmanagedType.Bool)]
             [DllImport(DllName, SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool PostMessageW(IntPtr hWnd, NativeConstants.WindowMessage Msg, IntPtr wParam, IntPtr lParam);
 
             [DllImport(DllName)]
             public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
-            [return: MarshalAs(UnmanagedType.Bool)]
             [DllImport(DllName)]
+            [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, NativeEnums.SetWindowPosition uFlags);
 
-            [return: MarshalAs(UnmanagedType.Bool)]
             [DllImport(DllName, SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool GetWindowRect(IntPtr hWnd, out NativeStructs.RECT lpRect);
 
-            [return: MarshalAs(UnmanagedType.Bool)]
             [DllImport(DllName, SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool GetWindowPlacement(IntPtr hWnd, out NativeStructs.WINDOWPLACEMENT lpwndpl);
-            [return: MarshalAs(UnmanagedType.Bool)]
             [DllImport(DllName, SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool SetWindowPlacement(IntPtr hWnd, ref NativeStructs.WINDOWPLACEMENT lpwndpl);
 
-            [return: MarshalAs(UnmanagedType.Bool)]
             [DllImport(DllName)]
+            [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool GetCursorPos(out NativeStructs.POINT lpPoint);
 
             [DllImport(DllName)]
@@ -44,8 +45,8 @@ namespace Sakuno.SystemInterop
             [DllImport(DllName, SetLastError = true)]
             public static extern IntPtr GetWindow(IntPtr hWnd, NativeConstants.GetWindow uCmd);
 
-            [return: MarshalAs(UnmanagedType.Bool)]
             [DllImport(DllName)]
+            [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool EnumChildWindows(IntPtr hwndParent, NativeDelegates.EnumWindowsProc lpEnumFunc, IntPtr lParam);
 
             [DllImport(DllName, CharSet = CharSet.Unicode)]
@@ -54,18 +55,22 @@ namespace Sakuno.SystemInterop
             public static extern int GetWindowTextW(IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder lpText, int nMaxCount);
 
             #region Window Long
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static IntPtr GetWindowLongPtr(IntPtr hWnd, NativeConstants.GetWindowLong nIndex)
             {
                 return new IntPtr(OS.Is64Bit ? WindowLong.GetWindowLongPtrW(hWnd, nIndex) : WindowLong.GetWindowLongW(hWnd, nIndex));
             }
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static IntPtr SetWindowLongPtr(IntPtr hWnd, NativeConstants.GetWindowLong nIndex, IntPtr dwNewLong)
             {
                 return OS.Is64Bit ? WindowLong.SetWindowLongPtrW(hWnd, nIndex, dwNewLong) : new IntPtr(WindowLong.SetWindowLongW(hWnd, nIndex, dwNewLong.ToInt32()));
             }
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static IntPtr GetClassLongPtr(IntPtr hWnd, NativeConstants.GetClassLong nIndex)
             {
                 return new IntPtr(OS.Is64Bit ? WindowLong.GetClassLongPtrW(hWnd, nIndex) : WindowLong.GetClassLongW(hWnd, nIndex));
             }
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static IntPtr SetClassLongPtr(IntPtr hWnd, NativeConstants.GetClassLong nIndex, IntPtr dwNewLong)
             {
                 return OS.Is64Bit ? WindowLong.SetClassLongPtrW(hWnd, nIndex, dwNewLong) : new IntPtr(WindowLong.SetClassLongW(hWnd, nIndex, dwNewLong.ToInt32()));
@@ -107,11 +112,11 @@ namespace Sakuno.SystemInterop
             public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
             #endregion
 
-            [return: MarshalAs(UnmanagedType.Bool)]
             [DllImport(DllName)]
+            [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool ClientToScreen(IntPtr hWnd, ref NativeStructs.POINT lpPoint);
-            [return: MarshalAs(UnmanagedType.Bool)]
             [DllImport(DllName)]
+            [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool ScreenToClient(IntPtr hWnd, ref NativeStructs.POINT lpPoint);
 
             [DllImport(DllName, SetLastError = true)]
@@ -122,6 +127,9 @@ namespace Sakuno.SystemInterop
             [DllImport(DllName)]
             public static extern bool GetMonitorInfo(IntPtr hMonitor, ref NativeStructs.MONITORINFO lpmi);
 
+            [DllImport(DllName)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool FlashWindowEx(ref NativeStructs.FLASHWINFO pwfi);
         }
     }
 }

@@ -122,5 +122,15 @@ namespace Sakuno.SystemInterop
             SLGP_RELATIVEPRIORITY = 8,
         }
 
+        [Flags]
+        public enum FLASHW
+        {
+            FLASHW_STOP,
+            FLASHW_CAPTION = 1,
+            FLASHW_TRAY = 2,
+            FLASHW_ALL = 3,
+            FLASHW_TIMER = 4,
+            FLASHW_TIMERNOFG = 12,
+        }
     }
 }

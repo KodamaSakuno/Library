@@ -261,5 +261,14 @@ namespace Sakuno.SystemInterop
             }
         }
 
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FLASHWINFO
+        {
+            public int cbSize;
+            public IntPtr hwnd;
+            public NativeEnums.FLASHW dwFlags;
+            public uint uCount;
+            public uint dwTimeout;
+        }
     }
 }
