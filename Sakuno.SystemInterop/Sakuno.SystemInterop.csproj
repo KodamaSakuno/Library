@@ -99,6 +99,9 @@
     <Compile Include="WinINet.cs">
       <DependentUpon>NativeMethods.cs</DependentUpon>
     </Compile>
+    <Compile Include="WinMM.cs">
+      <DependentUpon>NativeMethods.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sakuno.Base\Sakuno.Base.csproj">
