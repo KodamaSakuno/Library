@@ -79,6 +79,8 @@ namespace Sakuno.SystemInterop
 
         protected override void DisposeNativeResources()
         {
+            r_Session.UnregisterAudioSessionNotification(this);
+
             Marshal.ReleaseComObject(r_Session);
             r_Session = null;
             r_SimpleAudioVolume = null;
