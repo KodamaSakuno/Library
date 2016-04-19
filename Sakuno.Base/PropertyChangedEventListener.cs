@@ -18,15 +18,17 @@ namespace Sakuno
 
             r_Source = new WeakReference<INotifyPropertyChanged>(rpSource);
 
-            Initialize(r => rpSource.PropertyChanged += r, r => rpSource.PropertyChanged -= r, (_, e) => { RaiseHandler(e); });
+            Initialize(r => rpSource.PropertyChanged += r, r => rpSource.PropertyChanged -= r, (_, e) => RaiseHandler(e));
         }
 
-        public static PropertyChangedEventListener FromSource(INotifyPropertyChanged rpSource) => r_Listeners.GetOrAdd(rpSource, r => new PropertyChangedEventListener(r));
+        public static PropertyChangedEventListener FromSource(INotifyPropertyChanged rpSource)
+        {
+            return r_Listeners.GetOrAdd(rpSource, r => new PropertyChangedEventListener(r));
+        }
 
         public void Add(string rpPropertyName, PropertyChangedEventHandler rpHandler)
         {
-            var rHandlerList = r_HandlerDictionary.GetOrAdd(rpPropertyName, _ => new ConcurrentBag<PropertyChangedEventHandler>());
-            rHandlerList.Add(rpHandler);
+            r_HandlerDictionary.GetOrAdd(rpPropertyName, _ => new ConcurrentBag<PropertyChangedEventHandler>()).Add(rpHandler);
         }
 
         void RaiseHandler(PropertyChangedEventArgs e)
