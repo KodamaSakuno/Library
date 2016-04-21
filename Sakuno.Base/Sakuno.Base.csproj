@@ -48,6 +48,7 @@
     <Compile Include="Collections\ListDictionary`TKey`TValue.cs" />
     <Compile Include="Collections\ObservableRangeCollection.cs" />
     <Compile Include="ComparableExtensions.cs" />
+    <Compile Include="Converters\AreEqualConverter.cs" />
     <Compile Include="Converters\EqualityToBooleanConverter.cs" />
     <Compile Include="Converters\InvertBooleanConverter.cs" />
     <Compile Include="Converters\NumberComparionConverters.cs" />
