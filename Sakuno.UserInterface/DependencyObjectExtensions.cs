@@ -29,6 +29,19 @@ namespace Sakuno.UserInterface
             }
         }
 
+        public static T GetAncestor<T>(this DependencyObject rpObject) where T : DependencyObject
+        {
+            while (rpObject != null)
+            {
+                rpObject = VisualTreeHelper.GetParent(rpObject);
+
+                var rResult = rpObject as T;
+                if (rResult != null)
+                    return rResult;
+            }
+
+            return null;
+        }
         public static bool IsAncestorContained<T>(this DependencyObject rpObject) where T : DependencyObject
         {
             while (rpObject != null)
