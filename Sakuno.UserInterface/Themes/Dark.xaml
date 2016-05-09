@@ -36,4 +36,7 @@
     <Color x:Key="ScrollBarThumbMouseOverColorKey">#FF9E9E9E</Color>
     <SolidColorBrush x:Key="ScrollBarThumbMouseOverBrushKey" Color="{StaticResource ScrollBarThumbMouseOverColorKey}" o:Freeze="True" />
 
+    <Color x:Key="ValidationErrorColorKey">Red</Color>
+    <SolidColorBrush x:Key="ValidationErrorBrushKey" Color="{StaticResource ValidationErrorColorKey}" o:Freeze="True" />
+
 </ResourceDictionary>
