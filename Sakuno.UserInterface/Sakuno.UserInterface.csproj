@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\GlowWindowBehavior.cs" />
+    <Compile Include="Behaviors\NumericTextBoxBehavior.cs" />
     <Compile Include="Behaviors\TaskbarThumbnailBehavior.cs" />
     <Compile Include="Controls\AdvancedTabContentItemsControl.cs" />
     <Compile Include="Controls\AdvancedTabControl.cs" />
