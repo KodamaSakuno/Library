@@ -612,6 +612,5 @@ namespace Sakuno.SystemInterop
             MONITOR_DEFAULTTOPRIMARY,
             MONITOR_DEFAULTTONEAREST,
         }
-
     }
 }

@@ -130,6 +130,11 @@ namespace Sakuno.SystemInterop
             [DllImport(DllName)]
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool FlashWindowEx(ref NativeStructs.FLASHWINFO pwfi);
+
+            [DllImport(DllName)]
+            public static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+            [DllImport(DllName)]
+            public static extern bool EnableMenuItem(IntPtr hMenu, NativeConstants.SystemCommand uIDEnableItem, NativeEnums.MF uEnable);
         }
     }
 }

@@ -156,5 +156,15 @@ namespace Sakuno.SystemInterop
             SND_RING = 0X00100000,
             SND_SYSTEM = 0X00200000,
         }
+
+        [Flags]
+        public enum MF
+        {
+            MF_BYCOMMAND,
+            MF_ENABLED = 0,
+            MF_GRAYED,
+            MF_DISABLED = 0x0002,
+            MF_BYPOSITION = 0x0400,
+        }
     }
 }
