@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,6 +32,20 @@ namespace Sakuno.UserInterface.Controls
         {
             get { return (TabController)GetValue(TabControllerProperty); }
             set { SetValue(TabControllerProperty, value); }
+        }
+
+        public static readonly DependencyProperty ConsolidateOrphanedItemsProperty = DependencyProperty.Register(nameof(ConsolidateOrphanedItems), typeof(bool), typeof(AdvancedTabControl), new PropertyMetadata(BooleanUtil.False));
+        public bool ConsolidateOrphanedItems
+        {
+            get { return (bool)GetValue(ConsolidateOrphanedItemsProperty); }
+            set { SetValue(ConsolidateOrphanedItemsProperty, BooleanUtil.GetBoxed(value)); }
+        }
+
+        public static readonly DependencyProperty OrphanedItemFilterCallbackProperty = DependencyProperty.Register(nameof(OrphanedItemFilterCallback), typeof(Func<object, bool>), typeof(AdvancedTabControl), new PropertyMetadata(null));
+        public Func<object, bool> OrphanedItemFilterCallback
+        {
+            get { return (Func<object, bool>)GetValue(OrphanedItemFilterCallbackProperty); }
+            set { SetValue(OrphanedItemFilterCallbackProperty, value); }
         }
 
         static readonly DependencyPropertyKey IsTabItemPropertyKey = DependencyProperty.RegisterAttachedReadOnly("IsTabItem", typeof(bool), typeof(AdvancedTabControl), new PropertyMetadata(BooleanUtil.False));
@@ -62,8 +77,26 @@ namespace Sakuno.UserInterface.Controls
             r_Contents = new ObservableCollection<ContentPresenter>();
             Contents = new ReadOnlyObservableCollection<ContentPresenter>(r_Contents);
 
-            Loaded += (s, e) => r_Instances.Add(this);
-            Unloaded += (s, e) => r_Instances.Remove(this);
+            Loaded += (s, e) =>
+            {
+                r_Instances.Add(this);
+
+                var rWindow = Window.GetWindow(this);
+                if (rWindow == null)
+                    return;
+
+                rWindow.Closing += OnWindowClosing;
+            };
+            Unloaded += (s, e) =>
+            {
+                r_Instances.Remove(this);
+
+                var rWindow = Window.GetWindow(this);
+                if (rWindow == null)
+                    return;
+
+                rWindow.Closing -= OnWindowClosing;
+            };
         }
 
         public override void OnApplyTemplate()
@@ -433,6 +466,23 @@ namespace Sakuno.UserInterface.Controls
             }
 
             return false;
+        }
+
+        void OnWindowClosing(object sender, CancelEventArgs e)
+        {
+            var rDestination = r_Instances.Except(new[] { this }).FirstOrDefault(r => r.ConsolidateOrphanedItems);
+            if (rDestination == null)
+                return;
+
+            var rOrphanedItems = r_HeaderItemsControl.GetItems().Select(r => r_HeaderItemsControl.ItemContainerGenerator.ItemFromContainer(r));
+            if (rDestination.OrphanedItemFilterCallback != null)
+                rOrphanedItems = rOrphanedItems.Where(rDestination.OrphanedItemFilterCallback);
+
+            foreach (var rItem in rOrphanedItems)
+            {
+                RemoveItem(rItem);
+                rDestination.AddItem(rItem);
+            }
         }
     }
 }
