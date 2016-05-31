@@ -10,9 +10,6 @@ namespace Sakuno.Converters
     {
         public object Convert(object rpValue, Type rpTargetType, object rpParameter, CultureInfo rpCulture) => !ConvertType.ToBoolean(rpValue);
 
-        public object ConvertBack(object rpValue, Type rpTargetType, object rpParameter, CultureInfo rpCulture)
-        {
-            throw new NotSupportedException();
-        }
+        public object ConvertBack(object rpValue, Type rpTargetType, object rpParameter, CultureInfo rpCulture) => !ConvertType.ToBoolean(rpValue);
     }
 }
