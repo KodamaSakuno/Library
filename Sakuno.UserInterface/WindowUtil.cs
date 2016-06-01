@@ -21,7 +21,7 @@ namespace Sakuno.UserInterface
             if (rHandle == IntPtr.Zero)
                 return null;
 
-            return HwndSource.FromHwnd(rHandle).RootVisual as Window;
+            return HwndSource.FromHwnd(rHandle)?.RootVisual as Window;
         }
 
         public static IEnumerable<Window> GetWindowsOrderedByZOrder(IEnumerable<Window> rpWindows)
