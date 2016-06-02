@@ -135,6 +135,10 @@ namespace Sakuno.SystemInterop
             public static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
             [DllImport(DllName)]
             public static extern bool EnableMenuItem(IntPtr hMenu, NativeConstants.SystemCommand uIDEnableItem, NativeEnums.MF uEnable);
+
+            [DllImport(DllName)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public extern static bool GetAutoRotationState(out NativeEnums.AR_STATE pState);
         }
     }
 }

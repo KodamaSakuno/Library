@@ -166,5 +166,19 @@ namespace Sakuno.SystemInterop
             MF_DISABLED = 0x0002,
             MF_BYPOSITION = 0x0400,
         }
+
+        [Flags]
+        public enum AR_STATE
+        {
+            AR_ENABLED,
+            AR_DISABLED = 0x01,
+            AR_SUPPRESSED = 0x02,
+            AR_REMOTESESSION = 0x04,
+            AR_MULTIMON = 0x08,
+            AR_NOSENSOR = 0x10,
+            AR_NOT_SUPPORTED = 0x20,
+            AR_DOCKED = 0x40,
+            AR_LAPTOP = 0x80,
+        }
     }
 }
