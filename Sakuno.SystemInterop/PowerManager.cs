@@ -5,8 +5,10 @@ using System.Windows.Interop;
 
 namespace Sakuno.SystemInterop
 {
-    public static class PowerMonitor
+    public static class PowerManager
     {
+        public static bool IsBatteryPresent => GetSystemBatteryState().BatteryPresent;
+
         public static event Action<int> BatteryRemainingPercentageChanged = delegate { };
         public static event Action<PowerSource> PowerSourceChanged = delegate { };
 
@@ -40,6 +42,13 @@ namespace Sakuno.SystemInterop
             }
 
             return IntPtr.Zero;
+        }
+
+        static NativeStructs.SYSTEM_BATTERY_STATE GetSystemBatteryState()
+        {
+            NativeStructs.SYSTEM_BATTERY_STATE rState;
+            NativeMethods.PowrProf.CallNtPowerInformation(NativeConstants.POWER_INFORMATION_LEVEL.SystemBatteryState, IntPtr.Zero, 0u, out rState, (uint)Marshal.SizeOf(typeof(NativeStructs.SYSTEM_BATTERY_STATE)));
+            return rState;
         }
     }
 }
