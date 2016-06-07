@@ -295,5 +295,14 @@ namespace Sakuno.SystemInterop
             public uint uCount;
             public uint dwTimeout;
         }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct COMDLG_FILTERSPEC
+        {
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string pszName;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string pszSpec;
+        }
     }
 }
