@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 
 namespace Sakuno.SystemInterop
 {
@@ -16,6 +17,13 @@ namespace Sakuno.SystemInterop
             public static extern ushort GlobalAddAtomW([MarshalAs(UnmanagedType.LPWStr)] string lpString);
             [DllImport(DllName, SetLastError = true)]
             public static extern ushort GlobalDeleteAtom(short nAtom);
+
+            [DllImport(DllName, SetLastError = true)]
+            public static extern IntPtr OpenProcess(uint dwDesiredAccess, bool bInheritHandle, uint dwProcessId);
+
+            [DllImport(DllName, SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool CloseHandle(IntPtr hObject);
         }
     }
 }

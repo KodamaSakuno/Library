@@ -76,7 +76,7 @@ namespace Sakuno.SystemInterop
         {
             public int length;
             public int flags;
-            public NativeConstants.ShowCommands showCmd;
+            public NativeConstants.ShowCommand showCmd;
             public POINT rpMinPosition;
             public POINT rpMaxPosition;
             public RECT rcNormalPosition;

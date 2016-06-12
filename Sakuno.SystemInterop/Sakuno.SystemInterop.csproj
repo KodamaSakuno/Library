@@ -88,6 +88,9 @@
     <Compile Include="NativeMethods.cs" />
     <Compile Include="NativeStructs.cs" />
     <Compile Include="NativeUtils.cs" />
+    <Compile Include="Ntdll.cs">
+      <DependentUpon>NativeMethods.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ole32.cs">
       <DependentUpon>NativeMethods.cs</DependentUpon>
     </Compile>

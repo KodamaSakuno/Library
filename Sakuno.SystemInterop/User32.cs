@@ -22,6 +22,13 @@ namespace Sakuno.SystemInterop
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, NativeEnums.SetWindowPosition uFlags);
 
+            [DllImport(DllName)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool ShowWindow(IntPtr hWnd, NativeConstants.ShowCommand nCmdShow);
+            [DllImport(DllName)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool ShowWindowAsync(IntPtr hWnd, NativeConstants.ShowCommand nCmdShow);
+
             [DllImport(DllName, SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool GetWindowRect(IntPtr hWnd, out NativeStructs.RECT lpRect);
@@ -39,13 +46,19 @@ namespace Sakuno.SystemInterop
 
             [DllImport(DllName)]
             public static extern IntPtr GetForegroundWindow();
+            [DllImport(DllName)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool SetForegroundWindow(IntPtr hWnd);
+
             [DllImport(DllName, SetLastError = true)]
             public static extern IntPtr GetTopWindow(IntPtr hWnd);
-
             [DllImport(DllName, SetLastError = true)]
             public static extern IntPtr GetWindow(IntPtr hWnd, NativeConstants.GetWindow uCmd);
 
-            [DllImport(DllName)]
+            [DllImport(DllName, SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool EnumWindows(NativeDelegates.EnumWindowsProc lpEnumFunc, IntPtr lParam);
+            [DllImport(DllName, SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool EnumChildWindows(IntPtr hwndParent, NativeDelegates.EnumWindowsProc lpEnumFunc, IntPtr lParam);
 
@@ -146,6 +159,9 @@ namespace Sakuno.SystemInterop
             [DllImport(DllName, SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool UnregisterHotKey(IntPtr hWnd, uint id);
+            
+            [DllImport(DllName)]
+            public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
         }
     }
 }

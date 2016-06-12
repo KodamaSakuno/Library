@@ -4,7 +4,7 @@ namespace Sakuno.SystemInterop
 {
     public static partial class NativeConstants
     {
-        public enum ShowCommands
+        public enum ShowCommand
         {
             SW_HIDE = 0,
             SW_SHOWNORMAL = 1,

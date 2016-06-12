@@ -107,8 +107,8 @@ namespace Sakuno.UserInterface.Controls
                         rPlacement.length = Marshal.SizeOf(typeof(NativeStructs.WINDOWPLACEMENT));
                         rPlacement.flags = 0;
 
-                        if (rPlacement.showCmd == NativeConstants.ShowCommands.SW_SHOWMINIMIZED)
-                            rPlacement.showCmd = NativeConstants.ShowCommands.SW_SHOWNORMAL;
+                        if (rPlacement.showCmd == NativeConstants.ShowCommand.SW_SHOWMINIMIZED)
+                            rPlacement.showCmd = NativeConstants.ShowCommand.SW_SHOWNORMAL;
 
                         NativeMethods.User32.SetWindowPlacement(r_HwndSource.Handle, ref rPlacement);
                     }
