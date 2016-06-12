@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -10,40 +11,42 @@ namespace Sakuno.SystemInterop
         {
             const string DllName = "user32.dll";
 
-            [return: MarshalAs(UnmanagedType.Bool)]
             [DllImport(DllName, SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool PostMessageW(IntPtr hWnd, NativeConstants.WindowMessage Msg, IntPtr wParam, IntPtr lParam);
 
             [DllImport(DllName)]
             public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
-            [return: MarshalAs(UnmanagedType.Bool)]
             [DllImport(DllName)]
+            [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, NativeEnums.SetWindowPosition uFlags);
 
-            [return: MarshalAs(UnmanagedType.Bool)]
             [DllImport(DllName, SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool GetWindowRect(IntPtr hWnd, out NativeStructs.RECT lpRect);
 
-            [return: MarshalAs(UnmanagedType.Bool)]
             [DllImport(DllName, SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool GetWindowPlacement(IntPtr hWnd, out NativeStructs.WINDOWPLACEMENT lpwndpl);
-            [return: MarshalAs(UnmanagedType.Bool)]
             [DllImport(DllName, SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool SetWindowPlacement(IntPtr hWnd, ref NativeStructs.WINDOWPLACEMENT lpwndpl);
 
-            [return: MarshalAs(UnmanagedType.Bool)]
             [DllImport(DllName)]
+            [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool GetCursorPos(out NativeStructs.POINT lpPoint);
 
+            [DllImport(DllName)]
+            public static extern IntPtr GetForegroundWindow();
             [DllImport(DllName, SetLastError = true)]
             public static extern IntPtr GetTopWindow(IntPtr hWnd);
 
             [DllImport(DllName, SetLastError = true)]
             public static extern IntPtr GetWindow(IntPtr hWnd, NativeConstants.GetWindow uCmd);
 
-            [return: MarshalAs(UnmanagedType.Bool)]
             [DllImport(DllName)]
+            [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool EnumChildWindows(IntPtr hwndParent, NativeDelegates.EnumWindowsProc lpEnumFunc, IntPtr lParam);
 
             [DllImport(DllName, CharSet = CharSet.Unicode)]
@@ -105,11 +108,11 @@ namespace Sakuno.SystemInterop
             public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
             #endregion
 
-            [return: MarshalAs(UnmanagedType.Bool)]
             [DllImport(DllName)]
+            [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool ClientToScreen(IntPtr hWnd, ref NativeStructs.POINT lpPoint);
-            [return: MarshalAs(UnmanagedType.Bool)]
             [DllImport(DllName)]
+            [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool ScreenToClient(IntPtr hWnd, ref NativeStructs.POINT lpPoint);
 
             [DllImport(DllName, SetLastError = true)]
@@ -120,6 +123,18 @@ namespace Sakuno.SystemInterop
             [DllImport(DllName)]
             public static extern bool GetMonitorInfo(IntPtr hMonitor, ref NativeStructs.MONITORINFO lpmi);
 
+            [DllImport(DllName)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool FlashWindowEx(ref NativeStructs.FLASHWINFO pwfi);
+
+            [DllImport(DllName)]
+            public static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+            [DllImport(DllName)]
+            public static extern bool EnableMenuItem(IntPtr hMenu, NativeConstants.SystemCommand uIDEnableItem, NativeEnums.MF uEnable);
+
+            [DllImport(DllName)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public extern static bool GetAutoRotationState(out NativeEnums.AR_STATE pState);
         }
     }
 }

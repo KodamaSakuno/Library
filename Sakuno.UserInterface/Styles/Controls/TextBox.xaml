@@ -10,6 +10,7 @@
         <Setter Property="Padding" Value="1" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="FocusVisualStyle" Value="{DynamicResource {x:Static SystemParameters.FocusVisualStyleKey}}" />
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
@@ -17,6 +18,39 @@
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                         <ScrollViewer Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
                     </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Border BorderBrush="{DynamicResource ValidationErrorBrushKey}" BorderThickness="1">
+                            <AdornedElementPlaceholder Name="Placeholder" />
+                        </Border>
+
+                        <Path Fill="{DynamicResource ValidationErrorBrushKey}" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center" Data="M12,6 L6,0 0,6 z" Grid.Row="1" />
+
+                        <Border Background="Red" Padding="4, 0, 4, 4" Grid.Row="2" Grid.ColumnSpan="2">
+                            <ItemsControl ItemsSource="{Binding AdornedElement.(Validation.Errors), ElementName=Placeholder}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ErrorContent}" Foreground="{DynamicResource ActiveForegroundBrushKey}" Margin="0, 4, 0, 0" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Border>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

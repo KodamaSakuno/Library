@@ -613,5 +613,148 @@ namespace Sakuno.SystemInterop
             MONITOR_DEFAULTTONEAREST,
         }
 
+        public enum POWER_INFORMATION_LEVEL
+        {
+            SystemPowerPolicyAc,
+            SystemPowerPolicyDc,
+            VerifySystemPolicyAc,
+            VerifySystemPolicyDc,
+            SystemPowerCapabilities,
+            SystemBatteryState,
+            SystemPowerStateHandler,
+            ProcessorStateHandler,
+            SystemPowerPolicyCurrent,
+            AdministratorPowerPolicy,
+            SystemReserveHiberFile,
+            ProcessorInformation,
+            SystemPowerInformation,
+            ProcessorStateHandler2,
+            LastWakeTime,
+            LastSleepTime,
+            SystemExecutionState,
+            SystemPowerStateNotifyHandler,
+            ProcessorPowerPolicyAc,
+            ProcessorPowerPolicyDc,
+            VerifyProcessorPowerPolicyAc,
+            VerifyProcessorPowerPolicyDc,
+            ProcessorPowerPolicyCurrent,
+            SystemPowerStateLogging,
+            SystemPowerLoggingEntry,
+            SetPowerSettingValue,
+            NotifyUserPowerSetting,
+            PowerInformationLevelUnused0,
+            PowerInformationLevelUnused1,
+            SystemVideoState,
+            TraceApplicationPowerMessage,
+            TraceApplicationPowerMessageEnd,
+            ProcessorPerfStates,
+            ProcessorIdleStates,
+            ProcessorCap,
+            SystemWakeSource,
+            SystemHiberFileInformation,
+            TraceServicePowerMessage,
+            ProcessorLoad,
+            PowerShutdownNotification,
+            MonitorCapabilities,
+            SessionPowerInit,
+            SessionDisplayState,
+            PowerRequestCreate,
+            PowerRequestAction,
+            GetPowerRequestList,
+            ProcessorInformationEx,
+            NotifyUserModeLegacyPowerEvent,
+            GroupPark,
+            ProcessorIdleDomains,
+            WakeTimerList,
+            SystemHiberFileSize,
+            PowerInformationLevelMaximum,
+        }
+
+        public enum PROPENUMTYPE
+        {
+            PET_DISCRETEVALUE,
+            PET_RANGEDVALUE,
+            PET_DEFAULTVALUE,
+            PET_ENDRANGE,
+        }
+        public enum PROPDESC_DISPLAYTYPE
+        {
+            PDDT_STRING,
+            PDDT_NUMBER,
+            PDDT_BOOLEAN,
+            PDDT_DATETIME,
+            PDDT_ENUMERATED,
+        }
+        public enum PROPDESC_GROUPING_RANGE
+        {
+            PDGR_DISCRETE,
+            PDGR_ALPHANUMERIC,
+            PDGR_SIZE,
+            PDGR_DYNAMIC,
+            PDGR_DATE,
+            PDGR_PERCENT,
+            PDGR_ENUMERATED,
+        }
+        public enum PROPDESC_SORTDESCRIPTION
+        {
+            PDSD_GENERAL,
+            PDSD_A_Z,
+            PDSD_LOWEST_HIGHEST,
+            PDSD_SMALLEST_BIGGEST,
+            PDSD_OLDEST_NEWEST,
+        }
+        public enum PROPDESC_RELATIVEDESCRIPTION_TYPE
+        {
+            PDRDT_GENERAL,
+            PDRDT_DATE,
+            PDRDT_SIZE,
+            PDRDT_COUNT,
+            PDRDT_REVISION,
+            PDRDT_LENGTH,
+            PDRDT_DURATION,
+            PDRDT_SPEED,
+            PDRDT_RATE,
+            PDRDT_RATING,
+            PDRDT_PRIORITY
+        }
+        public enum PROPDESC_AGGREGATION_TYPE
+        {
+            PDAT_DEFAULT,
+            PDAT_FIRST,
+            PDAT_SUM,
+            PDAT_AVERAGE,
+            PDAT_DATERANGE,
+            PDAT_UNION,
+            PDAT_MAX,
+            PDAT_MIN,
+        }
+        public enum PROPDESC_CONDITION_TYPE
+        {
+            PDCOT_NONE,
+            PDCOT_STRING,
+            PDCOT_SIZE,
+            PDCOT_DATETIME,
+            PDCOT_BOOLEAN,
+            PDCOT_NUMBER,
+        }
+
+        public enum CONDITION_OPERATION
+        {
+            COP_IMPLICIT,
+            COP_EQUAL,
+            COP_NOTEQUAL,
+            COP_LESSTHAN,
+            COP_GREATERTHAN,
+            COP_LESSTHANOREQUAL,
+            COP_GREATERTHANOREQUAL,
+            COP_VALUE_STARTSWITH,
+            COP_VALUE_ENDSWITH,
+            COP_VALUE_CONTAINS,
+            COP_VALUE_NOTCONTAINS,
+            COP_DOSWILDCARDS,
+            COP_WORD_EQUAL,
+            COP_WORD_STARTSWITH,
+            COP_APPLICATION_SPECIFIC,
+        }
     }
 }

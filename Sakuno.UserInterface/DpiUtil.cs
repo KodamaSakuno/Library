@@ -19,8 +19,8 @@ namespace Sakuno.UserInterface
             var rDC = NativeMethods.User32.GetDC(IntPtr.Zero);
             if (rDC != IntPtr.Zero)
             {
-                DpiX = (double)NativeMethods.Gdi32.GetDeviceCaps(rDC, NativeConstants.DeviceCap.LOGPIXELSX);
-                DpiY = (double)NativeMethods.Gdi32.GetDeviceCaps(rDC, NativeConstants.DeviceCap.LOGPIXELSY);
+                DpiX = NativeMethods.Gdi32.GetDeviceCaps(rDC, NativeConstants.DeviceCap.LOGPIXELSX);
+                DpiY = NativeMethods.Gdi32.GetDeviceCaps(rDC, NativeConstants.DeviceCap.LOGPIXELSY);
 
                 NativeMethods.User32.ReleaseDC(IntPtr.Zero, rDC);
             }

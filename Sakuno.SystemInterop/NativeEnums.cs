@@ -122,5 +122,145 @@ namespace Sakuno.SystemInterop
             SLGP_RELATIVEPRIORITY = 8,
         }
 
+        [Flags]
+        public enum FLASHW
+        {
+            FLASHW_STOP,
+            FLASHW_CAPTION = 1,
+            FLASHW_TRAY = 2,
+            FLASHW_ALL = 3,
+            FLASHW_TIMER = 4,
+            FLASHW_TIMERNOFG = 12,
+        }
+
+        [Flags]
+        public enum SND
+        {
+            SND_SYNC,
+            SND_ASYNC = 0x0001,
+            SND_NODEFAULT = 0x0002,
+            SND_MEMORY = 0x0004,
+            SND_LOOP = 0x0008,
+            SND_NOSTOP = 0x0010,
+
+            SND_NOWAIT = 0x00002000,
+            SND_ALIAS = 0x00010000,
+            SND_ALIAS_ID = 0x00110000,
+            SND_FILENAME = 0x00020000,
+            SND_RESOURCE = 0x00040004,
+
+            SND_PURGE = 0x0040,
+            SND_APPLICATION = 0x0080,
+
+            SND_SENTRY = 0X00080000,
+            SND_RING = 0X00100000,
+            SND_SYSTEM = 0X00200000,
+        }
+
+        [Flags]
+        public enum MF
+        {
+            MF_BYCOMMAND,
+            MF_ENABLED = 0,
+            MF_GRAYED,
+            MF_DISABLED = 0x0002,
+            MF_BYPOSITION = 0x0400,
+        }
+
+        [Flags]
+        public enum AR_STATE
+        {
+            AR_ENABLED,
+            AR_DISABLED = 0x01,
+            AR_SUPPRESSED = 0x02,
+            AR_REMOTESESSION = 0x04,
+            AR_MULTIMON = 0x08,
+            AR_NOSENSOR = 0x10,
+            AR_NOT_SUPPORTED = 0x20,
+            AR_DOCKED = 0x40,
+            AR_LAPTOP = 0x80,
+        }
+
+        public enum FILEOPENDIALOGOPTIONS : uint
+        {
+            FOS_OVERWRITEPROMPT = 0x2,
+            FOS_STRICTFILETYPES = 0x4,
+            FOS_NOCHANGEDIR = 0x8,
+            FOS_PICKFOLDERS = 0x20,
+            FOS_FORCEFILESYSTEM = 0x40,
+            FOS_ALLNONSTORAGEITEMS = 0x80,
+            FOS_NOVALIDATE = 0x100,
+            FOS_ALLOWMULTISELECT = 0x200,
+            FOS_PATHMUSTEXIST = 0x800,
+            FOS_FILEMUSTEXIST = 0x1000,
+            FOS_CREATEPROMPT = 0x2000,
+            FOS_SHAREAWARE = 0x4000,
+            FOS_NOREADONLYRETURN = 0x8000,
+            FOS_NOTESTFILECREATE = 0x10000,
+            FOS_HIDEMRUPLACES = 0x20000,
+            FOS_HIDEPINNEDPLACES = 0x40000,
+            FOS_NODEREFERENCELINKS = 0x100000,
+            FOS_DONTADDTORECENT = 0x2000000,
+            FOS_FORCESHOWHIDDEN = 0x10000000,
+            FOS_DEFAULTNOMINIMODE = 0x20000000,
+            FOS_FORCEPREVIEWPANEON = 0x40000000,
+            FOS_SUPPORTSTREAMABLEITEMS = 0x80000000,
+        }
+
+        [Flags]
+        public enum PROPDESC_TYPE_FLAGS : uint
+        {
+            PDTF_DEFAULT,
+            PDTF_MULTIPLEVALUES = 0x1,
+            PDTF_ISINNATE = 0x2,
+            PDTF_ISGROUP = 0x4,
+            PDTF_CANGROUPBY = 0x8,
+            PDTF_CANSTACKBY = 0x10,
+            PDTF_ISTREEPROPERTY = 0x20,
+            PDTF_INCLUDEINFULLTEXTQUERY = 0x40,
+            PDTF_ISVIEWABLE = 0x80,
+            PDTF_ISQUERYABLE = 0x100,
+            PDTF_CANBEPURGED = 0x200,
+            PDTF_SEARCHRAWVALUE = 0x400,
+            PDTF_ISSYSTEMPROPERTY = 0x80000000,
+            PDTF_MASK_ALL = 0x800007FF,
+        }
+        [Flags]
+        public enum PROPDESC_VIEW_FLAGS
+        {
+            PDVF_DEFAULT,
+            PDVF_CENTERALIGN = 0x1,
+            PDVF_RIGHTALIGN = 0x2,
+            PDVF_BEGINNEWGROUP = 0x4,
+            PDVF_FILLAREA = 0x8,
+            PDVF_SORTDESCENDING = 0x10,
+            PDVF_SHOWONLYIFPRESENT = 0x20,
+            PDVF_SHOWBYDEFAULT = 0x40,
+            PDVF_SHOWINPRIMARYLIST = 0x80,
+            PDVF_SHOWINSECONDARYLIST = 0x100,
+            PDVF_HIDELABEL = 0x200,
+            PDVF_HIDDEN = 0x800,
+            PDVF_CANWRAP = 0x1000,
+            PDVF_MASK_ALL = 0x1BFF,
+        }
+        [Flags]
+        public enum PROPDESC_FORMAT_FLAGS
+        {
+            PDFF_DEFAULT,
+            PDFF_PREFIXNAME = 0x1,
+            PDFF_FILENAME = 0x2,
+            PDFF_ALWAYSKB = 0x4,
+            PDFF_RESERVED_RIGHTTOLEFT = 0x8,
+            PDFF_SHORTTIME = 0x10,
+            PDFF_LONGTIME = 0x20,
+            PDFF_HIDETIME = 0x40,
+            PDFF_SHORTDATE = 0x80,
+            PDFF_LONGDATE = 0x100,
+            PDFF_HIDEDATE = 0x200,
+            PDFF_RELATIVEDATE = 0x400,
+            PDFF_USEEDITINVITATION = 0x800,
+            PDFF_READONLY = 0x1000,
+            PDFF_NOAUTOREADINGORDER = 0x2000,
+        }
     }
 }

@@ -30,8 +30,6 @@ namespace Sakuno.UserInterface.Behaviors
 
         protected override void OnAttached()
         {
-            base.OnAttached();
-
             r_Left = new GlowWindow(this, new GlowWindowProcessorLeft());
             r_Top = new GlowWindow(this, new GlowWindowProcessorTop());
             r_Right = new GlowWindow(this, new GlowWindowProcessorRight());

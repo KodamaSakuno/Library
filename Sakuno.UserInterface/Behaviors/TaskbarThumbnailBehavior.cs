@@ -9,16 +9,12 @@ namespace Sakuno.UserInterface.Behaviors
     {
         protected override void OnAttached()
         {
-            base.OnAttached();
-
             AssociatedObject.Loaded += AssociatedObject_Loaded;
             AssociatedObject.Unloaded += AssociatedObject_Unloaded;
         }
 
         protected override void OnDetaching()
         {
-            base.OnDetaching();
-
             AssociatedObject.Loaded -= AssociatedObject_Loaded;
             AssociatedObject.Unloaded -= AssociatedObject_Unloaded;
         }
