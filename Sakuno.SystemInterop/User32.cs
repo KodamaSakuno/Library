@@ -139,6 +139,13 @@ namespace Sakuno.SystemInterop
             [DllImport(DllName)]
             [return: MarshalAs(UnmanagedType.Bool)]
             public extern static bool GetAutoRotationState(out NativeEnums.AR_STATE pState);
+
+            [DllImport(DllName, SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool RegisterHotKey(IntPtr hWnd, uint id, NativeEnums.ModifierKeys fsModifiers, int vk);
+            [DllImport(DllName, SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool UnregisterHotKey(IntPtr hWnd, uint id);
         }
     }
 }

@@ -262,5 +262,16 @@ namespace Sakuno.SystemInterop
             PDFF_READONLY = 0x1000,
             PDFF_NOAUTOREADINGORDER = 0x2000,
         }
+
+        [Flags]
+        public enum ModifierKeys
+        {
+            MOD_NONE,
+            MOD_ALT = 1,
+            MOD_CONTROL = 2,
+            MOD_SHIFT = 4,
+            MOD_WIN = 8,
+            MOD_NOREPEAT = 0x4000,
+        }
     }
 }
