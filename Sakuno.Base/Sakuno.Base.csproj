@@ -67,6 +67,7 @@
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="EventListener`T.cs" />
     <Compile Include="IdentityFunction`T.cs" />
+    <Compile Include="LazyString.cs" />
     <Compile Include="MathUtil.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="OS.cs" />
