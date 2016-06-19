@@ -7,6 +7,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushKey}" />
         <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrushKey}" />
         <Setter Property="Padding" Value="8, 4" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -30,7 +31,7 @@
                             </Grid>
                         </Border>
 
-                        <Popup Name="PART_Popup" IsOpen="{Binding IsChecked, ElementName=PART_ToggleButton}" AllowsTransparency="True" StaysOpen="False" Placement="Custom" PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+                        <Popup Name="PART_Popup" IsOpen="{Binding IsChecked, ElementName=PART_ToggleButton}" AllowsTransparency="True" StaysOpen="False" Placement="Custom" PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}" VerticalOffset="{TemplateBinding PopupVerticalOffset}" HorizontalOffset="{TemplateBinding PopupHorizontalOffset}">
                             <Border Background="{DynamicResource ThemeBrushKey}" BorderBrush="{DynamicResource BorderBrushKey}" BorderThickness="1">
                                 <ContentPresenter />
                             </Border>

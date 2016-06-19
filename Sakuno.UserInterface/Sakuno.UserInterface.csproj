@@ -61,6 +61,7 @@
     <Compile Include="Controls\AdvancedTabItem.cs" />
     <Compile Include="Controls\AdvancedTabContentPanel.cs" />
     <Compile Include="Controls\AdvancedTabThumbDragEvents.cs" />
+    <Compile Include="Controls\ButtonWithPopup.cs" />
     <Compile Include="Controls\DockableZone.cs" />
     <Compile Include="Controls\Docking\DockAdorner.cs" />
     <Compile Include="Controls\Docking\DockAdornerWindow.cs" />
