@@ -17,13 +17,15 @@ namespace Sakuno.UserInterface.Controls
             set { SetValue(PopupAutoCloseProperty, value); }
         }
 
-        public static readonly DependencyProperty PopupVerticalOffsetProperty = Popup.VerticalOffsetProperty.AddOwner(typeof(ButtonWithPopup));
+        public static readonly DependencyProperty PopupVerticalOffsetProperty = DependencyProperty.Register(nameof(PopupVerticalOffset), typeof(double), typeof(ButtonWithPopup),
+            new FrameworkPropertyMetadata(DoubleUtil.Zero));
         public double PopupVerticalOffset
         {
             get { return (double)GetValue(PopupVerticalOffsetProperty); }
             set { SetValue(PopupVerticalOffsetProperty, value); }
         }
-        public static readonly DependencyProperty PopupHorizontalOffsetProperty = Popup.HorizontalOffsetProperty.AddOwner(typeof(ButtonWithPopup));
+        public static readonly DependencyProperty PopupHorizontalOffsetProperty = DependencyProperty.Register(nameof(PopupHorizontalOffset), typeof(double), typeof(ButtonWithPopup),
+            new FrameworkPropertyMetadata(DoubleUtil.Zero));
         public double PopupHorizontalOffset
         {
             get { return (double)GetValue(PopupHorizontalOffsetProperty); }

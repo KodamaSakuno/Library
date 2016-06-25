@@ -17,7 +17,9 @@ namespace Sakuno.SystemInterop
         public static ushort LoWord(IntPtr rpValue) => (ushort)(rpValue.ToInt64() & 0xFFFFL);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Point ToPoint(this IntPtr rpHandle) => new Point(NativeUtils.LoWord(rpHandle), NativeUtils.HiWord(rpHandle));
+        public static Point ToPoint(this IntPtr rpHandle) => new Point(LoWord(rpHandle), HiWord(rpHandle));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IntPtr MAKEINTRESOURCEW(int rpValue) => (IntPtr)(ushort)rpValue;
     }
 }

@@ -756,5 +756,20 @@ namespace Sakuno.SystemInterop
             COP_WORD_STARTSWITH,
             COP_APPLICATION_SPECIFIC,
         }
+
+        public enum TASKDIALOG_NOTIFICATIONS
+        {
+            CREATED,
+            NAVIGATED,
+            BUTTONCLICKED,
+            HYPERLINKCLICKED,
+            TIMER,
+            DESTROYED,
+            RADIOBUTTONCLICKED,
+            DIALOGCONSTRUCTED,
+            VERIFICATIONCLICKED,
+            HELP,
+            EXPANDOBUTTONCLICKED,
+        }
     }
 }

@@ -304,5 +304,56 @@ namespace Sakuno.SystemInterop
             [MarshalAs(UnmanagedType.LPWStr)]
             public string pszSpec;
         }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct TASKDIALOGCONFIG
+        {
+            public int cbSize;
+            public IntPtr hwndParent;
+            public IntPtr hInstance;
+            public NativeEnums.TASKDIALOG_FLAGS dwFlags;
+            public TaskDialogCommonButtons dwCommonButtons;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string pszWindowTitle;
+            public TaskDialogIcon hMainIcon;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string pszMainInstruction;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string pszContent;
+            public int cButtons;
+            public IntPtr pButtons;
+            public int nDefaultButton;
+            public int cRadioButtons;
+            public IntPtr pRadioButtons;
+            public int nDefaultRadioButton;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string pszVerificationText;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string pszExpandedInformation;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string pszExpandedControlText;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string pszCollapsedControlText;
+            public TaskDialogIcon hFooterIcon;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string pszFooter;
+            public NativeDelegates.TaskDialogCallbackProc pfCallback;
+            public IntPtr lpCallbackData;
+            public uint cxWidth;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct TASKDIALOG_BUTTON
+        {
+            public int nButtonID;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string pszButtonText;
+
+            public TASKDIALOG_BUTTON(int rpID, string rpText)
+            {
+                nButtonID = rpID;
+                pszButtonText = rpText;
+            }
+        }
     }
 }

@@ -52,6 +52,9 @@
   <ItemGroup>
     <Compile Include="AudioSessionDisconnectReason.cs" />
     <Compile Include="AudioSessionState.cs" />
+    <Compile Include="ComCtl32.cs">
+      <DependentUpon>NativeMethods.cs</DependentUpon>
+    </Compile>
     <Compile Include="CoreAudioConstants.cs">
       <DependentUpon>NativeConstants.cs</DependentUpon>
     </Compile>
@@ -114,6 +117,34 @@
       <DependentUpon>NativeInterfaces.cs</DependentUpon>
     </Compile>
     <Compile Include="ShellUtil.cs" />
+    <Compile Include="TaskDialog.cs" />
+    <Compile Include="TaskDialogButton.cs">
+      <DependentUpon>TaskDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskDialogButtonBase.cs">
+      <DependentUpon>TaskDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskDialogButtonStyle.cs">
+      <DependentUpon>TaskDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskDialogCommandLink.cs">
+      <DependentUpon>TaskDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskDialogCommonButton.cs">
+      <DependentUpon>TaskDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskDialogCommonButtons.cs">
+      <DependentUpon>TaskDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskDialogIcon.cs">
+      <DependentUpon>TaskDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskDialogRadioButton.cs">
+      <DependentUpon>TaskDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskDialogResult.cs">
+      <DependentUpon>TaskDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="User32.cs">
       <DependentUpon>NativeMethods.cs</DependentUpon>
     </Compile>
