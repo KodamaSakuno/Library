@@ -1,4 +1,6 @@
-﻿namespace Sakuno.SystemInterop
+﻿using System.Threading;
+
+namespace Sakuno.SystemInterop
 {
     public abstract class TaskDialogButtonBase
     {
@@ -12,10 +14,7 @@
 
         protected TaskDialogButtonBase(string rpText)
         {
-            if (r_IDForNextButton == int.MaxValue)
-                r_IDForNextButton = 19;
-
-            ID = r_IDForNextButton++;
+            ID = Interlocked.Increment(ref r_IDForNextButton) % 1024 + 19;
 
             Text = rpText;
         }
