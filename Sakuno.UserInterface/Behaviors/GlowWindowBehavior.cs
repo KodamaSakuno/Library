@@ -30,6 +30,9 @@ namespace Sakuno.UserInterface.Behaviors
 
         protected override void OnAttached()
         {
+            GlowBrush = Application.Current.TryFindResource("AccentBrushKey") as Brush;
+            PropertyChangedEventListener.FromSource(ThemeManager.Instance).Add(nameof(ThemeManager.Instance.Accent), (s, e) => GlowBrush = Application.Current.TryFindResource("AccentBrushKey") as Brush);
+
             r_Left = new GlowWindow(this, new GlowWindowProcessorLeft());
             r_Top = new GlowWindow(this, new GlowWindowProcessorTop());
             r_Right = new GlowWindow(this, new GlowWindowProcessorRight());
