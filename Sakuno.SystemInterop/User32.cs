@@ -43,6 +43,8 @@ namespace Sakuno.SystemInterop
             [DllImport(DllName)]
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool GetCursorPos(out NativeStructs.POINT lpPoint);
+            [DllImport(DllName, SetLastError = true)]
+            public static extern bool SetCursorPos(int X, int Y);
 
             [DllImport(DllName)]
             public static extern IntPtr GetForegroundWindow();
@@ -159,9 +161,15 @@ namespace Sakuno.SystemInterop
             [DllImport(DllName, SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool UnregisterHotKey(IntPtr hWnd, uint id);
-            
+
             [DllImport(DllName)]
             public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+            [DllImport(DllName)]
+            public static extern int GetSystemMetrics(NativeConstants.SystemMetrics nIndex);
+
+            [DllImport(DllName)]
+            public static extern IntPtr RealChildWindowFromPoint(IntPtr hwndParent, NativeStructs.POINT ptParentClientCoords);
         }
     }
 }
