@@ -24,6 +24,8 @@ namespace Sakuno.UserInterface.Behaviors
             set { SetValue(InactiveGlowBrushProperty, value); }
         }
 
+        PropertyChangedEventListener r_ThemeManagerPCEL = new PropertyChangedEventListener(ThemeManager.Instance);
+
         GlowWindow r_Left, r_Top, r_Right, r_Bottom;
 
         public Window Window => AssociatedObject;
@@ -31,13 +33,15 @@ namespace Sakuno.UserInterface.Behaviors
         protected override void OnAttached()
         {
             GlowBrush = Application.Current.TryFindResource("AccentBrushKey") as Brush;
-            PropertyChangedEventListener.FromSource(ThemeManager.Instance).Add(nameof(ThemeManager.Instance.Accent), (s, e) => GlowBrush = Application.Current.TryFindResource("AccentBrushKey") as Brush);
+
+            r_ThemeManagerPCEL.Add(nameof(ThemeManager.Instance.Accent), (s, e) => GlowBrush = Application.Current.TryFindResource("AccentBrushKey") as Brush);
 
             r_Left = new GlowWindow(this, new GlowWindowProcessorLeft());
             r_Top = new GlowWindow(this, new GlowWindowProcessorTop());
             r_Right = new GlowWindow(this, new GlowWindowProcessorRight());
             r_Bottom = new GlowWindow(this, new GlowWindowProcessorBottom());
         }
+        protected override void OnDetaching() => r_ThemeManagerPCEL.Dispose();
 
         void Update()
         {
