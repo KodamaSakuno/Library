@@ -71,6 +71,7 @@
     <Compile Include="MathUtil.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="OS.cs" />
+    <Compile Include="PropertyChangedEventArgsFactory.cs" />
     <Compile Include="PropertyChangedEventListener.cs" />
     <Compile Include="PropertyChangedExtensions.cs" />
     <Compile Include="RandomUtil.cs" />

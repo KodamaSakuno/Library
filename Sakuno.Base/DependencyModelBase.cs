@@ -11,7 +11,7 @@ namespace Sakuno
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
         protected virtual void OnPropertyChanged([CallerMemberName] string rpPropertyName = null)
-            => PropertyChanged(this, new PropertyChangedEventArgs(rpPropertyName));
+            => PropertyChanged(this, PropertyChangedEventArgsFactory.Get(rpPropertyName));
         protected virtual void OnPropertyChanged<T>(Expression<Func<T>> rpExpression)
         {
             if (rpExpression == null)
