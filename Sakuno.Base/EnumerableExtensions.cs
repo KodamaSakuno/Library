@@ -7,12 +7,21 @@ namespace Sakuno
 {
     public static class EnumerableExtensions
     {
-        public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> rpSource, int rpChunkSize)
-            => rpSource.Select((r, i) => new { Index = i, Value = r })
-                           .GroupBy(r => r.Index / rpChunkSize)
-                           .Select(r => r.Select(rpValue => rpValue.Value));
+        public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> rpSource, int rpChunkSize) =>
+            rpSource.Select((r, i) => new { Index = i, Value = r })
+                .GroupBy(r => r.Index / rpChunkSize)
+                .Select(r => r.Select(rpValue => rpValue.Value));
 
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> rpEnumerable) => rpEnumerable == null || !rpEnumerable.Any();
+
+        public static IEnumerable<T> Do<T>(this IEnumerable<T> rpEnumerable, Action<T> rpAction)
+        {
+            foreach (var rItem in rpEnumerable)
+            {
+                rpAction(rItem);
+                yield return rItem;
+            }
+        }
 
         public static HybridDictionary<TKey, TSource> ToHybridDictionary<TSource, TKey>(this IEnumerable<TSource> rpSource, Func<TSource, TKey> rpKeySelector) => rpSource.ToHybridDictionary(rpKeySelector, IdentityFunction<TSource>.Instance, null);
         public static HybridDictionary<TKey, TSource> ToHybridDictionary<TSource, TKey>(this IEnumerable<TSource> rpSource, Func<TSource, TKey> rpKeySelector, IEqualityComparer<TKey> rpComparer) => rpSource.ToHybridDictionary(rpKeySelector, IdentityFunction<TSource>.Instance, rpComparer);
