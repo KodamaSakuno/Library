@@ -57,10 +57,14 @@ namespace Sakuno.UserInterface.Controls
 
         CustomPopupPlacement[] PopupPlacementCallback(Size rpPopupSize, Size rpTargetSize, Point rpOffset)
         {
+            var rLeft = -rpPopupSize.Width + rpTargetSize.Width - rpOffset.X;
+            var rTop = rpTargetSize.Height + rpOffset.Y;
+
             return new[]
             {
-                new CustomPopupPlacement(new Point(rpOffset.X * DpiUtil.ScaleX, (rpTargetSize.Height + rpOffset.Y) * DpiUtil.ScaleY), PopupPrimaryAxis.Horizontal),
-                new CustomPopupPlacement(new Point((-rpPopupSize.Width + rpTargetSize.Width - rpOffset.X) * DpiUtil.ScaleX, (-rpPopupSize.Height - rpOffset.Y) * DpiUtil.ScaleY), PopupPrimaryAxis.Horizontal),
+                new CustomPopupPlacement(new Point(rLeft * DpiUtil.ScaleX, rTop * DpiUtil.ScaleY), PopupPrimaryAxis.Horizontal),
+                new CustomPopupPlacement(new Point(rpOffset.X * DpiUtil.ScaleX, rTop * DpiUtil.ScaleY), PopupPrimaryAxis.Horizontal),
+                new CustomPopupPlacement(new Point(rLeft * DpiUtil.ScaleX, (-rpPopupSize.Height - rpOffset.Y) * DpiUtil.ScaleY), PopupPrimaryAxis.Horizontal),
             };
         }
     }
