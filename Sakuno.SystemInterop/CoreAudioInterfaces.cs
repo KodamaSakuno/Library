@@ -13,11 +13,23 @@ namespace Sakuno.SystemInterop
             [PreserveSig]
             int Activate([In] ref Guid iid, [In] uint dwClsCtx, [In] IntPtr pActivationParams, [Out][MarshalAs(UnmanagedType.IUnknown)] out object ppInterface);
             [PreserveSig]
+            int OpenPropertyStore([In] NativeConstants.STGM stgmAccess, [Out][MarshalAs(UnmanagedType.Interface)] out IPropertyStore ppProperties);
+            [PreserveSig]
             int GetId([Out][MarshalAs(UnmanagedType.LPWStr)] out string ppstrId);
             [PreserveSig]
-            int GetState([Out] out NativeEnums.DeviceState pdwState);
+            int GetState([Out] out AudioDeviceState pdwState);
+        }
 
-            // Need more implement
+        [ComImport]
+        [Guid("7991EEC9-7E89-4D85-8390-6C703CEC60C0")]
+        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        public interface IMMNotificationClient
+        {
+            void OnDeviceStateChanged([In][MarshalAs(UnmanagedType.LPWStr)] string pwstrDeviceId, [In] AudioDeviceState dwNewState);
+            void OnDeviceAdded([In][MarshalAs(UnmanagedType.LPWStr)] string pwstrDeviceId, [In] AudioDeviceState dwNewState);
+            void OnDeviceRemoved([In][MarshalAs(UnmanagedType.LPWStr)] string pwstrDeviceId, [In] AudioDeviceState dwNewState);
+            void OnDefaultDeviceChanged([In] NativeConstants.DataFlow flow, [In] NativeConstants.Role role, [In][MarshalAs(UnmanagedType.LPWStr)] string pwstrDefaultDeviceId);
+            void OnPropertyValueChanged([In][MarshalAs(UnmanagedType.LPWStr)] string pwstrDeviceId, [In] NativeStructs.PROPERTYKEY key);
         }
 
         [ComImport]
@@ -37,15 +49,15 @@ namespace Sakuno.SystemInterop
         public interface IMMDeviceEnumerator
         {
             [PreserveSig]
-            int EnumAudioEndpoints([In] NativeConstants.DataFlow dataFlow, [In] NativeEnums.DeviceState role, [Out][MarshalAs(UnmanagedType.Interface)] out IMMDeviceCollection ppDevices);
+            int EnumAudioEndpoints([In] NativeConstants.DataFlow dataFlow, [In] AudioDeviceState role, [Out][MarshalAs(UnmanagedType.Interface)] out IMMDeviceCollection ppDevices);
             [PreserveSig]
             int GetDefaultAudioEndpoint([In] NativeConstants.DataFlow dataFlow, [In] NativeConstants.Role role, [Out][MarshalAs(UnmanagedType.Interface)] out IMMDevice ppDevice);
             [PreserveSig]
             int GetDevice([In] string pwstrId, [Out] out IMMDevice ppDevice);
             [PreserveSig]
-            int RegisterEndpointNotificationCallback([In] IntPtr pNotify);
+            int RegisterEndpointNotificationCallback([In] IMMNotificationClient pNotify);
             [PreserveSig]
-            int UnregisterEndpointNotificationCallback([In] IntPtr pNotify);
+            int UnregisterEndpointNotificationCallback([In] IMMNotificationClient pNotify);
         }
         [ComImport]
         [Guid("BCDE0395-E52F-467C-8E3D-C4579291692E")]
@@ -100,8 +112,7 @@ namespace Sakuno.SystemInterop
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IAudioSessionNotification
         {
-            [PreserveSig]
-            int OnSessionCreated([In] IAudioSessionControl NewSession);
+            void OnSessionCreated([In] IAudioSessionControl NewSession);
         }
 
         [ComImport]
@@ -157,7 +168,7 @@ namespace Sakuno.SystemInterop
             [PreserveSig]
             int GetGroupingParam([Out] out Guid pRetVal);
             [PreserveSig]
-            int SetGroupingParam(ref Guid Override, [In] ref Guid EventContext);
+            int SetGroupingParam([In] ref Guid Override, [In] ref Guid EventContext);
             [PreserveSig]
             int RegisterAudioSessionNotification([In] IAudioSessionEvents NewNotifications);
             [PreserveSig]
@@ -178,20 +189,13 @@ namespace Sakuno.SystemInterop
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IAudioSessionEvents
         {
-            [PreserveSig]
-            int OnDisplayNameChanged([In][MarshalAs(UnmanagedType.LPWStr)] string NewDisplayName, [In] ref Guid EventContext);
-            [PreserveSig]
-            int OnIconPathChanged([In][MarshalAs(UnmanagedType.LPWStr)] string NewIconPath, [In] ref Guid EventContext);
-            [PreserveSig]
-            int OnSimpleVolumeChanged([In] float NewVolume, [In] bool NewMute, [In] ref Guid EventContext);
-            [PreserveSig]
-            int OnChannelVolumeChanged([In] uint ChannelCount, [In] IntPtr NewChannelVolumeArray, [In] uint ChangedChannel, [In] ref Guid EventContext);
-            [PreserveSig]
-            int OnGroupingParamChanged([In] ref Guid NewGroupingParam, [In] ref Guid EventContext);
-            [PreserveSig]
-            int OnStateChanged([In] AudioSessionState NewState);
-            [PreserveSig]
-            int OnSessionDisconnected([In] AudioSessionDisconnectReason DisconnectReason);
+            void OnDisplayNameChanged([In][MarshalAs(UnmanagedType.LPWStr)] string NewDisplayName, [In] ref Guid EventContext);
+            void OnIconPathChanged([In][MarshalAs(UnmanagedType.LPWStr)] string NewIconPath, [In] ref Guid EventContext);
+            void OnSimpleVolumeChanged([In] float NewVolume, [In] bool NewMute, [In] ref Guid EventContext);
+            void OnChannelVolumeChanged([In] uint ChannelCount, [In] IntPtr NewChannelVolumeArray, [In] uint ChangedChannel, [In] ref Guid EventContext);
+            void OnGroupingParamChanged([In] ref Guid NewGroupingParam, [In] ref Guid EventContext);
+            void OnStateChanged([In] AudioSessionState NewState);
+            void OnSessionDisconnected([In] AudioSessionDisconnectReason DisconnectReason);
         }
     }
 }

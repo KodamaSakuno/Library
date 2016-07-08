@@ -2,12 +2,12 @@
 
 namespace Sakuno.SystemInterop
 {
-    public class VolumeChangedEventArgs : EventArgs
+    public class AudioSessionVolumeChangedEventArgs : EventArgs
     {
         public bool IsMute { get; set; }
         public int Volume { get; set; }
 
-        public VolumeChangedEventArgs(bool rpIsMute, int rpVolumn)
+        public AudioSessionVolumeChangedEventArgs(bool rpIsMute, int rpVolumn)
         {
             IsMute = rpIsMute;
             Volume = rpVolumn;

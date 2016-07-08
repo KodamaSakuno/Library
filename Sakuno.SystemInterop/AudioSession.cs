@@ -3,10 +3,14 @@ using System.Runtime.InteropServices;
 
 namespace Sakuno.SystemInterop
 {
-    public class VolumeSession : DisposableObject, NativeInterfaces.IAudioSessionEvents
+    public class AudioSession : DisposableObject
     {
         NativeInterfaces.IAudioSessionControl2 r_Session;
         NativeInterfaces.ISimpleAudioVolume r_SimpleAudioVolume;
+
+        AudioSessionEventSink r_EventSink;
+
+        public bool IsSystemSoundsSession => r_Session.IsSystemSoundsSession() == 0;
 
         public int ProcessID
         {
@@ -15,6 +19,16 @@ namespace Sakuno.SystemInterop
                 uint rResult;
                 Marshal.ThrowExceptionForHR(r_Session.GetProcessId(out rResult));
                 return (int)rResult;
+            }
+        }
+
+        public AudioSessionState State
+        {
+            get
+            {
+                AudioSessionState rResult;
+                Marshal.ThrowExceptionForHR(r_Session.GetState(out rResult));
+                return rResult;
             }
         }
 
@@ -62,11 +76,11 @@ namespace Sakuno.SystemInterop
             }
         }
 
-        public event Action<VolumeChangedEventArgs> VolumeChanged = delegate { };
-        public event Action<AudioSessionState> StateChanged = delegate { };
-        public event Action<AudioSessionDisconnectReason> Disconnected = delegate { };
+        public event EventHandler<AudioSessionDisconnectReason> Disconnected = delegate { };
+        public event EventHandler<AudioSessionVolumeChangedEventArgs> VolumeChanged = delegate { };
+        public event EventHandler<AudioSessionState> StateChanged = delegate { };
 
-        public VolumeSession(NativeInterfaces.IAudioSessionControl2 rpSession)
+        internal AudioSession(NativeInterfaces.IAudioSessionControl2 rpSession)
         {
             if (rpSession == null)
                 throw new ArgumentNullException(nameof(rpSession));
@@ -74,40 +88,22 @@ namespace Sakuno.SystemInterop
             r_Session = rpSession;
             r_SimpleAudioVolume = (NativeInterfaces.ISimpleAudioVolume)rpSession;
 
-            r_Session.RegisterAudioSessionNotification(this);
+            r_EventSink = new AudioSessionEventSink(this);
+            r_Session.RegisterAudioSessionNotification(r_EventSink);
         }
 
         protected override void DisposeNativeResources()
         {
-            r_Session.UnregisterAudioSessionNotification(this);
+            r_Session.UnregisterAudioSessionNotification(r_EventSink);
 
             Marshal.ReleaseComObject(r_Session);
+
             r_Session = null;
             r_SimpleAudioVolume = null;
         }
 
-        int NativeInterfaces.IAudioSessionEvents.OnDisplayNameChanged(string rpNewDisplayName, ref Guid rrpEventContext) => 0;
-        int NativeInterfaces.IAudioSessionEvents.OnIconPathChanged(string rpNewIconPath, ref Guid rrpEventContext) => 0;
-        int NativeInterfaces.IAudioSessionEvents.OnChannelVolumeChanged(uint rpChannelCount, IntPtr rpNewChannelVolumeArray, uint rpChangedChannel, ref Guid rrpEventContext) => 0;
-        int NativeInterfaces.IAudioSessionEvents.OnGroupingParamChanged(ref Guid rrpNewGroupingParam, ref Guid rrpEventContext) => 0;
-
-        int NativeInterfaces.IAudioSessionEvents.OnSimpleVolumeChanged(float rpNewVolume, bool rpNewMute, ref Guid rrpEventContext)
-        {
-            VolumeChanged(new VolumeChangedEventArgs(rpNewMute, (int)(100 * rpNewVolume)));
-
-            return 0;
-        }
-        int NativeInterfaces.IAudioSessionEvents.OnStateChanged(AudioSessionState rpNewState)
-        {
-            StateChanged(rpNewState);
-
-            return 0;
-        }
-        int NativeInterfaces.IAudioSessionEvents.OnSessionDisconnected(AudioSessionDisconnectReason rpDisconnectReason)
-        {
-            Disconnected(rpDisconnectReason);
-
-            return 0;
-        }
+        internal void OnSessionDisconnected(AudioSessionDisconnectReason rpDisconnectReason) => Disconnected(this, rpDisconnectReason);
+        internal void OnVolumeChanged(AudioSessionVolumeChangedEventArgs e) => VolumeChanged(this, e);
+        internal void OnStateChanged(AudioSessionState rpState) => StateChanged(this, rpState);
     }
 }

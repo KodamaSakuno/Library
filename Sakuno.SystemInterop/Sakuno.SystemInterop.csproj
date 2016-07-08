@@ -50,8 +50,34 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AudioSessionDisconnectReason.cs" />
-    <Compile Include="AudioSessionState.cs" />
+    <Compile Include="AudioDevice.cs">
+      <DependentUpon>AudioManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AudioDeviceState.cs">
+      <DependentUpon>AudioManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AudioManager.cs" />
+    <Compile Include="AudioManagerEventSink.cs">
+      <DependentUpon>AudioManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AudioSessionCreatedEventArgs.cs">
+      <DependentUpon>AudioManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AudioSessionDisconnectReason.cs">
+      <DependentUpon>AudioManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AudioSessionEventSink.cs">
+      <DependentUpon>AudioManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AudioSessionState.cs">
+      <DependentUpon>AudioManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AudioSessionVolumeChangedEventArgs.cs">
+      <DependentUpon>AudioManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AudioSession.cs">
+      <DependentUpon>AudioManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="ComCtl32.cs">
       <DependentUpon>NativeMethods.cs</DependentUpon>
     </Compile>
@@ -148,9 +174,6 @@
     <Compile Include="User32.cs">
       <DependentUpon>NativeMethods.cs</DependentUpon>
     </Compile>
-    <Compile Include="VolumeManager.cs" />
-    <Compile Include="VolumeChangedEventArgs.cs" />
-    <Compile Include="VolumeSession.cs" />
     <Compile Include="WinINet.cs">
       <DependentUpon>NativeMethods.cs</DependentUpon>
     </Compile>

@@ -871,5 +871,12 @@ namespace Sakuno.SystemInterop
             SM_CONVERTIBLESLATEMODE,
             SM_SYSTEMDOCKED,
         }
+
+        public enum STGM
+        {
+            STGM_READ,
+            STGM_WRITE,
+            STGM_READWRITE,
+        }
     }
 }
