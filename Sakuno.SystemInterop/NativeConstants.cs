@@ -878,5 +878,40 @@ namespace Sakuno.SystemInterop
             STGM_WRITE,
             STGM_READWRITE,
         }
+
+        public enum AF
+        {
+            AF_INET = 2,
+            AF_INET6 = 23,
+        }
+
+        public enum TCP_TABLE_CLASS
+        {
+            TCP_TABLE_BASIC_LISTENER,
+            TCP_TABLE_BASIC_CONNECTIONS,
+            TCP_TABLE_BASIC_ALL,
+            TCP_TABLE_OWNER_PID_LISTENER,
+            TCP_TABLE_OWNER_PID_CONNECTIONS,
+            TCP_TABLE_OWNER_PID_ALL,
+            TCP_TABLE_OWNER_MODULE_LISTENER,
+            TCP_TABLE_OWNER_MODULE_CONNECTIONS,
+            TCP_TABLE_OWNER_MODULE_ALL
+        }
+
+        public enum MIB_TCP_STATE
+        {
+            MIB_TCP_STATE_CLOSED = 1,
+            MIB_TCP_STATE_LISTEN,
+            MIB_TCP_STATE_SYN_SENT,
+            MIB_TCP_STATE_SYN_RCVD,
+            MIB_TCP_STATE_ESTAB,
+            MIB_TCP_STATE_FIN_WAIT1,
+            MIB_TCP_STATE_FIN_WAIT2,
+            MIB_TCP_STATE_CLOSE_WAIT,
+            MIB_TCP_STATE_CLOSING,
+            MIB_TCP_STATE_LAST_ACK,
+            MIB_TCP_STATE_TIME_WAIT,
+            MIB_TCP_STATE_DELETE_TCB,
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Runtime.InteropServices;
 using FILETIME = System.Runtime.InteropServices.ComTypes.FILETIME;
 
@@ -354,6 +355,29 @@ namespace Sakuno.SystemInterop
                 nButtonID = rpID;
                 pszButtonText = rpText;
             }
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct MIB_TCPTABLE
+        {
+            public uint dwNumEntries;
+            public MIB_TCPROW_OWNER_PID table;
+        }
+        [StructLayout(LayoutKind.Sequential)]
+        public struct MIB_TCPROW_OWNER_PID
+        {
+            public NativeConstants.MIB_TCP_STATE state;
+            public int dwLocalAddr;
+            public int dwLocalPort;
+            public int dwRemoteAddr;
+            public int dwRemotePort;
+            public int dwOwningPid;
+
+            public IPAddress LocalAddress => new IPAddress(dwLocalAddr);
+            public int LocalPort => ((dwLocalPort & 0xFF) << 8 & 0xFF00) + ((dwLocalPort & 0xFF00) >> 8);
+
+            public IPAddress RemoteAddress => new IPAddress(dwRemoteAddr);
+            public int RemotePort => ((dwRemotePort & 0xFF) << 8 & 0xFF00) + ((dwRemotePort & 0xFF00) >> 8);
         }
     }
 }

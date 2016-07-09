@@ -106,6 +106,9 @@
     <Compile Include="Gdi32.cs">
       <DependentUpon>NativeMethods.cs</DependentUpon>
     </Compile>
+    <Compile Include="IPHelperApi.cs">
+      <DependentUpon>NativeMethods.cs</DependentUpon>
+    </Compile>
     <Compile Include="Kernel32.cs">
       <DependentUpon>NativeMethods.cs</DependentUpon>
     </Compile>
