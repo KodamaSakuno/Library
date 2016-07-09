@@ -8,6 +8,7 @@
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Styles/Controls/Expander.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Styles/Controls/FocusVisualStyle.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Styles/Controls/GridSplitter.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Styles/Controls/ItemsControl.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Styles/Controls/ListView.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Styles/Controls/RadioButton.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Sakuno.UserInterface;component/Styles/Controls/ScrollBar.xaml" />
