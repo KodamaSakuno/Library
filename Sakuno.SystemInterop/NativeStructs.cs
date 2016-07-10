@@ -379,5 +379,17 @@ namespace Sakuno.SystemInterop
             public IPAddress RemoteAddress => new IPAddress(dwRemoteAddr);
             public int RemotePort => ((dwRemotePort & 0xFF) << 8 & 0xFF00) + ((dwRemotePort & 0xFF00) >> 8);
         }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct SHFILEINFO
+        {
+            public IntPtr hIcon;
+            public int iIcon;
+            public FileAttributes dwAttributes;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+            public string szDisplayName;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
+            public string szTypeName;
+        }
     }
 }

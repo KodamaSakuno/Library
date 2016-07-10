@@ -170,6 +170,10 @@ namespace Sakuno.SystemInterop
 
             [DllImport(DllName)]
             public static extern IntPtr RealChildWindowFromPoint(IntPtr hwndParent, NativeStructs.POINT ptParentClientCoords);
+
+            [DllImport(DllName, SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool DestroyIcon(IntPtr hIcon);
         }
     }
 }
