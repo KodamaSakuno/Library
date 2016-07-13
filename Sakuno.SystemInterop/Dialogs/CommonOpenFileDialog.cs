@@ -11,7 +11,6 @@ namespace Sakuno.SystemInterop.Dialogs
 
         public bool AllowMultiselect { get; set; }
 
-        public string Filename => r_Filenames.Count > 0 ? r_Filenames[0] : null;
         public IEnumerable<string> Filenames
         {
             get

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Interop;
@@ -35,6 +36,21 @@ namespace Sakuno.SystemInterop.Dialogs
         bool r_IsFileTypesSet;
 
         protected List<string> r_Filenames = new List<string>();
+        public string Filename
+        {
+            get
+            {
+                if (r_Filenames.Count == 0)
+                    throw new InvalidOperationException();
+
+                var rResult = r_Filenames[0];
+
+                if (!DefaultExtension.IsNullOrEmpty())
+                    rResult = Path.ChangeExtension(rResult, DefaultExtension);
+
+                return rResult;
+            }
+        }
 
         public CommonFileDialogResult Show()
         {

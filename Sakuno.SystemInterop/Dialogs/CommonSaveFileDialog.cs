@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace Sakuno.SystemInterop.Dialogs
@@ -37,6 +38,11 @@ namespace Sakuno.SystemInterop.Dialogs
                 throw new InvalidOperationException("Save with null item");
 
             r_Filenames.Add(GetFilenameFromShellItem(rItem));
+        }
+
+        public Stream OpenFile()
+        {
+            return new FileStream(Filename, FileMode.Create, FileAccess.ReadWrite);
         }
     }
 }
