@@ -15,7 +15,8 @@ namespace Sakuno.UserInterface
             rpDialog.ShowInTaskbar = false;
             return rpDialog.ShowDialog();
         }
-        static Window GetTopWindow()
+
+        public static Window GetTopWindow()
         {
             var rHandle = NativeMethods.User32.GetForegroundWindow();
             if (rHandle == IntPtr.Zero)
