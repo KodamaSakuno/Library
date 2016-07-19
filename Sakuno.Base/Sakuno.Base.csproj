@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -44,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayExtensions.cs" />
+    <Compile Include="ArrayUtil.cs" />
     <Compile Include="BooleanUtil.cs" />
     <Compile Include="Collections\HybridDictionary`TKey`TValue.cs" />
     <Compile Include="Collections\ListDictionary`TKey`TValue.cs" />
@@ -66,6 +69,7 @@
     <Compile Include="DoubleExtensions.cs" />
     <Compile Include="DoubleUtil.cs" />
     <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="EnumUtil.cs" />
     <Compile Include="EventListener`T.cs" />
     <Compile Include="IdentityFunction`T.cs" />
     <Compile Include="LazyString.cs" />
