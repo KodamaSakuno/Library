@@ -78,6 +78,7 @@
     <Compile Include="AudioSession.cs">
       <DependentUpon>AudioManager.cs</DependentUpon>
     </Compile>
+    <Compile Include="CodeTimer.cs" />
     <Compile Include="ComCtl32.cs">
       <DependentUpon>NativeMethods.cs</DependentUpon>
     </Compile>

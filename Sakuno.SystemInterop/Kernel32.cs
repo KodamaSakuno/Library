@@ -24,6 +24,13 @@ namespace Sakuno.SystemInterop
             [DllImport(DllName, SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool CloseHandle(IntPtr hObject);
+
+            [DllImport(DllName, SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool QueryThreadCycleTime(IntPtr ThreadHandle, out ulong CycleTime);
+
+            [DllImport(DllName)]
+            public static extern IntPtr GetCurrentThread();
         }
     }
 }
