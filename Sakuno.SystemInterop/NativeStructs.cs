@@ -391,5 +391,33 @@ namespace Sakuno.SystemInterop
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
             public string szTypeName;
         }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct SYSTEM_INFO
+        {
+            public NativeConstants.PROCESSOR_ARCHITECTURE wProcessorArchitecture;
+            public ushort wReserved;
+            public uint dwPageSize;
+            public IntPtr lpMinimumApplicationAddress;
+            public IntPtr lpMaximumApplicationAddress;
+            public IntPtr dwActiveProcessorMask;
+            public uint dwNumberOfProcessors;
+            public uint dwProcessorType;
+            public uint dwAllocationGranularity;
+            public short wProcessorLevel;
+            public short wProcessorRevision;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct MEMORY_BASIC_INFORMATION
+        {
+            public IntPtr BaseAddress;
+            public IntPtr AllocationBase;
+            public NativeEnums.PAGE AllocationProtect;
+            public int RegionSize;
+            public NativeEnums.MEM State;
+            public NativeEnums.PAGE Protect;
+            public NativeEnums.MEM Type;
+        }
     }
 }

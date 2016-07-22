@@ -913,5 +913,13 @@ namespace Sakuno.SystemInterop
             MIB_TCP_STATE_TIME_WAIT,
             MIB_TCP_STATE_DELETE_TCB,
         }
+
+        public enum PROCESSOR_ARCHITECTURE : ushort
+        {
+            PROCESSOR_ARCHITECTURE_INTEL,
+            PROCESSOR_ARCHITECTURE_IA64 = 6,
+            PROCESSOR_ARCHITECTURE_AMD64 = 9,
+            PROCESSOR_ARCHITECTURE_UNKNOWN = 0xFFFF,
+        }
     }
 }
