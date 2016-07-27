@@ -89,6 +89,13 @@
     <Compile Include="PropertyChangedEventListener.cs" />
     <Compile Include="PropertyChangedExtensions.cs" />
     <Compile Include="RandomUtil.cs" />
+    <Compile Include="Reflection\ConstructorInvoker.cs" />
+    <Compile Include="Reflection\FieldAccessor.cs" />
+    <Compile Include="Reflection\MethodInvoker.cs" />
+    <Compile Include="Reflection\ObjectMethodInvoker.cs" />
+    <Compile Include="Reflection\PropertyAccessor.cs" />
+    <Compile Include="Reflection\ReflectionCache.cs" />
+    <Compile Include="Reflection\ReflectionExtensions.cs" />
     <Compile Include="SizeUtil.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="TaskExtensions.cs" />
