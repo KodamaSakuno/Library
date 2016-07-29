@@ -63,6 +63,7 @@
     <Compile Include="Controls\AdvancedTabItem.cs" />
     <Compile Include="Controls\AdvancedTabContentPanel.cs" />
     <Compile Include="Controls\AdvancedTabThumbDragEvents.cs" />
+    <Compile Include="Controls\BBCodeBlock.cs" />
     <Compile Include="Controls\ButtonWithPopup.cs" />
     <Compile Include="Controls\DockableZone.cs" />
     <Compile Include="Controls\Docking\DockAdorner.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="DependencyObjectExtensions.cs" />
     <Compile Include="DpiUtil.cs" />
     <Compile Include="Effects\GrayscaleEffect.cs" />
+    <Compile Include="Internal\BBCodeParser.cs" />
     <Compile Include="Internal\CollectionTeaser.cs" />
     <Compile Include="Internal\GlowWindowProcessor.cs" />
     <Compile Include="Internal\GlowWindowProcessorBottom.cs" />
