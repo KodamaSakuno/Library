@@ -5,6 +5,8 @@ namespace Sakuno
 {
     public static class TaskExtensions
     {
+        public static void Forget(this Task rpTask) { }
+
         public static void WaitAll(this Task[] rpTasks) => Task.WaitAll(rpTasks);
         public static void WaitAny(this Task[] rpTasks) => Task.WaitAny(rpTasks);
 
