@@ -44,6 +44,8 @@ namespace Sakuno.Parsers
             select rResult;
 
         public static Parser<IInput<char>, string> AsString(this Parser<IInput<char>, IEnumerable<char>> rpCharacters) => rpCharacters.Select(rpChars => new string(rpChars.ToArray()));
+        public static Parser<IInput<char>, int> AsInt32(this Parser<IInput<char>, IEnumerable<char>> rpCharacters) => rpCharacters.AsString().Select(int.Parse);
+        public static Parser<IInput<char>, long> AsInt64(this Parser<IInput<char>, IEnumerable<char>> rpCharacters) => rpCharacters.AsString().Select(long.Parse);
 
         public static Parser<IInput<char>, IEnumerable<char>> String(string rpString) => rpString.Select(r => Char(r).Once()).Aggregate(ParserCombinatorExtensions.Concat).AddDescription(rpString);
 
