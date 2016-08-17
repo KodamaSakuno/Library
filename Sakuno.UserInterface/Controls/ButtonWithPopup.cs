@@ -62,9 +62,9 @@ namespace Sakuno.UserInterface.Controls
 
             return new[]
             {
-                new CustomPopupPlacement(new Point(rLeft * DpiUtil.ScaleX, rTop * DpiUtil.ScaleY), PopupPrimaryAxis.Horizontal),
-                new CustomPopupPlacement(new Point(rpOffset.X * DpiUtil.ScaleX, rTop * DpiUtil.ScaleY), PopupPrimaryAxis.Horizontal),
-                new CustomPopupPlacement(new Point(rLeft * DpiUtil.ScaleX, (-rpPopupSize.Height - rpOffset.Y) * DpiUtil.ScaleY), PopupPrimaryAxis.Horizontal),
+                new CustomPopupPlacement(new Point(rLeft, rTop), PopupPrimaryAxis.Horizontal),
+                new CustomPopupPlacement(new Point(rpOffset.X, rTop), PopupPrimaryAxis.Horizontal),
+                new CustomPopupPlacement(new Point(rLeft, -rpPopupSize.Height - rpOffset.Y), PopupPrimaryAxis.Horizontal),
             };
         }
     }
