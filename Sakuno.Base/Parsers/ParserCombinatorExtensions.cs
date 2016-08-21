@@ -111,6 +111,11 @@ namespace Sakuno.Parsers
                 return Result.Success<TInput, IEnumerable<T>>(rValues, rRest);
             };
 
+        public static Parser<TInput, IEnumerable<T>> ManyIfPartiallyParsed<TInput, T>(this Parser<TInput, T> rpParser) where TInput : IInput =>
+            from rItems in rpParser.Many()
+            from rResult in rpParser.Once().LeftIfPartiallyParsed(Parsers.Return<TInput, IEnumerable<T>>(rItems))
+            select rResult;
+
         public static Parser<TInput, T1> Except<TInput, T1, T2>(this Parser<TInput, T1> rpParser, Parser<TInput, T2> rpExcept) where TInput : IInput =>
             rpInput =>
             {
@@ -137,6 +142,14 @@ namespace Sakuno.Parsers
             };
 
         public static Parser<TInput, IEnumerable<T1>> DelimitedBy<TInput, T1, T2>(this Parser<TInput, T1> rpParser, Parser<TInput, T2> rpDelimiter) where TInput : IInput =>
+            from rFirst in rpParser.Once()
+            from rRest in (
+                from rSeparator in rpDelimiter
+                from rValue in rpParser
+                select rValue).Many().LeftIfPartiallyParsed(Parsers.EndOfInput<TInput, IEnumerable<T1>>())
+            select rRest == null ? rFirst : rFirst.Concat(rRest);
+
+        public static Parser<TInput, IEnumerable<T1>> StrictDelimitedBy<TInput, T1, T2>(this Parser<TInput, T1> rpParser, Parser<TInput, T2> rpDelimiter) where TInput : IInput =>
             from rFirst in rpParser.Once()
             from rRest in (
                 from rSeparator in rpDelimiter
