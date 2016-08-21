@@ -40,7 +40,7 @@ namespace Sakuno.Parsers
         public static Parser<IInput<char>, T> Token<T>(this Parser<IInput<char>, T> rpParser) =>
             from rLeading in WhiteSpace.Many()
             from rResult in rpParser
-            from rTrailing in WhiteSpace.Many()
+            from rTrailing in WhiteSpace.Many().LeftIfPartiallyParsed(Parsers.EndOfInput<IInput<char>, IEnumerable<char>>())
             select rResult;
 
         public static Parser<IInput<char>, string> AsString(this Parser<IInput<char>, IEnumerable<char>> rpCharacters) => rpCharacters.Select(rpChars => new string(rpChars.ToArray()));
