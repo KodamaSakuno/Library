@@ -27,6 +27,13 @@ namespace Sakuno.UserInterface.Controls
             set { SetValue(DisableTabReorderProperty, value); }
         }
 
+        public static readonly DependencyProperty LockLayoutProperty = DependencyProperty.Register(nameof(LockLayout), typeof(bool), typeof(AdvancedTabControl), new UIPropertyMetadata(BooleanUtil.False));
+        public bool LockLayout
+        {
+            get { return (bool)GetValue(LockLayoutProperty); }
+            set { SetValue(LockLayoutProperty, value); }
+        }
+
         public static readonly DependencyProperty TabControllerProperty = DependencyProperty.Register(nameof(TabController), typeof(TabController), typeof(AdvancedTabControl), new UIPropertyMetadata(null));
         public TabController TabController
         {
@@ -341,6 +348,9 @@ namespace Sakuno.UserInterface.Controls
 
         void OnItemPreviewDragDelta(AdvancedTabDragDeltaEventArgs e)
         {
+            if (LockLayout)
+                return;
+
             if (r_HeaderItemsControl.Items.Count > 1 || r_HeaderItemsControl.IsAncestorContained<DockGroup>())
                 return;
 
@@ -361,6 +371,9 @@ namespace Sakuno.UserInterface.Controls
         }
         void OnItemDragDelta(AdvancedTabDragDeltaEventArgs e)
         {
+            if (LockLayout)
+                return;
+
             if (TabController == null)
             {
                 e.Handled = true;

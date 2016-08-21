@@ -17,6 +17,13 @@ namespace Sakuno.UserInterface.Controls
             set { SetValue(DisableTabReorderProperty, value); }
         }
 
+        public static readonly DependencyProperty LockLayoutProperty = DependencyProperty.Register(nameof(LockLayout), typeof(bool), typeof(AdvancedTabHeaderItemsControl), new UIPropertyMetadata(BooleanUtil.False));
+        public bool LockLayout
+        {
+            get { return (bool)GetValue(LockLayoutProperty); }
+            set { SetValue(LockLayoutProperty, value); }
+        }
+
         internal AdvancedTabControl Owner { get; set; }
 
         Dictionary<AdvancedTabItem, ItemPositionInfo> r_OriginalPositionInfoOfSiblingItems;
@@ -82,7 +89,7 @@ namespace Sakuno.UserInterface.Controls
 
         void OnItemDragStarted(AdvancedTabDragStartedEventArgs e)
         {
-            if (DisableTabReorder)
+            if (DisableTabReorder || LockLayout)
                 return;
 
             r_OriginalPositionInfoOfSiblingItems = GetItems().Except(new[] { e.Item }).Select(r => new ItemPositionInfo(r)).ToDictionary(r => r.Item);

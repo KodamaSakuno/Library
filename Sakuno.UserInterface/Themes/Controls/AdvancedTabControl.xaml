@@ -40,7 +40,7 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
 
-                            <ruic:AdvancedTabHeaderItemsControl x:Name="PART_HeaderItemsControl" ItemsSource="{Binding Items, RelativeSource={RelativeSource TemplatedParent}}" ItemContainerStyle="{TemplateBinding ItemContainerStyle}" ItemTemplate="{TemplateBinding ItemTemplate}" ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}" DisableTabReorder="{TemplateBinding DisableTabReorder}" />
+                            <ruic:AdvancedTabHeaderItemsControl x:Name="PART_HeaderItemsControl" ItemsSource="{Binding Items, RelativeSource={RelativeSource TemplatedParent}}" ItemContainerStyle="{TemplateBinding ItemContainerStyle}" ItemTemplate="{TemplateBinding ItemTemplate}" ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}" DisableTabReorder="{TemplateBinding DisableTabReorder}" LockLayout="{TemplateBinding LockLayout}" />
 
                             <Rectangle Fill="{DynamicResource ActiveBackgroundBrushKey}" Grid.Row="1" />
 
