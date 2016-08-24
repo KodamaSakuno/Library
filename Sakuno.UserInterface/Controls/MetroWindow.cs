@@ -135,17 +135,22 @@ namespace Sakuno.UserInterface.Controls
                     var rWidth = NativeUtils.LoWord(rpLParam);
                     var rHeight = NativeUtils.HiWord(rpLParam);
 
-                    var rWindowLeft = Top;
-                    var rWindowTop = Left;
-                    Left = rWindowLeft;
-                    Top = rWindowTop;
+                    var rScreenOrientation = rWidth > rHeight ? ScreenOrientation.Landscape : ScreenOrientation.Portrait;
+                    if (rScreenOrientation != ScreenOrientation)
+                    {
 
-                    var rWindowWidth = Height;
-                    var rWindowHeight = Width;
-                    Width = rWindowWidth;
-                    Height = rWindowHeight;
+                        var rWindowLeft = Top;
+                        var rWindowTop = Left;
+                        Left = rWindowLeft;
+                        Top = rWindowTop;
 
-                    ScreenOrientation = rWidth > rHeight ? ScreenOrientation.Landscape : ScreenOrientation.Portrait;
+                        var rWindowWidth = Height;
+                        var rWindowHeight = Width;
+                        Width = rWindowWidth;
+                        Height = rWindowHeight;
+
+                        ScreenOrientation = rScreenOrientation;
+                    }
                     break;
             }
 
