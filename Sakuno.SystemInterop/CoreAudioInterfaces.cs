@@ -10,6 +10,7 @@ namespace Sakuno.SystemInterop
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         internal interface IMMDevice
         {
+            [return: MarshalAs(UnmanagedType.IUnknown)]
             object Activate(ref Guid iid, uint dwClsCtx, IntPtr pActivationParams);
             IPropertyStore OpenPropertyStore(NativeConstants.STGM stgmAccess);
             [return: MarshalAs(UnmanagedType.LPWStr)]
