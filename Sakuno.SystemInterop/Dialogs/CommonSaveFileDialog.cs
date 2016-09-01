@@ -31,8 +31,7 @@ namespace Sakuno.SystemInterop.Dialogs
 
         protected override void ProcessResult()
         {
-            NativeInterfaces.IShellItem rItem;
-            r_Dialog.GetResult(out rItem);
+            var rItem = r_Dialog.GetResult();
 
             if (rItem == null)
                 throw new InvalidOperationException("Save with null item");

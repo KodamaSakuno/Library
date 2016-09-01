@@ -9,7 +9,7 @@ namespace Sakuno.SystemInterop
             const string DllName = "ole32.dll";
 
             [DllImport(DllName, PreserveSig = false)]
-            internal static extern void PropVariantClear([In][Out] NativeStructs.PROPVARIANT pvar);
+            public static extern void PropVariantClear(NativeStructs.PROPVARIANT pvar);
         }
     }
 }

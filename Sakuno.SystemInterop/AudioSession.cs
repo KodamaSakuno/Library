@@ -10,69 +10,38 @@ namespace Sakuno.SystemInterop
 
         AudioSessionEventSink r_EventSink;
 
-        public bool IsSystemSoundsSession => r_Session.IsSystemSoundsSession() == 0;
+        public bool IsSystemSoundsSession => r_Session.IsSystemSoundsSession();
 
-        public int ProcessID
-        {
-            get
-            {
-                uint rResult;
-                Marshal.ThrowExceptionForHR(r_Session.GetProcessId(out rResult));
-                return (int)rResult;
-            }
-        }
+        public int ProcessID => r_Session.GetProcessId();
 
-        public AudioSessionState State
-        {
-            get
-            {
-                AudioSessionState rResult;
-                Marshal.ThrowExceptionForHR(r_Session.GetState(out rResult));
-                return rResult;
-            }
-        }
+        public AudioSessionState State => r_Session.GetState();
 
         public int Volume
         {
-            get
-            {
-                float rResult;
-                Marshal.ThrowExceptionForHR(r_SimpleAudioVolume.GetMasterVolume(out rResult));
-                return (int)(rResult * 100);
-            }
+            get { return (int)(r_SimpleAudioVolume.GetMasterVolume() * 100); }
             set
             {
                 var rGuid = Guid.Empty;
-                Marshal.ThrowExceptionForHR(r_SimpleAudioVolume.SetMasterVolume((float)(value / 100.0), ref rGuid));
+                r_SimpleAudioVolume.SetMasterVolume((float)(value / 100.0), ref rGuid);
             }
         }
         public bool IsMute
         {
-            get
-            {
-                bool rResult;
-                Marshal.ThrowExceptionForHR(r_SimpleAudioVolume.GetMute(out rResult));
-                return rResult;
-            }
+            get { return r_SimpleAudioVolume.GetMute(); }
             set
             {
                 var rGuid = Guid.Empty;
-                Marshal.ThrowExceptionForHR(r_SimpleAudioVolume.SetMute(value, ref rGuid));
+                r_SimpleAudioVolume.SetMute(value, ref rGuid);
             }
         }
 
         public string DisplayName
         {
-            get
-            {
-                string rResult;
-                Marshal.ThrowExceptionForHR(r_Session.GetDisplayName(out rResult));
-                return rResult;
-            }
+            get { return r_Session.GetDisplayName(); }
             set
             {
                 var rGuid = Guid.Empty;
-                Marshal.ThrowExceptionForHR(r_Session.SetDisplayName(value, ref rGuid));
+                r_Session.SetDisplayName(value, ref rGuid);
             }
         }
 

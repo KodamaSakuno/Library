@@ -33,7 +33,7 @@ namespace Sakuno.SystemInterop
                 var rBuffer = new StringBuilder(256);
 
                 var rFindData = new NativeStructs.WIN32_FIND_DATAW();
-                Marshal.ThrowExceptionForHR(rShellLink.GetPath(rBuffer, rBuffer.Capacity, ref rFindData, NativeEnums.SLGP.SLGP_UNCPRIORITY));
+                rShellLink.GetPath(rBuffer, rBuffer.Capacity, ref rFindData, NativeEnums.SLGP.SLGP_UNCPRIORITY);
                 var rTargetPath = rBuffer.ToString();
 
                 string rAppModelID;
@@ -41,7 +41,7 @@ namespace Sakuno.SystemInterop
                 {
                     var rPropertyStore = (NativeInterfaces.IPropertyStore)rShellLink;
                     var rAppUserModelIDPropertyKey = new NativeStructs.PROPERTYKEY(NativeGuids.PKEY_AppUserModel_ID, 5);
-                    Marshal.ThrowExceptionForHR(rPropertyStore.GetValue(ref rAppUserModelIDPropertyKey, rPropertyVariant));
+                    rPropertyStore.GetValue(ref rAppUserModelIDPropertyKey, rPropertyVariant);
                     rAppModelID = rPropertyVariant.StringValue;
                 }
 
@@ -53,14 +53,14 @@ namespace Sakuno.SystemInterop
 
             rShellLink = (NativeInterfaces.IShellLinkW)new NativeInterfaces.CShellLink();
 
-            Marshal.ThrowExceptionForHR(rShellLink.SetPath(rpShortcutTargetPath));
+            rShellLink.SetPath(rpShortcutTargetPath);
 
             using (var rPropertyVariant = new NativeStructs.PROPVARIANT(rpAppUserModelID))
             {
                 var rPropertyStore = (NativeInterfaces.IPropertyStore)rShellLink;
                 var rAppUserModelIDPropertyKey = new NativeStructs.PROPERTYKEY(NativeGuids.PKEY_AppUserModel_ID, 5);
-                Marshal.ThrowExceptionForHR(rPropertyStore.SetValue(ref rAppUserModelIDPropertyKey, rPropertyVariant));
-                Marshal.ThrowExceptionForHR(rPropertyStore.Commit());
+                rPropertyStore.SetValue(ref rAppUserModelIDPropertyKey, rPropertyVariant);
+                rPropertyStore.Commit();
             }
 
             rPersistFile = (IPersistFile)rShellLink;

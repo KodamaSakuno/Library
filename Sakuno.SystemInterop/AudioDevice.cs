@@ -6,25 +6,9 @@ namespace Sakuno.SystemInterop
     {
         NativeInterfaces.IMMDevice r_Device;
 
-        public string ID
-        {
-            get
-            {
-                string rResult;
-                Marshal.ThrowExceptionForHR(r_Device.GetId(out rResult));
-                return rResult;
-            }
-        }
+        public string ID => r_Device.GetId();
 
-        public AudioDeviceState State
-        {
-            get
-            {
-                AudioDeviceState rResult;
-                Marshal.ThrowExceptionForHR(r_Device.GetState(out rResult));
-                return rResult;
-            }
-        }
+        public AudioDeviceState State => r_Device.GetState();
 
         public string Name { get; }
 
@@ -32,9 +16,7 @@ namespace Sakuno.SystemInterop
         {
             r_Device = rpDevice;
 
-            NativeInterfaces.IPropertyStore rProperties;
-            Marshal.ThrowExceptionForHR(r_Device.OpenPropertyStore(NativeConstants.STGM.STGM_READ, out rProperties));
-
+            var rProperties = r_Device.OpenPropertyStore(NativeConstants.STGM.STGM_READ);
             var rPropertyKey = new NativeStructs.PROPERTYKEY(NativeGuids.PKEY_Device_FriendlyName, 14);
             using (var rPropertyVariant = new NativeStructs.PROPVARIANT())
             {

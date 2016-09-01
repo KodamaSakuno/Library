@@ -9,7 +9,7 @@ namespace Sakuno.SystemInterop
             const string DllName = "comctl32.dll";
 
             [DllImport(DllName, PreserveSig = true)]
-            public static extern int TaskDialogIndirect([In] ref NativeStructs.TASKDIALOGCONFIG taskConfig, [Out] out int pnButton, [Out] out int pnRadioButton, [Out][MarshalAs(UnmanagedType.Bool)] out bool pfVerificationFlagChecked);
+            public static extern int TaskDialogIndirect(ref NativeStructs.TASKDIALOGCONFIG taskConfig, out int pnButton, out int pnRadioButton, [MarshalAs(UnmanagedType.Bool)] out bool pfVerificationFlagChecked);
         }
     }
 }

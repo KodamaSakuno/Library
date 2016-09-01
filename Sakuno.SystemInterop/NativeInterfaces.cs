@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Runtime.InteropServices;
 
 namespace Sakuno.SystemInterop
@@ -10,11 +11,8 @@ namespace Sakuno.SystemInterop
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IUnknown
         {
-            [PreserveSig]
             IntPtr QueryInterface(ref Guid riid, ref IntPtr pVoid);
-            [PreserveSig]
             ulong AddRef();
-            [PreserveSig]
             ulong Release();
         }
 
@@ -23,16 +21,14 @@ namespace Sakuno.SystemInterop
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IViewObject
         {
-            [PreserveSig]
-            int Draw([MarshalAs(UnmanagedType.U4)] int dwDrawAspect, int lindex, IntPtr pvAspect, ref NativeStructs.DVTARGETDEVICE ptd, IntPtr hdcTargetDev, IntPtr hdcDraw, ref NativeStructs.RECT lprcBounds, ref NativeStructs.RECT lprcWBounds, IntPtr pfnContinue, IntPtr dwContinue);
+            void Draw(int dwDrawAspect, int lindex, IntPtr pvAspect, ref NativeStructs.DVTARGETDEVICE ptd, IntPtr hdcTargetDev, IntPtr hdcDraw, ref NativeStructs.RECT lprcBounds, ref NativeStructs.RECT lprcWBounds, IntPtr pfnContinue, IntPtr dwContinue);
         }
         [ComImport]
         [Guid("6D5140C1-7436-11CE-8034-00AA006009FA")]
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IServiceProvider
         {
-            [PreserveSig]
-            int QueryService(ref Guid guidService, ref Guid riid, [Out][MarshalAs(UnmanagedType.Interface)] out object ppvObject);
+            object QueryService(ref Guid guidService, ref Guid riid);
         }
 
         [ComImport]
@@ -40,16 +36,11 @@ namespace Sakuno.SystemInterop
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IPropertyStore
         {
-            [PreserveSig]
-            int GetCount([Out] out uint cProps);
-            [PreserveSig]
-            int GetAt([In] uint iProp, out NativeStructs.PROPERTYKEY pkey);
-            [PreserveSig]
-            int GetValue([In] ref NativeStructs.PROPERTYKEY key, [Out] NativeStructs.PROPVARIANT propvar);
-            [PreserveSig]
-            int SetValue([In] ref NativeStructs.PROPERTYKEY key, [In] NativeStructs.PROPVARIANT propvar);
-            [PreserveSig]
-            int Commit();
+            int GetCount();
+            NativeStructs.PROPERTYKEY GetAt(uint iProp);
+            void GetValue(ref NativeStructs.PROPERTYKEY key, NativeStructs.PROPVARIANT propvar);
+            void SetValue(ref NativeStructs.PROPERTYKEY key, NativeStructs.PROPVARIANT propvar);
+            void Commit();
         }
 
         [ComImport]
@@ -57,48 +48,31 @@ namespace Sakuno.SystemInterop
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IPropertyDescription
         {
-            [PreserveSig]
-            int GetPropertyKey([Out] out NativeStructs.PROPERTYKEY pkey);
-            [PreserveSig]
-            int GetCanonicalName([Out][MarshalAs(UnmanagedType.LPWStr)] out string ppszName);
-            [PreserveSig]
-            int GetPropertyType([Out] out VarEnum pvartype);
-            [PreserveSig]
-            int GetDisplayName([Out][MarshalAs(UnmanagedType.LPWStr)] out string ppszName);
-            [PreserveSig]
-            int GetEditInvitation([Out][MarshalAs(UnmanagedType.LPWStr)] out string ppszInvite);
-            [PreserveSig]
-            int GetTypeFlags([In] NativeEnums.PROPDESC_TYPE_FLAGS mask, [Out] out NativeEnums.PROPDESC_TYPE_FLAGS ppdtFlags);
-            [PreserveSig]
-            int GetViewFlags([Out] out NativeEnums.PROPDESC_VIEW_FLAGS ppdvFlags);
-            [PreserveSig]
-            int GetDefaultColumnWidth([Out] out uint pcxChars);
-            [PreserveSig]
-            int GetDisplayType([Out] out NativeConstants.PROPDESC_DISPLAYTYPE pdisplaytype);
-            [PreserveSig]
-            int GetColumnState([Out] out NativeEnums.SHCOLSTATE pcsFlags);
-            [PreserveSig]
-            int GetGroupingRange([Out] out NativeConstants.PROPDESC_GROUPING_RANGE pgr);
-            [PreserveSig]
-            int GetRelativeDescriptionType([Out] out NativeConstants.PROPDESC_RELATIVEDESCRIPTION_TYPE prdt);
-            [PreserveSig]
-            int GetRelativeDescription([In] NativeStructs.PROPVARIANT propvar1, [In] NativeStructs.PROPVARIANT propvar2, [Out][MarshalAs(UnmanagedType.LPWStr)] out string ppszDesc1, [Out][MarshalAs(UnmanagedType.LPWStr)] out string ppszDesc2);
-            [PreserveSig]
-            int GetSortDescription([Out] out NativeConstants.PROPDESC_SORTDESCRIPTION psd);
-            [PreserveSig]
-            int GetSortDescriptionLabel([In] bool fDescending, out IntPtr ppszDescription);
-            [PreserveSig]
-            int GetAggregationType([Out] out NativeConstants.PROPDESC_AGGREGATION_TYPE paggtype);
-            [PreserveSig]
-            int GetConditionType([Out] out NativeConstants.PROPDESC_CONDITION_TYPE pcontype, [Out] out NativeConstants.CONDITION_OPERATION popDefault);
-            [PreserveSig]
-            int GetEnumTypeList([In] ref Guid riid, [Out][MarshalAs(UnmanagedType.Interface)] out IPropertyEnumTypeList ppv);
-            [PreserveSig]
-            int CoerceToCanonicalValue([In][Out] NativeStructs.PROPVARIANT propvar);
-            [PreserveSig]
-            int FormatForDisplay([In] NativeStructs.PROPVARIANT propvar, [In] NativeEnums.PROPDESC_FORMAT_FLAGS pdfFlags, [Out][MarshalAs(UnmanagedType.LPWStr)] out string ppszDisplay);
-            [PreserveSig]
-            int IsValueCanonical([In] NativeStructs.PROPVARIANT propvar);
+            NativeStructs.PROPERTYKEY GetPropertyKey();
+            [return: MarshalAs(UnmanagedType.LPWStr)]
+            string GetCanonicalName();
+            VarEnum GetPropertyType(out VarEnum pvartype);
+            [return: MarshalAs(UnmanagedType.LPWStr)]
+            string GetDisplayName();
+            [return: MarshalAs(UnmanagedType.LPWStr)]
+            string GetEditInvitation();
+            NativeEnums.PROPDESC_TYPE_FLAGS GetTypeFlags(NativeEnums.PROPDESC_TYPE_FLAGS mask);
+            NativeEnums.PROPDESC_VIEW_FLAGS GetViewFlags();
+            int GetDefaultColumnWidth();
+            NativeConstants.PROPDESC_DISPLAYTYPE GetDisplayType();
+            NativeEnums.SHCOLSTATE GetColumnState();
+            NativeConstants.PROPDESC_GROUPING_RANGE GetGroupingRange();
+            NativeConstants.PROPDESC_RELATIVEDESCRIPTION_TYPE GetRelativeDescriptionType();
+            void GetRelativeDescription(NativeStructs.PROPVARIANT propvar1, NativeStructs.PROPVARIANT propvar2, [MarshalAs(UnmanagedType.LPWStr)] out string ppszDesc1, [MarshalAs(UnmanagedType.LPWStr)] out string ppszDesc2);
+            NativeConstants.PROPDESC_SORTDESCRIPTION GetSortDescription();
+            IntPtr GetSortDescriptionLabel(bool fDescending);
+            NativeConstants.PROPDESC_AGGREGATION_TYPE GetAggregationType();
+            void GetConditionType(out NativeConstants.PROPDESC_CONDITION_TYPE pcontype, out NativeConstants.CONDITION_OPERATION popDefault);
+            IPropertyEnumTypeList GetEnumTypeList(ref Guid riid);
+            void CoerceToCanonicalValue(NativeStructs.PROPVARIANT propvar);
+            [return: MarshalAs(UnmanagedType.LPWStr)]
+            string FormatForDisplay(NativeStructs.PROPVARIANT propvar, NativeEnums.PROPDESC_FORMAT_FLAGS pdfFlags);
+            void IsValueCanonical(NativeStructs.PROPVARIANT propvar);
         }
 
         [ComImport]
@@ -106,10 +80,8 @@ namespace Sakuno.SystemInterop
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IPropertyDescriptionList
         {
-            [PreserveSig]
-            int GetCount([Out] out uint pcElem);
-            [PreserveSig]
-            int GetAt([In] uint iElem, [In] ref Guid riid, [Out][MarshalAs(UnmanagedType.Interface)] out IPropertyDescription ppv);
+            int GetCount();
+            IPropertyDescription GetAt(int iElem, ref Guid riid);
         }
 
         [ComImport]
@@ -117,16 +89,12 @@ namespace Sakuno.SystemInterop
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IPropertyEnumType
         {
-            [PreserveSig]
-            int GetEnumType([Out] out NativeConstants.PROPENUMTYPE penumtype);
-            [PreserveSig]
-            int GetValue([Out] NativeStructs.PROPVARIANT ppropvar);
-            [PreserveSig]
-            int GetRangeMinValue([Out] NativeStructs.PROPVARIANT ppropvar);
-            [PreserveSig]
-            int GetRangeSetValue([Out] NativeStructs.PROPVARIANT ppropvar);
-            [PreserveSig]
-            int GetDisplayText([Out][MarshalAs(UnmanagedType.LPWStr)] out string ppszDisplay);
+            NativeConstants.PROPENUMTYPE GetEnumType();
+            void GetValue(NativeStructs.PROPVARIANT ppropvar);
+            void GetRangeMinValue(NativeStructs.PROPVARIANT ppropvar);
+            void GetRangeSetValue(NativeStructs.PROPVARIANT ppropvar);
+            [return: MarshalAs(UnmanagedType.LPWStr)]
+            string GetDisplayText();
         }
 
         [ComImport]
@@ -134,29 +102,10 @@ namespace Sakuno.SystemInterop
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IPropertyEnumTypeList
         {
-            [PreserveSig]
-            int GetCount([Out] out uint pctypes);
-            [PreserveSig]
-            int GetAt([In] uint itype, [In] ref Guid riid, [MarshalAs(UnmanagedType.Interface)] out IPropertyEnumType ppv);
-            [PreserveSig]
-            int GetConditionAt([In] uint nIndex, [In] ref Guid riid, [Out][MarshalAs(UnmanagedType.Interface)] out IntPtr ppv);
-            [PreserveSig]
-            int FindMatchingIndex([In] NativeStructs.PROPVARIANT propvarCmp, [Out] out uint pnIndex);
-        }
-
-        [ComImport]
-        [Guid("000214F2-0000-0000-C000-000000000046")]
-        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-        public interface IEnumIDList
-        {
-            [PreserveSig]
-            int Next(uint celt, [Out] out IntPtr rgelt, out uint pceltFetched);
-            [PreserveSig]
-            int Skip([In] uint celt);
-            [PreserveSig]
-            int Reset();
-            [PreserveSig]
-            int Clone([Out][MarshalAs(UnmanagedType.Interface)] out IEnumIDList ppenum);
+            int GetCount();
+            IPropertyDescription GetAt(int iElem, ref Guid riid);
+            object GetConditionAt(int nIndex, ref Guid riid);
+            int FindMatchingIndex(NativeStructs.PROPVARIANT propvarCmp);
         }
     }
 }

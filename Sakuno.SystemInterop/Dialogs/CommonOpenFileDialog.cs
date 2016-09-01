@@ -41,16 +41,12 @@ namespace Sakuno.SystemInterop.Dialogs
 
         protected override void ProcessResult()
         {
-            NativeInterfaces.IShellItemArray rArray;
-            r_Dialog.GetResults(out rArray);
-
-            uint rCount;
-            rArray.GetCount(out rCount);
+            var rArray = r_Dialog.GetResults();
+            var rCount = rArray.GetCount();
 
             for (var i = 0; i < rCount; i++)
             {
-                NativeInterfaces.IShellItem rItem;
-                rArray.GetItemAt((uint)i, out rItem);
+                var rItem = rArray.GetItemAt(i);
 
                 r_Filenames.Add(GetFilenameFromShellItem(rItem));
             }

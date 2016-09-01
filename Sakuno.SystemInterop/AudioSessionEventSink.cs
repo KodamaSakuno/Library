@@ -27,9 +27,9 @@ namespace Sakuno.SystemInterop
             r_Owner.OnStateChanged(rpState);
         }
 
-        public void OnChannelVolumeChanged([In] uint rpChannelCount, [In] IntPtr rpNewChannelVolumeArray, [In] uint rpChangedChannel, [In] ref Guid rpEventContext) { }
-        public void OnDisplayNameChanged([In, MarshalAs(UnmanagedType.LPWStr)] string rpNewDisplayName, [In] ref Guid rpEventContext) { }
-        public void OnGroupingParamChanged([In] ref Guid rpNewGroupingParam, [In] ref Guid rpEventContext) { }
-        public void OnIconPathChanged([In, MarshalAs(UnmanagedType.LPWStr)] string rpNewIconPath, [In] ref Guid rpEventContext) { }
+        public void OnChannelVolumeChanged(uint rpChannelCount, IntPtr rpNewChannelVolumeArray, uint rpChangedChannel, ref Guid rpEventContext) { }
+        public void OnDisplayNameChanged([In, MarshalAs(UnmanagedType.LPWStr)] string rpNewDisplayName, ref Guid rpEventContext) { }
+        public void OnGroupingParamChanged(ref Guid rpNewGroupingParam, ref Guid rpEventContext) { }
+        public void OnIconPathChanged([In, MarshalAs(UnmanagedType.LPWStr)] string rpNewIconPath, ref Guid rpEventContext) { }
     }
 }

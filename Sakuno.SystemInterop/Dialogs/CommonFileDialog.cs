@@ -93,7 +93,7 @@ namespace Sakuno.SystemInterop.Dialogs
 
             if ((rOptions & NativeEnums.FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS) == 0 && !r_IsFileTypesSet && FileTypes.Count > 0)
             {
-                r_Dialog.SetFileTypes((uint)FileTypes.Count, FileTypes.Select(r => r.ToFilterSpec()).ToArray());
+                r_Dialog.SetFileTypes(FileTypes.Count, FileTypes.Select(r => r.ToFilterSpec()).ToArray());
 
                 r_IsFileTypesSet = true;
             }
@@ -118,7 +118,7 @@ namespace Sakuno.SystemInterop.Dialogs
         }
         CommonFileDialogResult ShowCore()
         {
-            var rResult = (uint)r_Dialog.Show(r_OwnerWindowHandle);
+            var rResult = r_Dialog.Show(r_OwnerWindowHandle);
 
             r_Filenames.Clear();
             if (rResult == 0)
@@ -169,13 +169,7 @@ namespace Sakuno.SystemInterop.Dialogs
 
         protected abstract void ProcessResult();
 
-        internal static string GetFilenameFromShellItem(NativeInterfaces.IShellItem rpItem)
-        {
-            string rResult;
-            rpItem.GetDisplayName(NativeEnums.SIGDN.SIGDN_DESKTOPABSOLUTEPARSING, out rResult);
-
-            return rResult;
-        }
+        internal static string GetFilenameFromShellItem(NativeInterfaces.IShellItem rpItem) => rpItem.GetDisplayName(NativeEnums.SIGDN.SIGDN_DESKTOPABSOLUTEPARSING);
         internal static NativeInterfaces.IShellItem GetShellItemFromFilename(string rpFilename)
         {
             NativeInterfaces.IShellItem rResult;

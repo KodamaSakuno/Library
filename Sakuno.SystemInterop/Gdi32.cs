@@ -29,7 +29,7 @@ namespace Sakuno.SystemInterop
             public static extern bool DeleteDC(IntPtr hdc);
 
             [DllImport(DllName, SetLastError = true)]
-            public static extern int GetDIBits(IntPtr hdc, IntPtr hbmp, uint uStartScan, uint cScanLines, [Out] byte[] lpvBits, ref NativeStructs.BITMAPINFO lpbi, int uUsage);
+            public static extern int GetDIBits(IntPtr hdc, IntPtr hbmp, uint uStartScan, uint cScanLines, byte[] lpvBits, ref NativeStructs.BITMAPINFO lpbi, int uUsage);
 
             [DllImport(DllName, SetLastError = true)]
             public static extern IntPtr CreateDIBSection(IntPtr hdc, ref NativeStructs.BITMAPINFO pbmi, uint iUsage, out IntPtr ppvBits, IntPtr hSection, uint dwOffset);
