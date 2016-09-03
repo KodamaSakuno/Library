@@ -263,7 +263,15 @@ namespace Sakuno.SystemInterop
             [FieldOffset(8)]
             IntPtr r_Pointer;
 
-            public string StringValue => Marshal.PtrToStringUni(r_Pointer);
+            [FieldOffset(8)]
+            int r_Int32;
+
+            [FieldOffset(8)]
+            uint r_UInt32;
+
+            public string StringValue => r_ValueType == (ushort)VarEnum.VT_LPWSTR ? Marshal.PtrToStringUni(r_Pointer) : null;
+            public int Int32Value => r_Int32;
+            public uint UInt32Value => r_UInt32;
 
             public PROPVARIANT() { }
             public PROPVARIANT(string rpValue)

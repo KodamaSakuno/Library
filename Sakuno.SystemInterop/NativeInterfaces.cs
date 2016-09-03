@@ -107,5 +107,35 @@ namespace Sakuno.SystemInterop
             object GetConditionAt(int nIndex, ref Guid riid);
             int FindMatchingIndex(NativeStructs.PROPVARIANT propvarCmp);
         }
+
+        [ComImport]
+        [Guid("55272A00-42CB-11CE-8135-00AA004BB851")]
+        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        public interface IPropertyBag
+        {
+            void Read([MarshalAs(UnmanagedType.LPWStr)] string pszPropName, NativeStructs.PROPVARIANT pVar, object pErrorLog = null);
+            void Write([MarshalAs(UnmanagedType.LPWStr)] string pszPropName, NativeStructs.PROPVARIANT pVar);
+        }
+
+        [ComImport]
+        [Guid("B196B284-BAB4-101A-B69C-00AA00341D07")]
+        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        public interface IConnectionPointContainer
+        {
+            IEnumerable EnumConnectionPoints();
+            IConnectionPoint FindConnectionPoint(ref Guid riid);
+        }
+
+        [ComImport]
+        [Guid("B196B286-BAB4-101A-B69C-00AA00341D07")]
+        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        public interface IConnectionPoint
+        {
+            Guid GetConnectionInterface();
+            IConnectionPointContainer GetConnectionPointContainer(ref Guid riid);
+            uint Advise([MarshalAs(UnmanagedType.IUnknown)] object pUnkSink);
+            void Unadvise(uint dwCookie);
+            IEnumerable EnumConnections();
+        }
     }
 }
