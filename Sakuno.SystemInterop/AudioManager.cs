@@ -34,11 +34,9 @@ namespace Sakuno.SystemInterop
 
         public static AudioDevice ReloadDefaultDevice()
         {
-            if (DefaultDevice != null)
-                DefaultDevice.Dispose();
+            DefaultDevice?.Dispose();
 
             var rDevice = r_DeviceEnumerator.GetDefaultAudioEndpoint(NativeConstants.DataFlow.Render, NativeConstants.Role.Console);
-
             return DefaultDevice = new AudioDevice(rDevice);
         }
 
