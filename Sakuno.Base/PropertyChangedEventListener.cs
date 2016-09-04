@@ -28,7 +28,7 @@ namespace Sakuno
 
         public void Add(string rpPropertyName, PropertyChangedEventHandler rpHandler)
         {
-            r_HandlerDictionary.GetOrAdd(rpPropertyName, _ => new ConcurrentBag<PropertyChangedEventHandler>()).Add(rpHandler);
+            r_HandlerDictionary.GetOrAdd(rpPropertyName ?? string.Empty, _ => new ConcurrentBag<PropertyChangedEventHandler>()).Add(rpHandler);
         }
 
         void RaiseHandler(PropertyChangedEventArgs e)
@@ -38,7 +38,7 @@ namespace Sakuno
                 return;
 
             ConcurrentBag<PropertyChangedEventHandler> rHandlerList;
-            if (!r_HandlerDictionary.TryGetValue(e.PropertyName, out rHandlerList))
+            if (!r_HandlerDictionary.TryGetValue(e.PropertyName ?? string.Empty, out rHandlerList))
                 return;
 
             foreach (var rHandler in rHandlerList)

@@ -65,6 +65,7 @@
     <Compile Include="DependencyModelBase.cs" />
     <Compile Include="DispatcherUtil.cs" />
     <Compile Include="Disposable.cs" />
+    <Compile Include="DisposableModelBase.cs" />
     <Compile Include="DisposableObject.cs" />
     <Compile Include="DoubleExtensions.cs" />
     <Compile Include="DoubleUtil.cs" />

@@ -7,6 +7,6 @@ namespace Sakuno
     {
         static ConcurrentDictionary<string, PropertyChangedEventArgs> r_Cache = new ConcurrentDictionary<string, PropertyChangedEventArgs>();
 
-        public static PropertyChangedEventArgs Get(string rpPropertyName) => r_Cache.GetOrAdd(rpPropertyName, r => new PropertyChangedEventArgs(r));
+        public static PropertyChangedEventArgs Get(string rpPropertyName) => r_Cache.GetOrAdd(rpPropertyName ?? string.Empty, r => new PropertyChangedEventArgs(r));
     }
 }
