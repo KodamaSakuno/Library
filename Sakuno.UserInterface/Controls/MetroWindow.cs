@@ -169,5 +169,11 @@ namespace Sakuno.UserInterface.Controls
                 WindowPlacementPreference.Save(this, rPlacement);
             }
         }
+        protected override void OnClosed(EventArgs e)
+        {
+            GlowWindowBehavior = null;
+
+            base.OnClosed(e);
+        }
     }
 }

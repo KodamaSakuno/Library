@@ -81,24 +81,15 @@ namespace Sakuno.UserInterface.Controls
             SetBinding(GlowBrushProperty, new Binding(nameof(rpBehavior.GlowBrush)) { Source = rpBehavior });
             SetBinding(InactiveGlowBrushProperty, new Binding(nameof(rpBehavior.InactiveGlowBrush)) { Source = rpBehavior });
 
-            EventHandler rUpdate = (s, e) => Update();
-            r_Owner.Activated += rUpdate;
-            r_Owner.Deactivated += rUpdate;
-            r_Owner.LocationChanged += rUpdate;
-            r_Owner.SizeChanged += (s, e) => Update();
-            r_Owner.StateChanged += (s, e) =>
-            {
-                Update();
-                r_OwnerOldState = r_Owner.WindowState;
-            };
+            r_Owner.Activated += Owner_Update;
+            r_Owner.Deactivated += Owner_Update;
+            r_Owner.LocationChanged += Owner_Update;
+            r_Owner.SizeChanged += Owner_SizeChanged;
+            r_Owner.StateChanged += Owner_StateChanged;
 
-            r_Owner.Closed += (s, e) => Close();
+            r_Owner.Closed += Owner_Closed;
 
-            r_Owner.ContentRendered += (s, e) =>
-            {
-                Show();
-                Update();
-            };
+            r_Owner.ContentRendered += Owner_ContentRendered;
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -123,11 +114,38 @@ namespace Sakuno.UserInterface.Controls
 
         protected override void OnClosed(EventArgs e)
         {
+            BindingOperations.ClearAllBindings(this);
+
+            r_Owner.Activated -= Owner_Update;
+            r_Owner.Deactivated -= Owner_Update;
+            r_Owner.LocationChanged -= Owner_Update;
+            r_Owner.ContentRendered -= Owner_ContentRendered;
+            r_Owner.Closed -= Owner_Closed;
+
             base.OnClosed(e);
 
             r_HwndSource?.RemoveHook(WndProc);
+            r_Owner = null;
             r_OwnerClosed = true;
         }
+
+        void Owner_Update(object sender, EventArgs e) => Update();
+        void Owner_SizeChanged(object sender, SizeChangedEventArgs e) => Update();
+        void Owner_StateChanged(object sender, EventArgs e)
+        {
+            Update();
+
+            r_OwnerOldState = r_Owner.WindowState;
+        }
+        void Owner_ContentRendered(object sender, EventArgs e)
+        {
+            if (r_OwnerClosed)
+                return;
+
+            Show();
+            Update();
+        }
+        void Owner_Closed(object sender, EventArgs e) => Close();
 
         public async void Update()
         {

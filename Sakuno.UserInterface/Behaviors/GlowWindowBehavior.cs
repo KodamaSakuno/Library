@@ -41,7 +41,16 @@ namespace Sakuno.UserInterface.Behaviors
             r_Right = new GlowWindow(this, new GlowWindowProcessorRight());
             r_Bottom = new GlowWindow(this, new GlowWindowProcessorBottom());
         }
-        protected override void OnDetaching() => r_ThemeManagerPCEL.Dispose();
+        protected override void OnDetaching()
+        {
+            r_ThemeManagerPCEL.Dispose();
+            r_ThemeManagerPCEL = null;
+
+            r_Left = null;
+            r_Top = null;
+            r_Right = null;
+            r_Bottom = null;
+        }
 
         void Update()
         {

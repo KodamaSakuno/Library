@@ -54,6 +54,8 @@ namespace Sakuno
                 r_Listeners.TryRemove(rSource, out rListener);
             }
 
+            r_HandlerDictionary.Clear();
+
             base.DisposeManagedResources();
         }
     }
