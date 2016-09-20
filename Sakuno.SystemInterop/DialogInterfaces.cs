@@ -11,6 +11,7 @@ namespace Sakuno.SystemInterop
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         internal interface IFileDialog
         {
+            [PreserveSig]
             int Show(IntPtr parent);
             int SetFileTypes(int cFileTypes, [MarshalAs(UnmanagedType.LPArray)] NativeStructs.COMDLG_FILTERSPEC[] rgFilterSpec);
             int SetFileTypeIndex(int iFileType);
