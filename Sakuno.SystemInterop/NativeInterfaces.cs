@@ -28,6 +28,7 @@ namespace Sakuno.SystemInterop
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IServiceProvider
         {
+            [return: MarshalAs(UnmanagedType.Interface)]
             object QueryService(ref Guid guidService, ref Guid riid);
         }
 
