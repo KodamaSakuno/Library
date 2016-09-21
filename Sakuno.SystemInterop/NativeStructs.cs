@@ -427,5 +427,21 @@ namespace Sakuno.SystemInterop
             public NativeEnums.PAGE Protect;
             public NativeEnums.MEM Type;
         }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct PROCESSENTRY32
+        {
+            public int dwSize;
+            public int cntUsage;
+            public int th32ProcessID;
+            public IntPtr th32DefaultHeapID;
+            public int th32ModuleID;
+            public int cntThreads;
+            public int th32ParentProcessID;
+            public int pcPriClassBase;
+            public int dwFlags;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+            public string szExeFile;
+        }
     }
 }

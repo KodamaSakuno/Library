@@ -49,6 +49,17 @@ namespace Sakuno.SystemInterop
             [DllImport(DllName, SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, int nSize, out int lpNumberOfBytesRead);
+
+            [DllImport(DllName, SetLastError = true)]
+            public static extern IntPtr CreateToolhelp32Snapshot(NativeEnums.TH32CS dwFlags, int th32ProcessID);
+
+            [DllImport(DllName, SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool Process32First(IntPtr hSnapshot, ref NativeStructs.PROCESSENTRY32 lppe);
+
+            [DllImport(DllName, SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool Process32Next(IntPtr hSnapshot, ref NativeStructs.PROCESSENTRY32 lppe);
         }
     }
 }
