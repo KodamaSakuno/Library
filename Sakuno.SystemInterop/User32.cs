@@ -174,6 +174,14 @@ namespace Sakuno.SystemInterop
             [DllImport(DllName, SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool DestroyIcon(IntPtr hIcon);
+
+            [DllImport(DllName, SetLastError = true)]
+            public static extern IntPtr SetWindowsHookEx(NativeConstants.WindowsHook idHook, NativeDelegates.HookProc lpfn, IntPtr hMod, int dwThreadID);
+            [DllImport(DllName, SetLastError = true)]
+            public static extern int CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+            [DllImport(DllName, SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool UnhookWindowsHookEx(IntPtr hhk);
         }
     }
 }
