@@ -142,7 +142,8 @@ namespace Sakuno.SystemInterop
             [return: MarshalAs(UnmanagedType.LPWStr)]
             string GetSessionInstanceIdentifier();
             int GetProcessId();
-            bool IsSystemSoundsSession();
+            [PreserveSig]
+            int IsSystemSoundsSession();
             void SetDuckingPreference(bool optOut);
         }
         [ComImport]

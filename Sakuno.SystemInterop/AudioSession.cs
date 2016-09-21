@@ -10,7 +10,7 @@ namespace Sakuno.SystemInterop
 
         AudioSessionEventSink r_EventSink;
 
-        public bool IsSystemSoundsSession => r_Session.IsSystemSoundsSession();
+        public bool IsSystemSoundsSession => r_Session.IsSystemSoundsSession() == 0;
 
         public int ProcessID => r_Session.GetProcessId();
 
