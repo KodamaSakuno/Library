@@ -16,7 +16,7 @@ namespace Sakuno.Parsers
         public StringInput(string rpSource) : this(rpSource, 0) { }
         public StringInput(string rpSource, int rpPosition)
         {
-            r_Source = rpSource;
+            r_Source = rpSource ?? string.Empty;
             r_Position = rpPosition;
         }
 

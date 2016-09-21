@@ -37,7 +37,9 @@ namespace Sakuno.UserInterface.Controls
                 return;
 
             Inlines.Clear();
-            Inlines.Add(BBCodeParsers.Parse(BBCode));
+
+            if (!BBCode.IsNullOrEmpty())
+                Inlines.Add(BBCodeParsers.Parse(BBCode));
 
             r_IsUpdating = false;
         }
