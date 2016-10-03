@@ -88,10 +88,12 @@
     <Compile Include="Controls\WindowCaptionButton.cs" />
     <Compile Include="Converters\BooleanToInvisibilityConverter.cs" />
     <Compile Include="Converters\TreeListViewItemLevelToIndentConverter.cs" />
+    <Compile Include="DataTemplateSelection.cs" />
     <Compile Include="DelegatedCommand.cs" />
     <Compile Include="DependencyObjectExtensions.cs" />
     <Compile Include="DpiUtil.cs" />
     <Compile Include="Effects\GrayscaleEffect.cs" />
+    <Compile Include="GenericDataTemplateSelector.cs" />
     <Compile Include="Internal\BBCodeParser.cs" />
     <Compile Include="Internal\CollectionTeaser.cs" />
     <Compile Include="Internal\GlowWindowProcessor.cs" />
