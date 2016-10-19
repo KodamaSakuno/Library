@@ -21,6 +21,7 @@ namespace Sakuno.UserInterface.Controls
         }
 
         internal static IDictionary<string, Func<Inline, Inline>> CustomTags { get; } = new HybridDictionary<string, Func<Inline, Inline>>(StringComparer.OrdinalIgnoreCase);
+        internal static IDictionary<string, Func<Inline, string, Inline>> CustomTagsWithParameter { get; } = new HybridDictionary<string, Func<Inline, string, Inline>>(StringComparer.OrdinalIgnoreCase);
 
         bool r_IsUpdating;
 
@@ -45,5 +46,6 @@ namespace Sakuno.UserInterface.Controls
         }
 
         public static void AddCustomTag(string rpTag, Func<Inline, Inline> rpInlineConstructor) => CustomTags.Add(rpTag, rpInlineConstructor);
+        public static void AddCustomTag(string rpTag, Func<Inline, string, Inline> rpInlineConstructor) => CustomTagsWithParameter.Add(rpTag, rpInlineConstructor);
     }
 }
