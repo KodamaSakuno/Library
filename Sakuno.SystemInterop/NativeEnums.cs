@@ -368,5 +368,18 @@ namespace Sakuno.SystemInterop
             TH32CS_SNAPNOHEAPS = 0x40000000,
             TH32CS_INHERIT = 0x80000000,
         }
+
+        [Flags]
+        public enum SET_FEATURE
+        {
+            SET_FEATURE_ON_THREAD = 0x00000001,
+            SET_FEATURE_ON_PROCESS = 0x00000002,
+            SET_FEATURE_IN_REGISTRY = 0x00000004,
+            SET_FEATURE_ON_THREAD_LOCALMACHINE = 0x00000008,
+            SET_FEATURE_ON_THREAD_INTRANET = 0x00000010,
+            SET_FEATURE_ON_THREAD_TRUSTED = 0x00000020,
+            SET_FEATURE_ON_THREAD_INTERNET = 0x00000040,
+            SET_FEATURE_ON_THREAD_RESTRICTED = 0x00000080,
+        }
     }
 }

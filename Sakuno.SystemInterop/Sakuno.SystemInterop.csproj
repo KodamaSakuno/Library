@@ -193,7 +193,13 @@
     <Compile Include="TaskDialogResult.cs">
       <DependentUpon>TaskDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="UrlMon.cs">
+      <DependentUpon>NativeMethods.cs</DependentUpon>
+    </Compile>
     <Compile Include="User32.cs">
+      <DependentUpon>NativeMethods.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinHttp.cs">
       <DependentUpon>NativeMethods.cs</DependentUpon>
     </Compile>
     <Compile Include="WinINet.cs">

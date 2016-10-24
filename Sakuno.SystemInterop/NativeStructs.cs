@@ -111,9 +111,9 @@ namespace Sakuno.SystemInterop
         [StructLayout(LayoutKind.Sequential)]
         public struct INTERNET_PROXY_INFO
         {
-            public int dwAccessType;
-            public IntPtr proxy;
-            public IntPtr proxyBypass;
+            public NativeConstants.INTERNET_OPEN_TYPE dwAccessType;
+            public IntPtr lpszProxy;
+            public IntPtr lpszProxyBypass;
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -442,6 +442,18 @@ namespace Sakuno.SystemInterop
             public int dwFlags;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
             public string szExeFile;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct WINHTTP_CURRENT_USER_IE_PROXY_CONFIG
+        {
+            public bool fAutoDetect;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string lpszAutoConfigUrl;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string lpszProxy;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string lpszProxyBypass;
         }
     }
 }
