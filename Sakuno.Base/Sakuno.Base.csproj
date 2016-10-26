@@ -48,6 +48,8 @@
     <Compile Include="ArrayExtensions.cs" />
     <Compile Include="ArrayUtil.cs" />
     <Compile Include="BooleanUtil.cs" />
+    <Compile Include="BufferPool.cs" />
+    <Compile Include="BufferSegment.cs" />
     <Compile Include="Collections\HybridDictionary`TKey`TValue.cs" />
     <Compile Include="Collections\ListDictionary`TKey`TValue.cs" />
     <Compile Include="Collections\ObservableRangeCollection.cs" />
@@ -73,6 +75,7 @@
     <Compile Include="EnumUtil.cs" />
     <Compile Include="EventListener`T.cs" />
     <Compile Include="IdentityFunction`T.cs" />
+    <Compile Include="Internal\Slab.cs" />
     <Compile Include="MathUtil.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="OS.cs" />
