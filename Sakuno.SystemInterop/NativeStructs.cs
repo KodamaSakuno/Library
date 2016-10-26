@@ -301,8 +301,8 @@ namespace Sakuno.SystemInterop
             public int cbSize;
             public IntPtr hwnd;
             public NativeEnums.FLASHW dwFlags;
-            public uint uCount;
-            public uint dwTimeout;
+            public int uCount;
+            public int dwTimeout;
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

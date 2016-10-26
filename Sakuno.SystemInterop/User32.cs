@@ -144,6 +144,9 @@ namespace Sakuno.SystemInterop
 
             [DllImport(DllName)]
             [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool FlashWindow(IntPtr hWnd, bool bInvert);
+            [DllImport(DllName)]
+            [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool FlashWindowEx(ref NativeStructs.FLASHWINFO pwfi);
 
             [DllImport(DllName)]
