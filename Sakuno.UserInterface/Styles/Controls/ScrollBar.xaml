@@ -99,7 +99,7 @@
                     <Condition Binding="{Binding IsMouseOver, ElementName=PART_LineDownButton}" Value="True" />
                     <Condition Binding="{Binding IsPressed, ElementName=PART_LineDownButton}" Value="True" />
                 </MultiDataTrigger.Conditions>
-                
+
                 <Setter TargetName="ArrowBottom" Property="Fill" Value="{DynamicResource HighlightForegroundBrushKey}" />
             </MultiDataTrigger>
             <MultiDataTrigger>
@@ -126,7 +126,7 @@
 
                 <Setter TargetName="ArrowTop" Property="Fill" Value="{DynamicResource AccentBrushKey}" />
             </MultiDataTrigger>
-            
+
             <Trigger Property="IsEnabled" Value="False">
                 <Setter TargetName="ArrowTop" Property="Fill" Value="{StaticResource InactiveForegroundBrushKey}" />
                 <Setter TargetName="ArrowBottom" Property="Fill" Value="{StaticResource InactiveForegroundBrushKey}" />
@@ -225,5 +225,5 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
 </ResourceDictionary>
