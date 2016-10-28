@@ -50,7 +50,13 @@ namespace Sakuno.SystemInterop
 
         public bool EnableHyperlinks { get; set; }
 
+        TaskDialogTickEventArgs r_TickEventArgs;
+
+        public event EventHandler Opened;
+        public event EventHandler<TaskDialogButtonClickedEventArgs> ButtonClicked;
         public event EventHandler<string> HyperlinkClicked;
+        public event EventHandler<TaskDialogTickEventArgs> Tick;
+        public event EventHandler Closed;
 
         public TaskDialogResult Show()
         {
@@ -69,6 +75,12 @@ namespace Sakuno.SystemInterop
                 rOptions |= NativeEnums.TASKDIALOG_FLAGS.TDF_CAN_BE_MINIMIZED;
             if (CanBeClosedDirectly)
                 rOptions |= NativeEnums.TASKDIALOG_FLAGS.TDF_ALLOW_DIALOG_CANCELLATION;
+
+            if (Tick != null)
+            {
+                r_TickEventArgs = new TaskDialogTickEventArgs();
+                rOptions |= NativeEnums.TASKDIALOG_FLAGS.TDF_CALLBACK_TIMER;
+            }
 
             switch (ButtonStyle)
             {
@@ -149,6 +161,7 @@ namespace Sakuno.SystemInterop
             var rSize = Marshal.SizeOf(typeof(NativeStructs.TASKDIALOG_BUTTON));
             var rBuffer = Marshal.AllocHGlobal(rSize * rpButtons.Count);
             var rPointer = rBuffer;
+
             for (var i = 0; i < rpButtons.Count; i++)
             {
                 var rButton = new NativeStructs.TASKDIALOG_BUTTON(rpButtons[i].ID, rpButtons[i].Text);
@@ -164,9 +177,41 @@ namespace Sakuno.SystemInterop
         {
             switch (rpNotification)
             {
+                case NativeConstants.TASKDIALOG_NOTIFICATIONS.CREATED:
+                    Opened?.Invoke(this, EventArgs.Empty);
+                    break;
+
+                case NativeConstants.TASKDIALOG_NOTIFICATIONS.BUTTONCLICKED:
+                    var rButtonID = (int)rpWParam;
+                    if (r_Buttons != null)
+                    {
+                        var rButton = r_Buttons.FirstOrDefault(r => r.ID == rButtonID);
+                        if (rButton != null)
+                        {
+                            var rEventArgs = new TaskDialogButtonClickedEventArgs(rButton);
+
+                            ButtonClicked?.Invoke(this, rEventArgs);
+                            return !rEventArgs.Cancel ? 0 : 1;
+                        }
+                    }
+                    break;
+
                 case NativeConstants.TASKDIALOG_NOTIFICATIONS.HYPERLINKCLICKED:
-                    if (HyperlinkClicked != null)
-                        HyperlinkClicked(this, Marshal.PtrToStringUni(rpLParam));
+                    HyperlinkClicked?.Invoke(this, Marshal.PtrToStringUni(rpLParam));
+                    break;
+
+                case NativeConstants.TASKDIALOG_NOTIFICATIONS.TIMER:
+                    r_TickEventArgs.Ticks = (int)rpWParam;
+
+                    if (r_TickEventArgs.Reset)
+                    {
+                        r_TickEventArgs.Reset = false;
+                        return 1;
+                    }
+                    break;
+
+                case NativeConstants.TASKDIALOG_NOTIFICATIONS.DESTROYED:
+                    Closed?.Invoke(this, EventArgs.Empty);
                     break;
             }
 

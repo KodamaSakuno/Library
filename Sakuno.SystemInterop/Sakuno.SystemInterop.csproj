@@ -169,6 +169,9 @@
     <Compile Include="TaskDialogButtonBase.cs">
       <DependentUpon>TaskDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="TaskDialogButtonClickedEventArgs.cs">
+      <DependentUpon>TaskDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="TaskDialogButtonStyle.cs">
       <DependentUpon>TaskDialog.cs</DependentUpon>
     </Compile>
@@ -191,6 +194,9 @@
       <DependentUpon>TaskDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="TaskDialogResult.cs">
+      <DependentUpon>TaskDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskDialogTickEventArgs.cs">
       <DependentUpon>TaskDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="UrlMon.cs">
