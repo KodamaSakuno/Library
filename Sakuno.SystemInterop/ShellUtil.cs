@@ -54,6 +54,7 @@ namespace Sakuno.SystemInterop
             rShellLink = (NativeInterfaces.IShellLinkW)new NativeInterfaces.CShellLink();
 
             rShellLink.SetPath(rpShortcutTargetPath);
+            rShellLink.SetWorkingDirectory(Path.GetDirectoryName(rpShortcutTargetPath));
 
             using (var rPropertyVariant = new NativeStructs.PROPVARIANT(rpAppUserModelID))
             {
