@@ -944,7 +944,10 @@ namespace Sakuno.SystemInterop
 
         public enum INTERNET_OPTION
         {
-            INTERNET_OPTION_PROXY = 38,
+            INTERNET_OPTION_REFRESH = 37,
+            INTERNET_OPTION_PROXY,
+            INTERNET_OPTION_SETTINGS_CHANGED,
+            INTERNET_OPTION_PER_CONNECTION_OPTION = 75,
         }
         public enum INTERNET_OPEN_TYPE
         {
@@ -985,6 +988,20 @@ namespace Sakuno.SystemInterop
             FEATURE_FEEDS,
             FEATURE_BLOCK_INPUT_PROMPTS,
             FEATURE_ENTRY_COUNT
+        }
+
+        public enum INTERNET_PER_CONN_OPTION
+        {
+            INTERNET_PER_CONN_FLAGS = 1,
+            INTERNET_PER_CONN_PROXY_SERVER,
+            INTERNET_PER_CONN_PROXY_BYPASS,
+            INTERNET_PER_CONN_AUTOCONFIG_URL,
+            INTERNET_PER_CONN_AUTODISCOVERY_FLAGS,
+            INTERNET_PER_CONN_AUTOCONFIG_SECONDARY_URL,
+            INTERNET_PER_CONN_AUTOCONFIG_RELOAD_DELAY_MINS,
+            INTERNET_PER_CONN_AUTOCONFIG_LAST_DETECT_TIME,
+            INTERNET_PER_CONN_AUTOCONFIG_LAST_DETECT_URL,
+            INTERNET_PER_CONN_FLAGS_UI,
         }
     }
 }

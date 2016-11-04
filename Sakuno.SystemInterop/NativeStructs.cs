@@ -455,5 +455,31 @@ namespace Sakuno.SystemInterop
             [MarshalAs(UnmanagedType.LPWStr)]
             public string lpszProxyBypass;
         }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public unsafe struct INTERNET_PER_CONN_OPTION_LIST
+        {
+            public int dwSize;
+            public IntPtr pszConnection;
+            public int dwOptionCount;
+            public int dwOptionError;
+            public INTERNET_PER_CONN_OPTION* pOptions;
+        }
+        [StructLayout(LayoutKind.Sequential)]
+        public struct INTERNET_PER_CONN_OPTION
+        {
+            public NativeConstants.INTERNET_PER_CONN_OPTION dwOption;
+            public INTERNET_PER_CONN_OPTION_OPTION_VALUE Value;
+        }
+        [StructLayout(LayoutKind.Explicit)]
+        public struct INTERNET_PER_CONN_OPTION_OPTION_VALUE
+        {
+            [FieldOffset(0)]
+            public int dwValue;
+            [FieldOffset(0)]
+            public IntPtr pszValue;
+            [FieldOffset(0)]
+            public FILETIME ftValue;
+        }
     }
 }

@@ -381,5 +381,26 @@ namespace Sakuno.SystemInterop
             SET_FEATURE_ON_THREAD_INTERNET = 0x00000040,
             SET_FEATURE_ON_THREAD_RESTRICTED = 0x00000080,
         }
+
+        [Flags]
+        public enum INTERNET_FLAG
+        {
+            INTERNET_FLAG_NONE = 0,
+            INTERNET_FLAG_FROM_CACHE = 0x01000000,
+            INTERNET_FLAG_OFFLINE = INTERNET_FLAG_FROM_CACHE,
+            INTERNET_FLAG_MAKE_PERSISTENT = 0x02000000,
+            INTERNET_FLAG_NO_CACHE_WRITE = 0x04000000,
+            INTERNET_FLAG_DONT_CACHE = INTERNET_FLAG_NO_CACHE_WRITE,
+            INTERNET_FLAG_ASYNC = 0x10000000,
+        }
+
+        [Flags]
+        public enum INTERNET_OPTION_PER_CONN_FLAGS
+        {
+            PROXY_TYPE_DIRECT = 1,
+            PROXY_TYPE_PROXY = 2,
+            PROXY_TYPE_AUTO_PROXY_URL = 4,
+            PROXY_TYPE_AUTO_DETECT = 8,
+        }
     }
 }
