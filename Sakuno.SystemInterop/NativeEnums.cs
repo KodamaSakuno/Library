@@ -402,5 +402,17 @@ namespace Sakuno.SystemInterop
             PROXY_TYPE_AUTO_PROXY_URL = 4,
             PROXY_TYPE_AUTO_DETECT = 8,
         }
+
+        internal enum PROGDLG
+        {
+            PROGDLG_NORMAL = 0x00000000,
+            PROGDLG_MODAL = 0x00000001,
+            PROGDLG_AUTOTIME = 0x00000002,
+            PROGDLG_NOTIME = 0x00000004,
+            PROGDLG_NOMINIMIZE = 0x00000008,
+            PROGDLG_NOPROGRESSBAR = 0x00000010,
+            PROGDLG_MARQUEEPROGRESS = 0x00000020,
+            PROGDLG_NOCANCEL = 0x00000040,
+        }
     }
 }

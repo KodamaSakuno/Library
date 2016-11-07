@@ -89,5 +89,26 @@ namespace Sakuno.SystemInterop
         {
             void Show(IntPtr hwndOwner);
         }
+
+        [ComImport]
+        [Guid("EBBC7C04-315E-11d2-B62F-006097DF5BD4")]
+        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        internal interface IProgressDialog
+        {
+            void StartProgressDialog(IntPtr hwndParent, object punkEnableModless, NativeEnums.PROGDLG dwFlags, object pvReserved = null);
+            void StopProgressDialog();
+            void SetTitle([MarshalAs(UnmanagedType.LPWStr)] string pwzTitle);
+            void SetAnimation(IntPtr hInstAnimation, uint idAnimation);
+            [return: MarshalAs(UnmanagedType.Bool)]
+            bool HasUserCancelled();
+            void SetProgress(int dwCompleted, int dwTotal);
+            void SetProgress64(long ullCompleted, long ullTotal);
+            void SetLine(int dwLineNum, [MarshalAs(UnmanagedType.LPWStr)] string pwzString, bool fCompactPath, object pvReserved = null);
+            void SetCancelMsg([MarshalAs(UnmanagedType.LPWStr)] string pwzCancelMsg, object pvResversed = null);
+            void Timer(ProgressDialogTimerAction dwTimerAction, object pvReserved = null);
+        }
+        [ComImport]
+        [Guid("F8383852-FCD3-11d1-A6B9-006097DF5BD4")]
+        internal class CProgressDialog { }
     }
 }
