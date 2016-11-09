@@ -49,7 +49,8 @@ namespace Sakuno
             }
         }
 
-        public void Collect(BufferSegment rpSegment)
+        public void Collect(BufferSegment rpSegment) { Collect(ref rpSegment); }
+        public void Collect(ref BufferSegment rpSegment)
         {
             ThrowIfDisposed();
 
