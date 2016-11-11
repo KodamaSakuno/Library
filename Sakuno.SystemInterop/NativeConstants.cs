@@ -948,6 +948,7 @@ namespace Sakuno.SystemInterop
             INTERNET_OPTION_PROXY,
             INTERNET_OPTION_SETTINGS_CHANGED,
             INTERNET_OPTION_PER_CONNECTION_OPTION = 75,
+            INTERNET_OPTION_SUPPRESS_BEHAVIOR = 81,
         }
         public enum INTERNET_OPEN_TYPE
         {
@@ -1002,6 +1003,15 @@ namespace Sakuno.SystemInterop
             INTERNET_PER_CONN_AUTOCONFIG_LAST_DETECT_TIME,
             INTERNET_PER_CONN_AUTOCONFIG_LAST_DETECT_URL,
             INTERNET_PER_CONN_FLAGS_UI,
+        }
+
+        public enum INTERNET_SUPPRESS
+        {
+            INTERNET_SUPPRESS_RESET_ALL,
+            INTERNET_SUPPRESS_COOKIE_POLICY,
+            INTERNET_SUPPRESS_COOKIE_POLICY_RESET,
+            INTERNET_SUPPRESS_COOKIE_PERSIST,
+            INTERNET_SUPPRESS_COOKIE_PERSIST_RESET,
         }
     }
 }
