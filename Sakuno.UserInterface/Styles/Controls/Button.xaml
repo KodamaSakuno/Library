@@ -27,7 +27,7 @@
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background" Value="{DynamicResource AccentBrushKey}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource ActiveBorderBrushKey}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentBrushKey}" />
                 <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrushKey}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">

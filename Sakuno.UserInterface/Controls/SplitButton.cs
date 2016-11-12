@@ -1,9 +1,12 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace Sakuno.UserInterface.Controls
 {
+    [TemplatePart(Name = "PART_ToggleButton", Type = typeof(ToggleButton))]
+    [TemplatePart(Name = "PART_Popup", Type = typeof(Popup))]
     public class SplitButton : ButtonWithPopup
     {
         public static readonly DependencyProperty CommandProperty = Button.CommandProperty.AddOwner(typeof(SplitButton));

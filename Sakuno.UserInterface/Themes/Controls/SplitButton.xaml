@@ -13,8 +13,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ruic:SplitButton}">
                     <Grid>
-                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
-                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
@@ -25,21 +24,37 @@
                                     <ContentPresenter ContentSource="Header" IsHitTestVisible="False" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                 </Button>
 
-                                <ToggleButton Name="PART_ToggleButton" IsEnabled="{Binding IsEnabled, ElementName=Button}" Padding="4, 0" Grid.Column="1">
+                                <ToggleButton Name="PART_ToggleButton" BorderBrush="{TemplateBinding BorderBrush}" IsChecked="{Binding IsPopupOpened, RelativeSource={RelativeSource TemplatedParent}}" IsEnabled="{Binding IsEnabled, ElementName=Button}" Padding="4, 0" Grid.Column="1">
                                     <Path Fill="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" Data="M0,0 L3.5,4 7,0 z" />
                                 </ToggleButton>
                             </Grid>
                         </Border>
 
                         <Popup Name="PART_Popup" IsOpen="{Binding IsChecked, ElementName=PART_ToggleButton}" AllowsTransparency="True" StaysOpen="False" Placement="Custom" PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}" VerticalOffset="{TemplateBinding PopupVerticalOffset}" HorizontalOffset="{TemplateBinding PopupHorizontalOffset}">
-                            <Border Background="{DynamicResource ThemeBrushKey}" BorderBrush="{DynamicResource BorderBrushKey}" BorderThickness="1">
-                                <ContentPresenter />
+                            <Border Background="Transparent" Margin="0, 0, 9, 9">
+                                <Grid>
+                                    <Rectangle Fill="{DynamicResource ThemeBrushKey}">
+                                        <Rectangle.Effect>
+                                            <DropShadowEffect Direction="315" Color="#71000000" BlurRadius="8" />
+                                        </Rectangle.Effect>
+                                    </Rectangle>
+
+                                    <Border Background="{DynamicResource ThemeBrushKey}" BorderBrush="{DynamicResource AccentBrushKey}" BorderThickness="1">
+                                        <ContentPresenter />
+                                    </Border>
+                                </Grid>
                             </Border>
                         </Popup>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsPopupOpened" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentBrushKey}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

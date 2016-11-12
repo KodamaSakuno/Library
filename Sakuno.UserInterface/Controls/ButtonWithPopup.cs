@@ -5,16 +5,14 @@ using System.Windows.Input;
 
 namespace Sakuno.UserInterface.Controls
 {
-    [TemplatePart(Name = "PART_ToggleButton", Type = typeof(ToggleButton))]
-    [TemplatePart(Name = "PART_Popup", Type = typeof(Popup))]
-    public class ButtonWithPopup : HeaderedContentControl
+    public abstract class ButtonWithPopup : HeaderedContentControl
     {
         public static readonly DependencyProperty PopupAutoCloseProperty = DependencyProperty.Register(nameof(PopupAutoClose), typeof(bool), typeof(ButtonWithPopup),
             new FrameworkPropertyMetadata(BooleanUtil.True));
         public bool PopupAutoClose
         {
             get { return (bool)GetValue(PopupAutoCloseProperty); }
-            set { SetValue(PopupAutoCloseProperty, value); }
+            set { SetValue(PopupAutoCloseProperty, BooleanUtil.GetBoxed(value)); }
         }
 
         public static readonly DependencyProperty PopupVerticalOffsetProperty = DependencyProperty.Register(nameof(PopupVerticalOffset), typeof(double), typeof(ButtonWithPopup),
@@ -30,6 +28,14 @@ namespace Sakuno.UserInterface.Controls
         {
             get { return (double)GetValue(PopupHorizontalOffsetProperty); }
             set { SetValue(PopupHorizontalOffsetProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsPopupOpenedProperty = DependencyProperty.Register(nameof(IsPopupOpened), typeof(bool), typeof(ButtonWithPopup),
+            new FrameworkPropertyMetadata(BooleanUtil.False, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public bool IsPopupOpened
+        {
+            get { return (bool)GetValue(IsPopupOpenedProperty); }
+            set { SetValue(IsPopupOpenedProperty, BooleanUtil.GetBoxed(value)); }
         }
 
         ToggleButton r_ToggleButton;
@@ -54,7 +60,6 @@ namespace Sakuno.UserInterface.Controls
             if (PopupAutoClose && r_ToggleButton != null)
                 r_ToggleButton.IsChecked = false;
         }
-
         CustomPopupPlacement[] PopupPlacementCallback(Size rpPopupSize, Size rpTargetSize, Point rpOffset)
         {
             var rLeft = -rpPopupSize.Width + rpTargetSize.Width - rpOffset.X;

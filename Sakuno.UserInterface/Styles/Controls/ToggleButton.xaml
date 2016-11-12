@@ -43,4 +43,9 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="FlatToggleButtonStyle"  TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
 </ResourceDictionary>
