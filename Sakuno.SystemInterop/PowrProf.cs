@@ -10,7 +10,7 @@ namespace Sakuno.SystemInterop
             const string DllName = "powrprof.dll";
 
             [DllImport(DllName)]
-            public static extern int CallNtPowerInformation(NativeConstants.POWER_INFORMATION_LEVEL InformationLevel, IntPtr lpInputBuffer, uint nInputBufferSize, out NativeStructs.SYSTEM_BATTERY_STATE lpOutputBuffer, uint nOutputBufferSize);
+            public static extern int CallNtPowerInformation(NativeConstants.POWER_INFORMATION_LEVEL InformationLevel, IntPtr lpInputBuffer, int nInputBufferSize, out NativeStructs.SYSTEM_BATTERY_STATE lpOutputBuffer, int nOutputBufferSize);
         }
     }
 }
