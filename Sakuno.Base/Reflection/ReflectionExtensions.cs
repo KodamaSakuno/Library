@@ -24,7 +24,7 @@ namespace Sakuno.Reflection
 
         public static IEnumerable<T> FastGetCustomAttributes<T>(this Type rpType) where T : Attribute
         {
-            return (IEnumerable<T>)ReflectionCache.CustomAttributes.GetOrAdd(rpType, r =>
+            return (IEnumerable<T>)ReflectionCache.CustomAttributes.GetOrAdd(rpType, r => new Lazy<IEnumerable<Attribute>>(() =>
             {
                 if (!r.IsDefined(typeof(T)))
                     return ArrayUtil.Empty<T>();
@@ -42,7 +42,7 @@ namespace Sakuno.Reflection
 
                     return (T)rResult;
                 }).ToArray();
-            });
+            })).Value;
         }
         public static T FastGetCustomAttribute<T>(this Type rpType) where T : Attribute
         {
