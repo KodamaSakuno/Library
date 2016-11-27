@@ -1,13 +1,11 @@
-﻿using Sakuno.UserInterface.Internal;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Media.Animation;
 
 namespace Sakuno.UserInterface.Controls
 {
-    public class AdvancedTabContentPanel : VirtualizingPanel
+    public class AdvancedTabContentPanel : Panel
     {
         internal static readonly DependencyProperty ViewportOffsetProperty = DependencyProperty.Register(nameof(ViewportOffset), typeof(double), typeof(AdvancedTabContentPanel),
             new FrameworkPropertyMetadata(DoubleUtil.Zero, FrameworkPropertyMetadataOptions.AffectsArrange));
@@ -17,37 +15,7 @@ namespace Sakuno.UserInterface.Controls
             set { SetValue(ViewportOffsetProperty, value); }
         }
 
-        internal static readonly DependencyProperty SwipeDirectionProperty = DependencyProperty.Register(nameof(SwipeDirection), typeof(SwipeDirection), typeof(AdvancedTabContentPanel),
-            new FrameworkPropertyMetadata(SwipeDirection.None, FrameworkPropertyMetadataOptions.AffectsMeasure, (s, e) => ((AdvancedTabContentPanel)s).OnDirectionChanged((SwipeDirection)e.OldValue, (SwipeDirection)e.NewValue)));
-        internal SwipeDirection SwipeDirection
-        {
-            get { return (SwipeDirection)GetValue(SwipeDirectionProperty); }
-            set { SetValue(SwipeDirectionProperty, value); }
-        }
-
         internal int SelectedItemIndex { get; set; }
-
-        internal bool IsSwitchingContent { get; set; }
-
-        void OnDirectionChanged(SwipeDirection rpOldValue, SwipeDirection rpNewValue)
-        {
-            if (InternalChildren.Count == 2)
-                if (rpNewValue == SwipeDirection.None)
-                    Cleanup(IsSwitchingContent ? 0 : 1);
-                else if ((rpOldValue == SwipeDirection.Forward && rpNewValue == SwipeDirection.Backward) || (rpOldValue == SwipeDirection.Backward && rpNewValue == SwipeDirection.Forward))
-                    Cleanup(1);
-
-            switch (rpNewValue)
-            {
-                case SwipeDirection.Forward:
-                    Generate(DesiredSize, SelectedItemIndex + 1, GeneratorDirection.Forward);
-                    break;
-
-                case SwipeDirection.Backward:
-                    Generate(DesiredSize, SelectedItemIndex - 1, GeneratorDirection.Backward);
-                    break;
-            }
-        }
 
         protected override Size MeasureOverride(Size rpAvailableSize)
         {
@@ -61,49 +29,10 @@ namespace Sakuno.UserInterface.Controls
             if (rOwner.Panel == null || rOwner.Panel != this)
                 rOwner.Panel = this;
 
-            var rChildren = InternalChildren;
-            var rGenerator = ItemContainerGenerator;
-
-            if (rChildren.Count < 2)
-            {
-                var rPosition = new GeneratorPosition(0, 0);
-                var rItemIndex = ItemContainerGenerator.IndexFromGeneratorPosition(rPosition);
-                if (rItemIndex != SelectedItemIndex)
-                    Cleanup(0);
-                Generate(rpAvailableSize, SelectedItemIndex, GeneratorDirection.Forward);
-            }
-
-            foreach (UIElement rChild in Children)
+            foreach (UIElement rChild in InternalChildren)
                 rChild.Measure(rpAvailableSize);
 
             return rpAvailableSize;
-        }
-
-        void Cleanup(int rpIndex)
-        {
-            var rPosition = new GeneratorPosition(rpIndex, 0);
-            var rItemIndex = ItemContainerGenerator.IndexFromGeneratorPosition(rPosition);
-            if (rItemIndex != -1)
-                ItemContainerGenerator.Remove(rPosition, 1);
-            RemoveInternalChildRange(rpIndex, 1);
-        }
-
-        void Generate(Size rpAvailableSize, int rpIndex, GeneratorDirection rpDirection)
-        {
-            var rPosition = ItemContainerGenerator.GeneratorPositionFromIndex(rpIndex);
-            using (ItemContainerGenerator.StartAt(rPosition, rpDirection, true))
-            {
-                bool rIsNewlyRealized;
-                var rChild = (UIElement)ItemContainerGenerator.GenerateNext(out rIsNewlyRealized);
-
-                if (rIsNewlyRealized)
-                {
-                    AddInternalChild(rChild);
-                    ItemContainerGenerator.PrepareItemContainer(rChild);
-                }
-
-                rChild?.Measure(rpAvailableSize);
-            }
         }
 
         protected override Size ArrangeOverride(Size rpFinalSize)
@@ -111,17 +40,12 @@ namespace Sakuno.UserInterface.Controls
             if (InternalChildren.Count == 0 || SelectedItemIndex < 0)
                 return rpFinalSize;
 
-            var rRect = new Rect(ViewportOffset, .0, rpFinalSize.Width, rpFinalSize.Height);
-            InternalChildren[0].Arrange(rRect);
+            var rRect = new Rect(-rpFinalSize.Width * SelectedItemIndex + ViewportOffset, .0, rpFinalSize.Width, rpFinalSize.Height);
 
-            if (InternalChildren.Count > 1)
+            foreach (UIElement rElement in InternalChildren)
             {
-                if (ViewportOffset < .0)
-                    rRect.X = rpFinalSize.Width + ViewportOffset;
-                else
-                    rRect.X = -rpFinalSize.Width + ViewportOffset;
-
-                InternalChildren[1].Arrange(rRect);
+                rElement.Arrange(rRect);
+                rRect.X += rpFinalSize.Width;
             }
 
             return rpFinalSize;
@@ -133,7 +57,6 @@ namespace Sakuno.UserInterface.Controls
             rAnimation.WhenComplete(() =>
             {
                 ViewportOffset = .0;
-                SwipeDirection = SwipeDirection.None;
                 rpContinuationAction?.Invoke();
             });
 

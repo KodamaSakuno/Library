@@ -1,5 +1,4 @@
-﻿using Sakuno.UserInterface.Internal;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -57,7 +56,6 @@ namespace Sakuno.UserInterface.Controls
             }
             else
             {
-                Panel.SwipeDirection = rTranslation > .0 ? SwipeDirection.Backward : SwipeDirection.Forward;
                 Panel.ViewportOffset = rTranslation;
             }
 
@@ -88,28 +86,14 @@ namespace Sakuno.UserInterface.Controls
                 if (rIndex == 0)
                     Panel.SetViewportOffset(.0);
                 else
-                {
-                    Panel.IsSwitchingContent = true;
-                    Panel.SetViewportOffset(Panel.ActualWidth, () =>
-                    {
-                        Owner.SelectedIndex--;
-                        Panel.IsSwitchingContent = false;
-                    });
-                }
+                    Panel.SetViewportOffset(Panel.ActualWidth, () => Owner.SelectedIndex--);
             }
             else
             {
                 if (rIndex == Owner.Items.Count - 1)
                     Panel?.SetViewportOffset(.0);
                 else
-                {
-                    Panel.IsSwitchingContent = true;
-                    Panel.SetViewportOffset(-Panel.ActualWidth, () =>
-                    {
-                        Owner.SelectedIndex++;
-                        Panel.IsSwitchingContent = false;
-                    });
-                }
+                    Panel.SetViewportOffset(-Panel.ActualWidth, () => Owner.SelectedIndex++);
             }
         }
     }
