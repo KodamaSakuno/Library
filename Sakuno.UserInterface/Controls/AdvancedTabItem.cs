@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -6,6 +7,7 @@ using System.Windows.Input;
 
 namespace Sakuno.UserInterface.Controls
 {
+    [TemplatePart(Name = "PART_Thumb", Type = typeof(Thumb))]
     public class AdvancedTabItem : ContentControl
     {
         internal static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(AdvancedTabItem),
@@ -69,6 +71,15 @@ namespace Sakuno.UserInterface.Controls
             remove { RemoveHandler(DragCompletedEvent, value); }
         }
 
+        internal static readonly RoutedEvent ClosingEvent = EventManager.RegisterRoutedEvent(nameof(ClosingEvent), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(AdvancedTabItem));
+        internal event RoutedEventHandler Closing
+        {
+            add { AddHandler(ClosingEvent, value); }
+            remove { RemoveHandler(ClosingEvent, value); }
+        }
+
+        public static readonly RoutedCommand CloseTabCommand = new RoutedUICommand("CloseTab", "CloseTab", typeof(AdvancedTabItem));
+
         Thumb r_Thumb;
 
         bool r_ReceiveDragOnApplyTemplate;
@@ -76,6 +87,12 @@ namespace Sakuno.UserInterface.Controls
         static AdvancedTabItem()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(AdvancedTabItem), new FrameworkPropertyMetadata(typeof(AdvancedTabItem)));
+
+            EventManager.RegisterClassHandler(typeof(AdvancedTabItem), Thumb.DragStartedEvent, new DragStartedEventHandler((s, e) => ((AdvancedTabItem)s).OnDragStarted(s, e)));
+            EventManager.RegisterClassHandler(typeof(AdvancedTabItem), Thumb.DragDeltaEvent, new DragDeltaEventHandler((s, e) => ((AdvancedTabItem)s).OnDragDelta(s, e)));
+            EventManager.RegisterClassHandler(typeof(AdvancedTabItem), Thumb.DragCompletedEvent, new DragCompletedEventHandler((s, e) => ((AdvancedTabItem)s).OnDragCompleted(s, e)));
+
+            CommandManager.RegisterClassCommandBinding(typeof(AdvancedTabItem), new CommandBinding(CloseTabCommand, CloseTab));
         }
 
         public override void OnApplyTemplate()
@@ -83,26 +100,23 @@ namespace Sakuno.UserInterface.Controls
             base.OnApplyTemplate();
 
             r_Thumb = Template.FindName("PART_Thumb", this) as Thumb;
-            if (r_Thumb != null)
-            {
-                r_Thumb.DragStarted += Thumb_DragStarted;
-                r_Thumb.DragDelta += Thumb_DragDelta;
-                r_Thumb.DragCompleted += Thumb_DragCompleted;
-
-                if (r_ReceiveDragOnApplyTemplate)
-                    Dispatcher.BeginInvoke(new Action(() => r_Thumb.RaiseEvent(new MouseButtonEventArgs(InputManager.Current.PrimaryMouseDevice, 0, MouseButton.Left) { RoutedEvent = MouseLeftButtonDownEvent })));
-            }
+            if (r_Thumb != null && r_ReceiveDragOnApplyTemplate)
+                Dispatcher.BeginInvoke(new Action(() => r_Thumb.RaiseEvent(new MouseButtonEventArgs(InputManager.Current.PrimaryMouseDevice, 0, MouseButton.Left) { RoutedEvent = MouseLeftButtonDownEvent })));
 
             r_ReceiveDragOnApplyTemplate = false;
         }
 
-        void Thumb_DragStarted(object sender, DragStartedEventArgs e)
+        void OnDragStarted(object sender, DragStartedEventArgs e)
         {
+            e.Handled = true;
+
             IsSelected = true;
             RaiseEvent(new AdvancedTabDragStartedEventArgs(DragStartedEvent, this, e));
         }
-        void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
+        void OnDragDelta(object sender, DragDeltaEventArgs e)
         {
+            e.Handled = true;
+
             var rPreviewEventArgs = new AdvancedTabDragDeltaEventArgs(PreviewDragDeltaEvent, this, e);
             RaiseEvent(rPreviewEventArgs);
             if (rPreviewEventArgs.Cancel)
@@ -116,8 +130,10 @@ namespace Sakuno.UserInterface.Controls
                     r_Thumb.CancelDrag();
             }
         }
-        void Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
+        void OnDragCompleted(object sender, DragCompletedEventArgs e)
         {
+            e.Handled = true;
+
             RaiseEvent(new AdvancedTabDragCompletedEventArgs(DragCompletedEvent, this, e));
         }
 
@@ -131,6 +147,19 @@ namespace Sakuno.UserInterface.Controls
             }
 
             r_ReceiveDragOnApplyTemplate = true;
+        }
+
+        static void CloseTab(object sender, ExecutedRoutedEventArgs e)
+        {
+            var rOriginalSource = e.OriginalSource as DependencyObject;
+            if (rOriginalSource == null)
+                return;
+
+            var rOwner = rOriginalSource.GetAncestors().OfType<AdvancedTabItem>().FirstOrDefault();
+            if (rOwner == null)
+                return;
+
+            rOwner.RaiseEvent(new RoutedEventArgs(ClosingEvent, rOwner));
         }
     }
 }

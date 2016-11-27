@@ -78,7 +78,10 @@ namespace Sakuno.UserInterface.Controls
             EventManager.RegisterClassHandler(typeof(AdvancedTabControl), AdvancedTabItem.PreviewDragDeltaEvent, new AdvancedTabDragDeltaEventHandler((s, e) => ((AdvancedTabControl)s).OnItemPreviewDragDelta(e)));
             EventManager.RegisterClassHandler(typeof(AdvancedTabControl), AdvancedTabItem.DragDeltaEvent, new AdvancedTabDragDeltaEventHandler((s, e) => ((AdvancedTabControl)s).OnItemDragDelta(e)));
             EventManager.RegisterClassHandler(typeof(AdvancedTabControl), AdvancedTabItem.DragCompletedEvent, new AdvancedTabDragCompletedEventHandler((s, e) => ((AdvancedTabControl)s).OnItemDragCompleted(e)));
+
+            EventManager.RegisterClassHandler(typeof(AdvancedTabControl), AdvancedTabItem.ClosingEvent, new RoutedEventHandler((s, e) => ((AdvancedTabControl)s).OnTabClosing(e)));
         }
+
         public AdvancedTabControl()
         {
             r_Contents = new ObservableCollection<ContentPresenter>();
@@ -496,6 +499,21 @@ namespace Sakuno.UserInterface.Controls
                 RemoveItem(rItem);
                 rDestination.AddItem(rItem);
             }
+        }
+
+        void OnTabClosing(RoutedEventArgs e)
+        {
+            e.Handled = true;
+
+            var rTabItem = e.OriginalSource as AdvancedTabItem;
+            if (rTabItem == null)
+                return;
+
+            var rItem = r_HeaderItemsControl.ItemContainerGenerator.ItemFromContainer(rTabItem);
+            if (rItem == null)
+                return;
+
+            RemoveItem(rItem);
         }
     }
 }
