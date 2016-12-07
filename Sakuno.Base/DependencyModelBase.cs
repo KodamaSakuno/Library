@@ -8,10 +8,10 @@ namespace Sakuno
 {
     public abstract class DependencyModelBase : DependencyObject, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string rpPropertyName = null)
-            => PropertyChanged(this, PropertyChangedEventArgsFactory.Get(rpPropertyName));
+            => PropertyChanged?.Invoke(this, PropertyChangedEventArgsFactory.Get(rpPropertyName));
         protected virtual void OnPropertyChanged<T>(Expression<Func<T>> rpExpression)
         {
             if (rpExpression == null)

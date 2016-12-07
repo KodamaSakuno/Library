@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Sakuno.UserInterface
+namespace Sakuno
 {
     using ConvertBackFunc = Func<object, object, CultureInfo, object[]>;
     using ConvertFunc = Func<object[], object, CultureInfo, object>;

@@ -104,7 +104,6 @@
     <Compile Include="Internal\GlowWindowProcessorTop.cs" />
     <Compile Include="Internal\GlowWindowProcessorRight.cs" />
     <Compile Include="Internal\GlowWindowProcessorLeft.cs" />
-    <Compile Include="Internal\SwipeDirection.cs" />
     <Compile Include="ObjectOperations\InvertBoolean.cs" />
     <Compile Include="ObjectOperations\ObjectOperation.cs" />
     <Compile Include="ObjectOperations\ObjectOperationCollection.cs" />

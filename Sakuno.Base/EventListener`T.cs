@@ -5,6 +5,7 @@ namespace Sakuno
     public class EventListener<T> : DisposableObject where T : class
     {
         Action<T> r_Add, r_Remove;
+
         T r_Handler;
 
         protected EventListener() { }

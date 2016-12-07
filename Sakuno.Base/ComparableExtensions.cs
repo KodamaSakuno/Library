@@ -24,8 +24,9 @@ namespace Sakuno
 
             if (rpValue.IsGreaterThan(rpMax))
                 rResult = rpMax;
-            if (rpValue.IsLessThan(rpMin))
+            else if (rpValue.IsLessThan(rpMin))
                 rResult = rpMin;
+
             return rResult;
         }
     }
