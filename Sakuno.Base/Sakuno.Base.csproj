@@ -75,6 +75,7 @@
     <Compile Include="EnumUtil.cs" />
     <Compile Include="EventListener`T.cs" />
     <Compile Include="IdentityFunction`T.cs" />
+    <Compile Include="Int32Util.cs" />
     <Compile Include="Internal\Slab.cs" />
     <Compile Include="MathUtil.cs" />
     <Compile Include="ModelBase.cs" />

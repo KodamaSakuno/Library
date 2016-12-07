@@ -1,5 +1,5 @@
 ﻿using Sakuno.SystemInterop;
-using Sakuno.UserInterface.Behaviors;
+using Sakuno.UserInterface.Interactivity;
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;

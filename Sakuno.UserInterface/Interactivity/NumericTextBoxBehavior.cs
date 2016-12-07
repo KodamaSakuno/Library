@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 
-namespace Sakuno.UserInterface.Behaviors
+namespace Sakuno.UserInterface.Interactivity
 {
     public class NumericTextBoxBehavior : Behavior<TextBox>
     {

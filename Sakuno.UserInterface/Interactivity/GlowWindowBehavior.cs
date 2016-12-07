@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Interactivity;
 using System.Windows.Media;
 
-namespace Sakuno.UserInterface.Behaviors
+namespace Sakuno.UserInterface.Interactivity
 {
     public class GlowWindowBehavior : Behavior<Window>
     {

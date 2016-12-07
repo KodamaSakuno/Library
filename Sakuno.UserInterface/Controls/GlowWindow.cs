@@ -1,5 +1,5 @@
 ﻿using Sakuno.SystemInterop;
-using Sakuno.UserInterface.Behaviors;
+using Sakuno.UserInterface.Interactivity;
 using Sakuno.UserInterface.Internal;
 using System;
 using System.Threading.Tasks;

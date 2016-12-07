@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ruib="clr-namespace:Sakuno.UserInterface.Behaviors"
+                    xmlns:ruii="clr-namespace:Sakuno.UserInterface.Interactivity"
                     xmlns:ruic="clr-namespace:Sakuno.UserInterface.Controls">
 
     <WindowChrome x:Key="DefaultWindowChrome" ResizeBorderThickness="0" GlassFrameThickness="0" CornerRadius="0" />
@@ -12,7 +12,7 @@
         <Setter Property="WindowChrome.WindowChrome" Value="{StaticResource DefaultWindowChrome}" />
         <Setter Property="GlowWindowBehavior">
             <Setter.Value>
-                <ruib:GlowWindowBehavior InactiveGlowBrush="{DynamicResource BorderBrushKey}" />
+                <ruii:GlowWindowBehavior InactiveGlowBrush="{DynamicResource BorderBrushKey}" />
             </Setter.Value>
         </Setter>
         <Setter Property="Template">

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Sakuno.UserInterface
+namespace Sakuno.UserInterface.Commands
 {
     public class DelegatedCommand : ICommand
     {

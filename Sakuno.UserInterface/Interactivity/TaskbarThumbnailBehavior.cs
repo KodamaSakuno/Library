@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Interactivity;
 using System.Windows.Shell;
 
-namespace Sakuno.UserInterface.Behaviors
+namespace Sakuno.UserInterface.Interactivity
 {
     public class TaskbarThumbnailBehavior : Behavior<FrameworkElement>
     {
