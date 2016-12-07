@@ -13,12 +13,24 @@ namespace Sakuno.SystemInterop
         {
             public int X;
             public int Y;
+
+            public POINT(int x, int y)
+            {
+                X = x;
+                Y = y;
+            }
         }
         [StructLayout(LayoutKind.Sequential)]
         public struct SIZE
         {
             public int X;
             public int Y;
+
+            public SIZE(int x, int y)
+            {
+                X = x;
+                Y = y;
+            }
         }
         [StructLayout(LayoutKind.Sequential)]
         public struct RECT
@@ -47,10 +59,8 @@ namespace Sakuno.SystemInterop
             public int Top;
             public int Bottom;
 
-            public MARGINS(int rpUniformValue)
-                : this(rpUniformValue, rpUniformValue, rpUniformValue, rpUniformValue) { }
-            public MARGINS(double rpLeft, double rpTop, double rpRight, double rpBottom)
-                : this((int)rpLeft, (int)rpTop, (int)rpRight, (int)rpBottom) { }
+            public MARGINS(int rpUniformValue) : this(rpUniformValue, rpUniformValue, rpUniformValue, rpUniformValue) { }
+            public MARGINS(double rpLeft, double rpTop, double rpRight, double rpBottom) : this((int)rpLeft, (int)rpTop, (int)rpRight, (int)rpBottom) { }
             public MARGINS(int rpLeft, int rpTop, int rpRight, int rpBottom)
             {
                 Left = rpLeft;

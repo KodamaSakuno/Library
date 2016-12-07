@@ -21,7 +21,7 @@ namespace Sakuno.UserInterface.Internal
         public abstract double GetWidth(double rpOwnerLeft, double rpOwnerWidth);
         public abstract double GetHeight(double rpOwnerTop, double rpOwnerHeight);
 
-        public abstract Cursor GetCursor(Point rpPoint, double rpWidht, double rpHeight);
-        public abstract NativeConstants.HitTest GetHitTestValue(Point rpPoint, double rpWidht, double rpHeight);
+        public abstract Cursor GetCursor(Point rpPoint, double rpWidth, double rpHeight);
+        public abstract NativeConstants.HitTest GetHitTestValue(Point rpPoint, double rpWidth, double rpHeight);
     }
 }

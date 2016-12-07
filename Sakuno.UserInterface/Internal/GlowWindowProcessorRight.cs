@@ -18,26 +18,26 @@ namespace Sakuno.UserInterface.Internal
         public override double GetWidth(double rpOwnerLeft, double rpOwnerWidth) => GlowSize;
         public override double GetHeight(double rpOwnerTop, double rpOwnerHeight) => rpOwnerHeight + GlowSize * 2;
 
-        public override Cursor GetCursor(Point rpPoint, double rpWidht, double rpHeight)
+        public override Cursor GetCursor(Point rpPoint, double rpWidth, double rpHeight)
         {
-            var rTopCornerRect = new Rect(0, 0, rpWidht, EdgeSize);
-            var rBottomCornerRect = new Rect(0, rpHeight - EdgeSize, rpWidht, EdgeSize);
+            var rTopCornerRect = new Rect(0, 0, rpWidth, EdgeSize);
+            var rBottomCornerRect = new Rect(0, rpHeight - EdgeSize, rpWidth, EdgeSize);
 
             if (rTopCornerRect.Contains(rpPoint))
                 return Cursors.SizeNESW;
-            if (rBottomCornerRect.Contains(rpPoint))
+            else if (rBottomCornerRect.Contains(rpPoint))
                 return Cursors.SizeNWSE;
             else
                 return Cursors.SizeWE;
         }
-        public override NativeConstants.HitTest GetHitTestValue(Point rpPoint, double rpWidht, double rpHeight)
+        public override NativeConstants.HitTest GetHitTestValue(Point rpPoint, double rpWidth, double rpHeight)
         {
-            var rTopCornerRect = new Rect(0, 0, rpWidht, EdgeSize);
-            var rBottomCornerRect = new Rect(0, rpHeight - EdgeSize, rpWidht, EdgeSize);
+            var rTopCornerRect = new Rect(0, 0, rpWidth, EdgeSize);
+            var rBottomCornerRect = new Rect(0, rpHeight - EdgeSize, rpWidth, EdgeSize);
 
             if (rTopCornerRect.Contains(rpPoint))
                 return NativeConstants.HitTest.HTTOPRIGHT;
-            if (rBottomCornerRect.Contains(rpPoint))
+            else if (rBottomCornerRect.Contains(rpPoint))
                 return NativeConstants.HitTest.HTBOTTOMRIGHT;
             else
                 return NativeConstants.HitTest.HTRIGHT;

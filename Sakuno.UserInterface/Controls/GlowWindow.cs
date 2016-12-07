@@ -180,8 +180,6 @@ namespace Sakuno.UserInterface.Controls
 
         IntPtr WndProc(IntPtr rpHandle, int rpMessage, IntPtr rpWParam, IntPtr rpLParam, ref bool rrpHandled)
         {
-            Point rScreenPoint;
-
             var rMessage = (NativeConstants.WindowMessage)rpMessage;
             switch (rMessage)
             {
@@ -193,8 +191,8 @@ namespace Sakuno.UserInterface.Controls
                     if (r_Owner.ResizeMode == ResizeMode.NoResize)
                         break;
 
-                    rScreenPoint = rpLParam.ToPoint();
-                    var rClientPoint = PointFromScreen(rScreenPoint);
+                    var rClientPoint = PointFromScreen(rpLParam.ToPoint());
+
                     Cursor = r_Processor.GetCursor(rClientPoint, ActualWidth, ActualHeight);
                     break;
 
@@ -202,8 +200,13 @@ namespace Sakuno.UserInterface.Controls
                     if (!r_Owner.IsActive)
                         r_Owner.Activate();
 
-                    rScreenPoint = rpLParam.ToPoint();
+                    var rScreenPoint = rpLParam.ToPoint();
+
+                    rScreenPoint.X /= DpiUtil.ScaleX;
+                    rScreenPoint.Y /= DpiUtil.ScaleY;
+
                     var rHitTest = (IntPtr)r_Processor.GetHitTestValue(rScreenPoint, ActualWidth, ActualHeight);
+
                     NativeMethods.User32.PostMessageW(r_OwnerHandle, NativeConstants.WindowMessage.WM_NCLBUTTONDOWN, rHitTest, IntPtr.Zero);
                     break;
             }
