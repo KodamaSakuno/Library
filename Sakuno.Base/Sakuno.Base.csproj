@@ -50,9 +50,11 @@
     <Compile Include="BooleanUtil.cs" />
     <Compile Include="BufferPool.cs" />
     <Compile Include="BufferSegment.cs" />
+    <Compile Include="Collections\Deque`T.cs" />
     <Compile Include="Collections\HybridDictionary`TKey`TValue.cs" />
     <Compile Include="Collections\ListDictionary`TKey`TValue.cs" />
     <Compile Include="Collections\ObservableRangeCollection.cs" />
+    <Compile Include="Collections\QueueSide.cs" />
     <Compile Include="ComparableExtensions.cs" />
     <Compile Include="Converters\AreEqualConverter.cs" />
     <Compile Include="Converters\EqualityToBooleanConverter.cs" />
