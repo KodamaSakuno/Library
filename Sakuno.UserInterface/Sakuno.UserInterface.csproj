@@ -89,9 +89,11 @@
     <Compile Include="Converters\TreeListViewItemLevelToIndentConverter.cs" />
     <Compile Include="DataTemplateSelection.cs" />
     <Compile Include="DependencyObjectExtensions.cs" />
+    <Compile Include="DoubleExtension.cs" />
     <Compile Include="DpiUtil.cs" />
     <Compile Include="Effects\GrayscaleEffect.cs" />
     <Compile Include="GenericDataTemplateSelector.cs" />
+    <Compile Include="IntegerExtension.cs" />
     <Compile Include="Interactivity\InvokeMethodAction.cs" />
     <Compile Include="Interactivity\ObjectOperationAction.cs" />
     <Compile Include="Interactivity\GlowWindowBehavior.cs" />
