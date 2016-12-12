@@ -76,6 +76,7 @@
     <Compile Include="Controls\GlowWindow.cs" />
     <Compile Include="Controls\IWindowPlacementPreference.cs" />
     <Compile Include="Controls\MetroWindow.cs" />
+    <Compile Include="Controls\RelativePanel.cs" />
     <Compile Include="Controls\ResizeGrip.cs" />
     <Compile Include="Controls\SplitButton.cs" />
     <Compile Include="Controls\TabController.cs" />
