@@ -97,6 +97,7 @@
     <Compile Include="Effects\GrayscaleEffect.cs" />
     <Compile Include="GenericDataTemplateSelector.cs" />
     <Compile Include="IntegerExtension.cs" />
+    <Compile Include="Interactivity\DisposeDataContextAction.cs" />
     <Compile Include="Interactivity\InvokeMethodAction.cs" />
     <Compile Include="Interactivity\ObjectOperationAction.cs" />
     <Compile Include="Interactivity\GlowWindowBehavior.cs" />
@@ -110,6 +111,8 @@
     <Compile Include="Internal\GlowWindowProcessorRight.cs" />
     <Compile Include="Internal\GlowWindowProcessorLeft.cs" />
     <Compile Include="ObjectOperations\InvertBoolean.cs" />
+    <Compile Include="ObjectOperations\MethodParameter.cs" />
+    <Compile Include="ObjectOperations\MethodParameterCollection.cs" />
     <Compile Include="ObjectOperations\ObjectOperation.cs" />
     <Compile Include="ObjectOperations\ObjectOperationCollection.cs" />
     <Compile Include="ObjectOperations\InvokeMethod.cs" />
