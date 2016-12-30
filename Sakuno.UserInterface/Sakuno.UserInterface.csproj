@@ -102,6 +102,7 @@
     <Compile Include="Interactivity\ObjectOperationAction.cs" />
     <Compile Include="Interactivity\GlowWindowBehavior.cs" />
     <Compile Include="Interactivity\NumericTextBoxBehavior.cs" />
+    <Compile Include="Interactivity\PropertyChangedTrigger.cs" />
     <Compile Include="Interactivity\TaskbarThumbnailBehavior.cs" />
     <Compile Include="Internal\BBCodeParser.cs" />
     <Compile Include="Internal\CollectionTeaser.cs" />
