@@ -3,6 +3,7 @@ using Sakuno.UserInterface.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -62,6 +63,10 @@ namespace Sakuno.UserInterface.Internal
                 return new Span(rpContent) { Foreground = (Brush)r_BrushConverter.Value.ConvertFromInvariantString(rpOpeningTag.Parameter) };
             else if (rName.OICEquals("size"))
                 return new Span(rpContent) { FontSize = double.Parse(rpOpeningTag.Parameter) };
+            else if (rName.OICEquals("sup"))
+                return new Span(rpContent) { BaselineAlignment = BaselineAlignment.Superscript };
+            else if (rName.OICEquals("sub"))
+                return new Span(rpContent) { BaselineAlignment = BaselineAlignment.Subscript };
 
             Func<Inline, string, Inline> rCTWPConsturctor;
             if (BBCodeBlock.CustomTagsWithParameter.TryGetValue(rpOpeningTag.Name, out rCTWPConsturctor))
