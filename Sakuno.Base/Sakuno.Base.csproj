@@ -81,6 +81,7 @@
     <Compile Include="Int32Util.cs" />
     <Compile Include="Internal\Slab.cs" />
     <Compile Include="MathUtil.cs" />
+    <Compile Include="Memory.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="OS.cs" />
     <Compile Include="Parsers\IInput.cs" />
