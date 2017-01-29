@@ -62,6 +62,7 @@
     <Compile Include="Converters\InvertBooleanConverter.cs" />
     <Compile Include="Converters\NumberComparionConverters.cs" />
     <Compile Include="Converters\OppositeNumberConverter.cs" />
+    <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="DateTimeUtil.cs" />
     <Compile Include="DelegatedComparer`T.cs" />
     <Compile Include="DelegatedConverter.cs" />
