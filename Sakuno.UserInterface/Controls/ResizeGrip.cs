@@ -8,6 +8,7 @@ namespace Sakuno.UserInterface.Controls
 {
     public class ResizeGrip : Control
     {
+        Window r_Owner;
         bool r_CanResize;
 
         static ResizeGrip()
@@ -18,27 +19,32 @@ namespace Sakuno.UserInterface.Controls
         public ResizeGrip()
         {
             Loaded += ResizeGrip_Loaded;
+            Unloaded += ResizeGrip_Unloaded;
         }
 
         void ResizeGrip_Loaded(object sender, RoutedEventArgs e)
         {
-            Loaded -= ResizeGrip_Loaded;
-
-            var r_Owner = Window.GetWindow(this);
+            r_Owner = Window.GetWindow(this);
             if (r_Owner == null)
                 return;
 
             var rHwndSource = (HwndSource)PresentationSource.FromVisual(r_Owner);
             rHwndSource?.AddHook(WndProc);
 
-            EventHandler rHandler = delegate { r_CanResize = r_Owner.WindowState == WindowState.Normal; };
-            r_Owner.StateChanged += rHandler;
-            r_Owner.ContentRendered += rHandler;
+            r_Owner.StateChanged += OnOwnerStateChanged;
+            r_Owner.ContentRendered += OnOwnerStateChanged;
         }
+        void ResizeGrip_Unloaded(object sender, RoutedEventArgs e)
+        {
+            r_Owner.StateChanged -= OnOwnerStateChanged;
+            r_Owner.ContentRendered -= OnOwnerStateChanged;
+        }
+
+        void OnOwnerStateChanged(object sender, EventArgs e) => r_CanResize = r_Owner.WindowState == WindowState.Normal;
 
         IntPtr WndProc(IntPtr rpHandle, int rpMessage, IntPtr rpWParam, IntPtr rpLParam, ref bool rrpHandled)
         {
-            if ((NativeConstants.WindowMessage)rpMessage == NativeConstants.WindowMessage.WM_NCHITTEST && r_CanResize)
+            if (rpMessage == (int)NativeConstants.WindowMessage.WM_NCHITTEST && r_CanResize)
             {
                 var rScreenPoint = rpLParam.ToPoint();
                 var rClientPoint = PointFromScreen(rScreenPoint);

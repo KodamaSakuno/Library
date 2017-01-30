@@ -78,12 +78,18 @@ namespace Sakuno.UserInterface.Controls
 
             rWindow.r_CaptionBar = (bool)e.NewValue ? rElement : null;
 
-            rElement.Loaded += delegate
-            {
-                var rChrome = WindowChrome.GetWindowChrome(rWindow);
-                if (rChrome != null)
-                    rChrome.CaptionHeight = rElement.ActualHeight;
-            };
+            rElement.Loaded += CaptionBar_Loaded;
+        }
+        static void CaptionBar_Loaded(object sender, RoutedEventArgs e)
+        {
+            var rElement = (FrameworkElement)sender;
+            rElement.Loaded -= CaptionBar_Loaded;
+
+            var rWindow = GetWindow(rElement);
+
+            var rChrome = WindowChrome.GetWindowChrome(rWindow);
+            if (rChrome != null)
+                rChrome.CaptionHeight = rElement.ActualHeight;
         }
 
         protected override void OnSourceInitialized(EventArgs e)
