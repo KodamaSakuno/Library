@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Accent.cs" />
     <Compile Include="Commands\DelegatedCommand.cs" />
+    <Compile Include="Commands\InvokeMethodExtension.cs" />
     <Compile Include="Commands\NavigateCommand.cs" />
     <Compile Include="Commands\NavigateCommandExtension.cs" />
     <Compile Include="Commands\ObjectOperationCommand.cs" />
