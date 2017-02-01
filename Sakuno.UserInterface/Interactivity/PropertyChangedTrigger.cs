@@ -16,6 +16,14 @@ namespace Sakuno.UserInterface.Interactivity
             set { SetValue(BindingProperty, value); }
         }
 
+        public static readonly DependencyProperty IgnoreInitialValueProperty = DependencyProperty.Register(nameof(IgnoreInitialValue), typeof(bool), typeof(PropertyChangedTrigger),
+            new PropertyMetadata(BooleanUtil.True));
+        public bool IgnoreInitialValue
+        {
+            get { return (bool)GetValue(IgnoreInitialValueProperty); }
+            set { SetValue(IgnoreInitialValueProperty, value); }
+        }
+
         public static readonly DependencyProperty ThrottleDueTimeProperty = DependencyProperty.Register(nameof(ThrottleDueTime), typeof(TimeSpan), typeof(PropertyChangedTrigger),
             new PropertyMetadata(TimeSpan.Zero));
         public TimeSpan ThrottleDueTime
@@ -24,10 +32,20 @@ namespace Sakuno.UserInterface.Interactivity
             set { SetValue(ThrottleDueTimeProperty, value); }
         }
 
+        bool r_IsInitialValueHandled;
+
         int r_Count;
 
         void OnBindingChanged(DependencyPropertyChangedEventArgs e)
         {
+            if (!r_IsInitialValueHandled)
+            {
+                r_IsInitialValueHandled = true;
+
+                if (IgnoreInitialValue)
+                    return;
+            }
+
             var rThrottleDueTime = ThrottleDueTime;
             if (rThrottleDueTime == TimeSpan.Zero)
                 InvokeActions(e);
