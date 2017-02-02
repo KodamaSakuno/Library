@@ -9,7 +9,7 @@ namespace Sakuno
         static ConcurrentDictionary<INotifyPropertyChanged, PropertyChangedEventListener> r_Listeners = new ConcurrentDictionary<INotifyPropertyChanged, PropertyChangedEventListener>();
 
         WeakReference<INotifyPropertyChanged> r_Source;
-        ConcurrentDictionary<string, ConcurrentBag<PropertyChangedEventHandler>> r_HandlerDictionary = new ConcurrentDictionary<string, ConcurrentBag<PropertyChangedEventHandler>>();
+        ConcurrentDictionary<string, ConcurrentDictionary<PropertyChangedEventHandler, object>> r_HandlerDictionary = new ConcurrentDictionary<string, ConcurrentDictionary<PropertyChangedEventHandler, object>>();
 
         public PropertyChangedEventListener(INotifyPropertyChanged rpSource)
         {
@@ -21,15 +21,11 @@ namespace Sakuno
             Initialize(r => rpSource.PropertyChanged += r, r => rpSource.PropertyChanged -= r, (_, e) => RaiseHandler(e));
         }
 
-        public static PropertyChangedEventListener FromSource(INotifyPropertyChanged rpSource)
-        {
-            return r_Listeners.GetOrAdd(rpSource, r => new PropertyChangedEventListener(r));
-        }
+        public static PropertyChangedEventListener FromSource(INotifyPropertyChanged rpSource) =>
+            r_Listeners.GetOrAdd(rpSource, r => new PropertyChangedEventListener(r));
 
-        public void Add(string rpPropertyName, PropertyChangedEventHandler rpHandler)
-        {
-            r_HandlerDictionary.GetOrAdd(rpPropertyName ?? string.Empty, _ => new ConcurrentBag<PropertyChangedEventHandler>()).Add(rpHandler);
-        }
+        public void Add(string rpPropertyName, PropertyChangedEventHandler rpHandler) =>
+            r_HandlerDictionary.GetOrAdd(rpPropertyName ?? string.Empty, _ => new ConcurrentDictionary<PropertyChangedEventHandler, object>()).TryAdd(rpHandler, null);
 
         void RaiseHandler(PropertyChangedEventArgs e)
         {
@@ -37,11 +33,11 @@ namespace Sakuno
             if (!r_Source.TryGetTarget(out rSource))
                 return;
 
-            ConcurrentBag<PropertyChangedEventHandler> rHandlerList;
-            if (!r_HandlerDictionary.TryGetValue(e.PropertyName ?? string.Empty, out rHandlerList))
+            ConcurrentDictionary<PropertyChangedEventHandler, object> rHandlers;
+            if (!r_HandlerDictionary.TryGetValue(e.PropertyName ?? string.Empty, out rHandlers))
                 return;
 
-            foreach (var rHandler in rHandlerList)
+            foreach (var rHandler in rHandlers.Keys)
                 rHandler(rSource, e);
         }
 
