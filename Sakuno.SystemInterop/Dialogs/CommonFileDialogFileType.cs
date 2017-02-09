@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Sakuno.SystemInterop.Dialogs
@@ -22,7 +21,7 @@ namespace Sakuno.SystemInterop.Dialogs
 
         internal NativeStructs.COMDLG_FILTERSPEC ToFilterSpec()
         {
-            var rBuilder = new StringBuilder();
+            var rBuilder = StringBuilderCache.Acquire();
             foreach (var rExtension in Extensions)
             {
                 if (rBuilder.Length > 0)
@@ -35,7 +34,7 @@ namespace Sakuno.SystemInterop.Dialogs
             return new NativeStructs.COMDLG_FILTERSPEC()
             {
                 pszName = Name,
-                pszSpec = rBuilder.ToString(),
+                pszSpec = rBuilder.GetStringAndRelease(),
             };
         }
     }
