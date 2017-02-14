@@ -1,5 +1,6 @@
 ﻿using Sakuno.UserInterface.ObjectOperations;
 using System;
+using System.Windows.Data;
 using System.Windows.Markup;
 
 namespace Sakuno.UserInterface.Commands
@@ -22,7 +23,17 @@ namespace Sakuno.UserInterface.Commands
             var rInvokeMethod = new InvokeMethod() { Method = r_Method };
 
             if (r_Parameter != null)
-                rInvokeMethod.Parameters.Add(new MethodParameter() { Value = r_Parameter });
+            {
+                var rParameter = new MethodParameter();
+
+                var rBinding = r_Parameter as Binding;
+                if (rBinding == null)
+                    rParameter.Value = r_Parameter;
+                else
+                    BindingOperations.SetBinding(rParameter, MethodParameter.ValueProperty, rBinding);
+
+                rInvokeMethod.Parameters.Add(rParameter);
+            }
 
             return new ObjectOperationCommand() { Operations = { rInvokeMethod } };
         }
