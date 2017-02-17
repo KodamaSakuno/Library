@@ -5,44 +5,123 @@ using ConvertType = System.Convert;
 
 namespace Sakuno.Converters
 {
-    public abstract class NumberComparionConverter : IValueConverter
+    public class IsGreaterThanConverter : IValueConverter, IMultiValueConverter
     {
-        Func<double, double, bool> r_Func;
-
-        protected NumberComparionConverter(Func<double, double, bool> rpFunc)
-        {
-            r_Func = rpFunc;
-        }
-
         public object Convert(object rpValue, Type rpTargetType, object rpParameter, CultureInfo rpCulture)
         {
             var rValue = ConvertType.ToDouble(rpValue);
             var rParameter = ConvertType.ToDouble(rpParameter);
 
-            return r_Func(rValue, rParameter);
+            return rValue > rParameter;
+        }
+        public object Convert(object[] rpValues, Type rpTargetType, object rpParameter, CultureInfo rpCulture)
+        {
+            if (rpValues.Length < 2)
+                throw new ArgumentException();
+
+            var rValue = ConvertType.ToDouble(rpValues[0]);
+            var rParameter = ConvertType.ToDouble(rpValues[1]);
+
+            return rValue > rParameter;
         }
 
         public object ConvertBack(object rpValue, Type rpTargetType, object rpParameter, CultureInfo rpCulture)
         {
             throw new NotSupportedException();
         }
+        public object[] ConvertBack(object rpValue, Type[] rpTargetTypes, object rpParameter, CultureInfo rpCulture)
+        {
+            throw new NotSupportedException();
+        }
     }
 
-    public class IsGreaterThanConverter : NumberComparionConverter
+    public class IsGreaterThanOrEqualToConverter : IValueConverter, IMultiValueConverter
     {
-        public IsGreaterThanConverter() : base((x, y) => x > y) { }
-    }
-    public class IsGreaterThanOrEqualToConverter : NumberComparionConverter
-    {
-        public IsGreaterThanOrEqualToConverter() : base((x, y) => x >= y) { }
+        public object Convert(object rpValue, Type rpTargetType, object rpParameter, CultureInfo rpCulture)
+        {
+            var rValue = ConvertType.ToDouble(rpValue);
+            var rParameter = ConvertType.ToDouble(rpParameter);
+
+            return rValue >= rParameter;
+        }
+        public object Convert(object[] rpValues, Type rpTargetType, object rpParameter, CultureInfo rpCulture)
+        {
+            if (rpValues.Length < 2)
+                throw new ArgumentException();
+
+            var rValue = ConvertType.ToDouble(rpValues[0]);
+            var rParameter = ConvertType.ToDouble(rpValues[1]);
+
+            return rValue >= rParameter;
+        }
+
+        public object ConvertBack(object rpValue, Type rpTargetType, object rpParameter, CultureInfo rpCulture)
+        {
+            throw new NotSupportedException();
+        }
+        public object[] ConvertBack(object rpValue, Type[] rpTargetTypes, object rpParameter, CultureInfo rpCulture)
+        {
+            throw new NotSupportedException();
+        }
     }
 
-    public class IsLessThanConverter : NumberComparionConverter
+    public class IsLessThanConverter : IValueConverter, IMultiValueConverter
     {
-        public IsLessThanConverter() : base((x, y) => x < y) { }
+        public object Convert(object rpValue, Type rpTargetType, object rpParameter, CultureInfo rpCulture)
+        {
+            var rValue = ConvertType.ToDouble(rpValue);
+            var rParameter = ConvertType.ToDouble(rpParameter);
+
+            return rValue < rParameter;
+        }
+        public object Convert(object[] rpValues, Type rpTargetType, object rpParameter, CultureInfo rpCulture)
+        {
+            if (rpValues.Length < 2)
+                throw new ArgumentException();
+
+            var rValue = ConvertType.ToDouble(rpValues[0]);
+            var rParameter = ConvertType.ToDouble(rpValues[1]);
+
+            return rValue < rParameter;
+        }
+
+        public object ConvertBack(object rpValue, Type rpTargetType, object rpParameter, CultureInfo rpCulture)
+        {
+            throw new NotSupportedException();
+        }
+        public object[] ConvertBack(object rpValue, Type[] rpTargetTypes, object rpParameter, CultureInfo rpCulture)
+        {
+            throw new NotSupportedException();
+        }
     }
-    public class IsLessThanOrEqualToConverter : NumberComparionConverter
+
+    public class IsLessThanOrEqualToConverter : IValueConverter, IMultiValueConverter
     {
-        public IsLessThanOrEqualToConverter() : base((x, y) => x <= y) { }
+        public object Convert(object rpValue, Type rpTargetType, object rpParameter, CultureInfo rpCulture)
+        {
+            var rValue = ConvertType.ToDouble(rpValue);
+            var rParameter = ConvertType.ToDouble(rpParameter);
+
+            return rValue <= rParameter;
+        }
+        public object Convert(object[] rpValues, Type rpTargetType, object rpParameter, CultureInfo rpCulture)
+        {
+            if (rpValues.Length < 2)
+                throw new ArgumentException();
+
+            var rValue = ConvertType.ToDouble(rpValues[0]);
+            var rParameter = ConvertType.ToDouble(rpValues[1]);
+
+            return rValue <= rParameter;
+        }
+
+        public object ConvertBack(object rpValue, Type rpTargetType, object rpParameter, CultureInfo rpCulture)
+        {
+            throw new NotSupportedException();
+        }
+        public object[] ConvertBack(object rpValue, Type[] rpTargetTypes, object rpParameter, CultureInfo rpCulture)
+        {
+            throw new NotSupportedException();
+        }
     }
 }
