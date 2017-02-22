@@ -12,6 +12,8 @@ namespace Sakuno.Internal
         byte[] r_Buffer;
         GCHandle r_Handle;
 
+        public unsafe byte* Address => (byte*)r_Handle.AddrOfPinnedObject();
+
         int r_Head;
 
         int r_AllocationCount;

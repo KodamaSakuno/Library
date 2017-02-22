@@ -81,6 +81,7 @@
     <Compile Include="IdentityFunction`T.cs" />
     <Compile Include="Int32Util.cs" />
     <Compile Include="Internal\Slab.cs" />
+    <Compile Include="IO\RecyclableMemoryStream.cs" />
     <Compile Include="MathUtil.cs" />
     <Compile Include="Memory.cs" />
     <Compile Include="ModelBase.cs" />

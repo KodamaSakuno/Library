@@ -173,7 +173,7 @@ namespace Sakuno.Serialization.MessagePack
                 default: throw new FormatException();
             }
 
-            var rSegment = BufferPool.Default.Get(rLength);
+            var rSegment = BufferPool.Default.Acquire(rLength);
 
             try
             {
