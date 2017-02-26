@@ -50,6 +50,7 @@
     <Compile Include="BooleanUtil.cs" />
     <Compile Include="BufferPool.cs" />
     <Compile Include="BufferSegment.cs" />
+    <Compile Include="BufferSegmentExtensions.cs" />
     <Compile Include="Collections\Deque`T.cs" />
     <Compile Include="Collections\DictionaryExtensions.cs" />
     <Compile Include="Collections\HybridDictionary`TKey`TValue.cs" />
