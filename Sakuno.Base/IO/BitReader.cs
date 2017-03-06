@@ -116,14 +116,14 @@ namespace Sakuno.IO
 
             return rResult;
         }
-        public long ReadBits(int rpCount)
+        public int ReadBits(int rpCount)
         {
             ThrowIfDisposed();
 
             if (rpCount == 0)
-                return 0L;
+                return 0;
 
-            var rResult = 0L;
+            var rResult = 0;
 
             if (r_BitPosition == 0)
                 r_CurrentByte = ReadByte();
@@ -143,6 +143,15 @@ namespace Sakuno.IO
                     r_BitPosition = 0;
                 }
             }
+
+            return rResult;
+        }
+        public int ReadSignedBits(int rpCount)
+        {
+            var rResult = ReadBits(rpCount);
+
+            if (Int32Util.HighestBit(rResult) == rpCount - 1)
+                rResult |= int.MaxValue << rpCount;
 
             return rResult;
         }
