@@ -52,6 +52,22 @@ namespace Sakuno
             return true;
         }
 
+        public static string ToHexString(this byte[] rpBytes)
+        {
+            var rBuffer = new char[rpBytes.Length * 2];
+            var rPosition = 0;
+
+            foreach (var rByte in rpBytes)
+            {
+                rBuffer[rPosition++] = GetHexValue(rByte / 16);
+                rBuffer[rPosition++] = GetHexValue(rByte % 16);
+            }
+
+            return new string(rBuffer);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        static char GetHexValue(int rpByte) => (char)(rpByte < 10 ? rpByte + '0' : rpByte - 10 + 'a');
+
         class EmptyArray<T>
         {
             public static readonly T[] Instance = new T[0];
