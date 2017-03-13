@@ -21,5 +21,26 @@ namespace Sakuno
 
             return r_MultiplyDeBruijnBitPosition[rpValue * 0x07C4ACDD >> 27];
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint RotateLeft(uint rpValue, int rpCount)
+        {
+            if (rpCount < 0)
+                return RotateRight(rpValue, -rpCount);
+
+            var rShift = rpCount & 0x1F;
+
+            return rpValue << rShift | rpValue >> 32 - rShift;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint RotateRight(uint rpValue, int rpCount)
+        {
+            if (rpCount < 0)
+                return RotateLeft(rpValue, -rpCount);
+
+            var rShift = rpCount & 0x1F;
+
+            return rpValue >> rShift | rpValue << 32 - rShift;
+        }
     }
 }
