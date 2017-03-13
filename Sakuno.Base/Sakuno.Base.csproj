@@ -98,7 +98,7 @@
     <Compile Include="Parsers\Result`TInput`T.cs" />
     <Compile Include="Parsers\StringInput.cs" />
     <Compile Include="Parsers\StringParsers.cs" />
-    <Compile Include="PropertyChangedEventArgsFactory.cs" />
+    <Compile Include="PropertyChangedEventArgsCache.cs" />
     <Compile Include="PropertyChangedEventListener.cs" />
     <Compile Include="PropertyChangedExtensions.cs" />
     <Compile Include="RandomUtil.cs" />
