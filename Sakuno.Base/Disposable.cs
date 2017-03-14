@@ -5,15 +5,15 @@ namespace Sakuno
 {
     public static class Disposable
     {
-        public static IDisposable Create(Action rpAction)
+        public static IDisposable Create(Action action)
         {
-            if (rpAction == null)
-                throw new ArgumentNullException(nameof(rpAction));
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
-            return new AnonymousDisposable(rpAction);
+            return new AnonymousDisposable(action);
         }
 
-        sealed class AnonymousDisposable : IDisposable
+        sealed class AnonymousDisposable : DisposableObject
         {
             Action r_Action;
 
@@ -22,7 +22,7 @@ namespace Sakuno
                 r_Action = rpAction;
             }
 
-            public void Dispose() => Interlocked.Exchange(ref r_Action, null)?.Invoke();
+            protected override void DisposeManagedResources() => Interlocked.Exchange(ref r_Action, null)?.Invoke();
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Threading;
 
 namespace Sakuno
 {
     public class DisposableObject : IDisposable
     {
-        public bool IsDisposed { get; private set; }
+        int r_IsDisposed;
+        public bool IsDisposed => Thread.VolatileRead(ref r_IsDisposed) == 1;
 
         protected void ThrowIfDisposed()
         {
@@ -18,19 +20,24 @@ namespace Sakuno
         }
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        public void Dispose(bool rpDisposing)
-        {
-            if (IsDisposed)
+            if (Interlocked.Exchange(ref r_IsDisposed, 1) != 0)
                 return;
 
+            try
+            {
+                Dispose(true);
+            }
+            finally
+            {
+                GC.SuppressFinalize(this);
+            }
+        }
+        protected void Dispose(bool rpDisposing)
+        {
             if (rpDisposing)
                 DisposeManagedResources();
-            DisposeNativeResources();
 
-            IsDisposed = true;
+            DisposeNativeResources();
         }
 
         protected virtual void DisposeManagedResources() { }
@@ -39,6 +46,7 @@ namespace Sakuno
     public class DisposableObjectWithEvent : DisposableObject
     {
         Action r_Disposing;
+
         public event Action Disposing
         {
             add
