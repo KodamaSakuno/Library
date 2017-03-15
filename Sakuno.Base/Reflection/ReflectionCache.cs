@@ -12,6 +12,7 @@ namespace Sakuno.Reflection
 
         static ConcurrentDictionary<FieldInfo, Lazy<FieldAccessor>> r_FieldAccessors = new ConcurrentDictionary<FieldInfo, Lazy<FieldAccessor>>();
         static ConcurrentDictionary<PropertyInfo, Lazy<PropertyAccessor>> r_PropertyAccessors = new ConcurrentDictionary<PropertyInfo, Lazy<PropertyAccessor>>();
+        static ConcurrentDictionary<EventInfo, Lazy<EventAccessor>> r_EventAccessors = new ConcurrentDictionary<EventInfo, Lazy<EventAccessor>>();
 
         internal static ConcurrentDictionary<Type, Lazy<IEnumerable<Attribute>>> CustomAttributes { get; } = new ConcurrentDictionary<Type, Lazy<IEnumerable<Attribute>>>();
 
@@ -24,5 +25,7 @@ namespace Sakuno.Reflection
             r_FieldAccessors.GetOrAdd(rpField, r => new Lazy<FieldAccessor>(() => new FieldAccessor(r))).Value;
         public static PropertyAccessor GetPropertyAccessor(PropertyInfo rpProperty) =>
             r_PropertyAccessors.GetOrAdd(rpProperty, r => new Lazy<PropertyAccessor>(() => new PropertyAccessor(r))).Value;
+        public static EventAccessor GetEventAccessor(EventInfo rpEvent) =>
+            r_EventAccessors.GetOrAdd(rpEvent, r => new Lazy<EventAccessor>(() => new EventAccessor(r))).Value;
     }
 }

@@ -22,6 +22,11 @@ namespace Sakuno.Reflection
         public static void FastSetValue(this PropertyInfo rpProperty, object rpInstance, object rpValue) =>
             ReflectionCache.GetPropertyAccessor(rpProperty).SetValue(rpInstance, rpValue);
 
+        public static void FastAddHandler(this EventInfo rpEvent, object rpInstance, Delegate rpHandler) =>
+            ReflectionCache.GetEventAccessor(rpEvent).AddHandler(rpInstance, rpHandler);
+        public static void FastRemoveHandler(this EventInfo rpEvent, object rpInstance, Delegate rpHandler) =>
+            ReflectionCache.GetEventAccessor(rpEvent).RemoveHandler(rpInstance, rpHandler);
+
         public static IEnumerable<T> FastGetCustomAttributes<T>(this Type rpType) where T : Attribute
         {
             return (IEnumerable<T>)ReflectionCache.CustomAttributes.GetOrAdd(rpType, r => new Lazy<IEnumerable<Attribute>>(() =>

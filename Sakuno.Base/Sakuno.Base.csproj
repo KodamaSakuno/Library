@@ -103,6 +103,7 @@
     <Compile Include="PropertyChangedExtensions.cs" />
     <Compile Include="RandomUtil.cs" />
     <Compile Include="Reflection\ConstructorInvoker.cs" />
+    <Compile Include="Reflection\EventAccessor.cs" />
     <Compile Include="Reflection\FieldAccessor.cs" />
     <Compile Include="Reflection\MethodInvoker.cs" />
     <Compile Include="Reflection\ObjectMethodInvoker.cs" />
