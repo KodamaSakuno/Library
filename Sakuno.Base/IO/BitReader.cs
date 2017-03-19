@@ -42,7 +42,7 @@ namespace Sakuno.IO
             r_Decoder = rpEncoding.GetDecoder();
         }
 
-        public void Skip(long rpCount)
+        public void Skip(int rpCount)
         {
             if (rpCount < 0)
                 return;
@@ -55,8 +55,9 @@ namespace Sakuno.IO
                 return;
             }
 
-            for (var i = 0; i < rpCount; i++)
-                r_Stream.ReadByte();
+            var rRemaining = rpCount;
+            while (rRemaining > 0)
+                rRemaining -= r_Stream.Read(r_Segment.Buffer, r_Segment.Offset, Math.Min(r_Segment.Length, rRemaining));
         }
 
         public byte ReadByte()
