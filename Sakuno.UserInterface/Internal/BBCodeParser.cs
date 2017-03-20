@@ -67,6 +67,8 @@ namespace Sakuno.UserInterface.Internal
                 return new Span(rpContent) { BaselineAlignment = BaselineAlignment.Superscript };
             else if (rName.OICEquals("sub"))
                 return new Span(rpContent) { BaselineAlignment = BaselineAlignment.Subscript };
+            else if (rName.OICContains("url"))
+                return new Hyperlink(rpContent) { NavigateUri = new Uri(rpOpeningTag.Parameter) };
 
             Func<Inline, string, Inline> rCTWPConsturctor;
             if (BBCodeBlock.CustomTagsWithParameter.TryGetValue(rpOpeningTag.Name, out rCTWPConsturctor))
