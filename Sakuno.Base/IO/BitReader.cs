@@ -195,18 +195,8 @@ namespace Sakuno.IO
                 return;
             }
 
-            var rRemaining = rpBytes;
-            var rOffset = 0;
-
-            while (rRemaining > 0)
-            {
-                var rCount = r_Stream.Read(r_Segment.Buffer, r_Segment.Offset + rOffset, rRemaining);
-                if (rCount == 0)
-                    throw new EndOfStreamException();
-
-                rRemaining -= rCount;
-                rOffset += rCount;
-            }
+            if (r_Stream.FillBuffer(r_Segment.Buffer, r_Segment.Offset, rpBytes) != rpBytes)
+                throw new EndOfStreamException();
         }
 
         public bool ReadBoolean()

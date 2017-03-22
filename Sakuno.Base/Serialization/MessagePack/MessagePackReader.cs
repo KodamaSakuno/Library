@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sakuno.IO;
+using System;
 using System.IO;
 using System.Text;
 
@@ -177,7 +178,7 @@ namespace Sakuno.Serialization.MessagePack
 
             try
             {
-                if (r_Stream.Read(rSegment.Buffer, rSegment.Offset, rSegment.Length) != rSegment.Length)
+                if (r_Stream.FillBuffer(rSegment.Buffer, rSegment.Offset, rSegment.Length) != rSegment.Length)
                     throw new FormatException();
 
                 return r_Encoding.GetString(rSegment.Buffer, rSegment.Offset, rSegment.Length);

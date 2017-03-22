@@ -84,6 +84,7 @@
     <Compile Include="Internal\Slab.cs" />
     <Compile Include="IO\BitReader.cs" />
     <Compile Include="IO\RecyclableMemoryStream.cs" />
+    <Compile Include="IO\StreamExtensions.cs" />
     <Compile Include="MathUtil.cs" />
     <Compile Include="Memory.cs" />
     <Compile Include="ModelBase.cs" />
