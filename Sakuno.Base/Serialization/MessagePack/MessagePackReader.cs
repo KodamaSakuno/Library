@@ -197,16 +197,30 @@ namespace Sakuno.Serialization.MessagePack
                 case ElementType.FixedMap:
                     return CurrentByte & 0xF;
 
+                case ElementType.Binary8:
+                    return ReadUInt8();
+
+                case ElementType.Binary16:
                 case ElementType.Array16:
                 case ElementType.Map16:
-                    return ReadInt16();
+                    return ReadUInt16();
 
+                case ElementType.Binary32:
                 case ElementType.Array32:
                 case ElementType.Map32:
-                    return ReadInt32();
+                    return (int)ReadUInt32();
 
                 default: throw new FormatException();
             }
+        }
+
+        public byte[] ReadBytes(int rpLength)
+        {
+            var rResult = new byte[rpLength];
+
+            r_Stream.FillBuffer(rResult, 0, rpLength);
+
+            return rResult;
         }
     }
 }

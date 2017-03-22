@@ -56,6 +56,11 @@ namespace Sakuno.Serialization.MessagePack
                 case ElementType.String32:
                     return rpReader.ReadString();
 
+                case ElementType.Binary8:
+                case ElementType.Binary16:
+                case ElementType.Binary32:
+                    return rpReader.ReadBytes(rpReader.ReadCollectionLength());
+
                 case ElementType.FixedArray:
                 case ElementType.Array16:
                 case ElementType.Array32:
@@ -69,13 +74,13 @@ namespace Sakuno.Serialization.MessagePack
                 case ElementType.Map16:
                 case ElementType.Map32:
                     var rLength = rpReader.ReadCollectionLength();
-                    var rMap = new Dictionary<string, object>();
+                    var rMap = new Dictionary<object, object>();
                     for (var i = 0; i < rLength; i++)
                     {
                         var rKey = Unpack(rpReader);
                         var rValue = Unpack(rpReader);
 
-                        rMap.Add((string)rKey, rValue);
+                        rMap.Add(rKey, rValue);
                     }
 
                     return rMap;
