@@ -5,8 +5,8 @@ namespace Sakuno
 {
     public class DisposableObject : IDisposable
     {
-        int r_IsDisposed;
-        public bool IsDisposed => Thread.VolatileRead(ref r_IsDisposed) == 1;
+        volatile int r_IsDisposed;
+        public bool IsDisposed => r_IsDisposed == 1;
 
         protected void ThrowIfDisposed()
         {

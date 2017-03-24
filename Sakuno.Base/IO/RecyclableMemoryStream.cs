@@ -9,8 +9,8 @@ namespace Sakuno.IO
     {
         BufferPool r_BufferPool;
 
-        int r_DisposeState;
-        bool IsOpen => Thread.VolatileRead(ref r_DisposeState) == 0;
+        volatile int r_DisposeState;
+        bool IsOpen => r_DisposeState == 0;
 
         int r_Length;
         int r_Position;
@@ -264,7 +264,7 @@ namespace Sakuno.IO
         public override void Close() => Dispose(true);
         protected override void Dispose(bool rpDisposing)
         {
-            if (Interlocked.CompareExchange(ref r_DisposeState, 1, 0) != 0)
+            if (Interlocked.Exchange(ref r_DisposeState, 1) != 0)
                 return;
 
             if (rpDisposing)
