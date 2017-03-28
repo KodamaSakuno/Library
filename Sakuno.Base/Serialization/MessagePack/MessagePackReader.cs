@@ -46,10 +46,10 @@ namespace Sakuno.Serialization.MessagePack
                 case 0xCE: return ElementType.UInt32;
                 case 0xCF: return ElementType.UInt64;
 
-                case 0xD0: return ElementType.UInt8;
-                case 0xD1: return ElementType.UInt16;
-                case 0xD2: return ElementType.UInt32;
-                case 0xD3: return ElementType.UInt64;
+                case 0xD0: return ElementType.Int8;
+                case 0xD1: return ElementType.Int16;
+                case 0xD2: return ElementType.Int32;
+                case 0xD3: return ElementType.Int64;
 
                 case 0xCA: return ElementType.Float32;
                 case 0xCB: return ElementType.Float64;
