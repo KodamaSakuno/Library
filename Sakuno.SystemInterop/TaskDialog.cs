@@ -103,7 +103,7 @@ namespace Sakuno.SystemInterop
                 cbSize = Marshal.SizeOf(typeof(NativeStructs.TASKDIALOGCONFIG)),
                 hwndParent = OwnerWindow != null ? new WindowInteropHelper(OwnerWindow).Handle : OwnerWindowHandle,
                 dwFlags = rOptions,
-                hMainIcon = Icon,
+                hMainIcon = (IntPtr)Icon,
                 pszWindowTitle = Caption,
                 pszMainInstruction = Instruction,
                 pszContent = Content,
@@ -111,7 +111,7 @@ namespace Sakuno.SystemInterop
                 pszExpandedInformation = Detail,
                 pszExpandedControlText = DetailCollapserText,
                 pszCollapsedControlText = DetailExpanderText,
-                hFooterIcon = FooterIcon,
+                hFooterIcon = (IntPtr)FooterIcon,
                 pszFooter = Footer,
                 dwCommonButtons = CommonButtons,
                 pfCallback = DialogCallback,
@@ -167,7 +167,7 @@ namespace Sakuno.SystemInterop
                 var rButton = new NativeStructs.TASKDIALOG_BUTTON(rpButtons[i].ID, rpButtons[i].Text);
 
                 Marshal.StructureToPtr(rButton, rPointer, false);
-                rPointer = (IntPtr)(rPointer.ToInt32() + rSize);
+                rPointer = (IntPtr)((IntPtr.Size is 4 ? rPointer.ToInt32() : rPointer.ToInt64()) + rSize);
             }
 
             return rBuffer;
